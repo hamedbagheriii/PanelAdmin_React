@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Li = ({id , icon , text}) => {
+const SidebarLi = ({id , icon , text}) => {
     return (
         <li className="py-1 text-start pe-4 sidebar_menu_item" data-section-id={`${id}`}>
             <i className={`ms-3 icon pe-2 ${icon}  text-light`}></i>
@@ -9,4 +9,4 @@ const Li = ({id , icon , text}) => {
     );
 }
 
-export default Li;
+export default SidebarLi;

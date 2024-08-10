@@ -1,5 +1,5 @@
 import React from 'react';
-import Li from '../../../UI/LI/Li';
+import SidebarLi from '../../../UI/Sidebar/Li';
 
 const Users = () => {
     return (
@@ -8,11 +8,11 @@ const Users = () => {
                 <span className="hiddenable no_wrap group_sidebar_title ">کاربران و همکاران</span>
             </li>
             
-            <Li text={'مشاهده کاربران'} id={'manage_user_section'} icon={'fas fa-users'} />
+            <SidebarLi text={'مشاهده کاربران'} id={'manage_user_section'} icon={'fas fa-users'} />
 
-            <Li text={'نقش ها'} id={'manage_role_section'} icon={'fas fa-user-tag'} />
+            <SidebarLi text={'نقش ها'} id={'manage_role_section'} icon={'fas fa-user-tag'} />
 
-            <Li text={'مجوز ها'} id={'manage_permission_section'} icon={'fas fa-shield-alt'} />
+            <SidebarLi text={'مجوز ها'} id={'manage_permission_section'} icon={'fas fa-shield-alt'} />
             
         </>
     );

@@ -1,5 +1,5 @@
 import React from 'react';
-import Li from '../../../UI/LI/Li';
+import SidebarLi from '../../../UI/Sidebar/Li';
 
 const Orders = () => {
     return (
@@ -8,11 +8,11 @@ const Orders = () => {
                 <span className="hiddenable no_wrap group_sidebar_title">سفارشات و سبد</span>
             </li>
 
-            <Li text={'مدیریت سبد ها'} id={'manage_cart_section'} icon={'fas fa-shopping-basket'} />
+            <SidebarLi text={'مدیریت سبد ها'} id={'manage_cart_section'} icon={'fas fa-shopping-basket'} />
             
-            <Li text={'مدیریت سفارشات'} id={'manage_orders_section'} icon={'fas fa-luggage-cart'} />
+            <SidebarLi text={'مدیریت سفارشات'} id={'manage_orders_section'} icon={'fas fa-luggage-cart'} />
 
-            <Li text={'مدیریت نحوه ارسال'} id={'manage_deliveries_section'} icon={'fas fa-truck-loading'} />
+            <SidebarLi text={'مدیریت نحوه ارسال'} id={'manage_deliveries_section'} icon={'fas fa-truck-loading'} />
 
         </>
     );

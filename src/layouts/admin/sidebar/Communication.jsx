@@ -1,5 +1,5 @@
 import React from 'react';
-import Li from '../../../UI/LI/Li';
+import SidebarLi from '../../../UI/Sidebar/Li';
 
 const Communication = () => {
     return (
@@ -8,9 +8,9 @@ const Communication = () => {
                 <span className="hiddenable no_wrap group_sidebar_title ">ارتباطات</span>
             </li>
             
-            <Li text={'سوال ها'} id={'manage_question_section'} icon={'fas fa-question-circle'} />
+            <SidebarLi text={'سوال ها'} id={'manage_question_section'} icon={'fas fa-question-circle'} />
 
-            <Li text={'نظرات'} id={'manage_comments_section'} icon={'fas fa-comment'} />
+            <SidebarLi text={'نظرات'} id={'manage_comments_section'} icon={'fas fa-comment'} />
             
         </>
     );

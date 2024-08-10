@@ -6,14 +6,6 @@ import AdminContextContainer from '../../context/adminLayoutContext';
 
 
 const Index = () => {
-    
-    // this for render js file
-    // برای رندر کردن فایل های js که قبل از ایجاد دام کار میکنن
-    // useEffect(() => {
-        // require('URL')
-    // }, []);
-
-
     return (
         <AdminContextContainer>
             <div>
