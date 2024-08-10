@@ -5,7 +5,7 @@ const Shop = () => {
     return (
         <>
             <li className="py-1 text-start d-flex justify-content-center no_pointer no_hover ">
-                <span className="hiddenable no_wrap group_sidebar_title">فروشگاه</span>
+                <span className="hiddenable no_wrap group_sidebar_title mt-0">فروشگاه</span>
             </li>
 
             <Li text={'مدیریت گروه محصول'} id={'manage_product_category'} icon={'fas fa-stream'} />

@@ -126,6 +126,8 @@ td , th {
 
 .top_navbar{
    height: 64px;
+   background: #212529 !important;
+   color: #FFF !important;
 }
 
 .top_navbar .navbar-brand{
@@ -134,13 +136,7 @@ td , th {
 
 .top_navbar .navbar-brand img{
     transition: var(--transition_300);
-    filter: drop-shadow(0 0 6px white);
-    -webkit-filter: drop-shadow(0 0 6px white);
-}
-
-.top_navbar .navbar-brand img:hover{
-    filter: drop-shadow(0 0 3px white);
-    -webkit-filter: drop-shadow(0 0 3px white);
+    filter: drop-shadow(0 0 3px rgb(93, 125, 255));
 }
 
 .top_navbar .left_content i{
@@ -148,7 +144,7 @@ td , th {
     transition: all 200ms ease;
 }
 .top_navbar .left_content i:hover{
-    color:white;
+    color:#0D6EFD;
 }
 .top_navbar .right_content{
     width: 250px;
@@ -178,7 +174,6 @@ td , th {
 
 @media(max-width:768px){
     .top_navbar .right_content{
-        background-color: #6c757d  !important;
         width: 100px;
     }
 }
@@ -194,7 +189,7 @@ td , th {
     z-index: 1000;
 }
 #sidebar_section .mini_sidebar{
-    width: 70px;
+    width: 85px;
     transition: all 300ms ease;
 }
 
@@ -277,12 +272,32 @@ td , th {
 }
 
 #sidebar_section .group_sidebar_title{
-    color: #3186e7 !important;
-    text-shadow: 0 0 12px #077171 !important;
+    color: #005eff !important;
+    text-shadow: 0 0 1px #005eff !important;
+    width: 75%;
+    font-weight: bold;
+    text-align: center;
+    padding-bottom: 10px;
+    margin-top: 15px;
+    border-bottom: 1px solid #ffffff;
+}
+
+.sidebar_menu_item span {
+    font-size: 14px !important;
+}
+.sidebar_menu_item:hover span , 
+.sidebar_menu_item:hover i {
+    color: #1e9dff !important;
 }
 .sidebar_menu_item.active{
     background: rgb(85, 84, 84);
 }
+.sidebar_menu_item.active span , 
+.sidebar_menu_item.active i {
+    font-weight: bold;
+    color: #43acfc !important;
+}
+
 
 /* sidebar end-------<<<<<<< */
 
@@ -296,7 +311,8 @@ td , th {
     left: 0;
     overflow: auto;
     transition: all 300ms ease;
-    background: url(/assets/images/body_back4.png) repeat;
+    /* background: url(/assets/images/body_back4.png) repeat; */
+    background: #ffffff !important;
 }
 #content_section.with_sidebar{
     width: calc(100% - 250px);

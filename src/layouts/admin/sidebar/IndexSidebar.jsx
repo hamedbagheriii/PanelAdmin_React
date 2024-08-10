@@ -1,14 +1,17 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Shop from './Shop';
 import Orders from './Orders';
 import Users from './Users';
 import Communication from './Communication';
 import Dashbord from './dashbord';
+import { adminContext } from '../../../context/adminLayoutContext';
 
 const IndexSidebar = () => {
+    const {showSlidebar} = useContext(adminContext)
+
     return (
         <section id="sidebar_section">
-            <div className="mini_sidebar collapsedd bg-dark h-100">
+            <div className={`mini_sidebar collapsedd bg-dark h-100 ${showSlidebar ? 'expanded' : null}`}>
                 <ul className="p-0 m-0 mx-auto">
                     <li className="pt-1 pb-2 d-flex flex-column avatar_li position-relative">
                         <span className="avatar_box">
