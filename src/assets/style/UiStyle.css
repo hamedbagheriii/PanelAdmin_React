@@ -43,5 +43,20 @@
 
 
 
+/* ================ pagination ================ */
+.pagination .page-item button:disabled {
+    background: #505050 !important;
+    color: #212529;
+}
+.pagination .page-item .prev-btn {
+    border-radius: 0 10px 10px 0 !important;
+}
+.pagination .page-item .next-btn {
+    border-radius: 10px 0 0  10px !important;
+}
 
-
+.pagination .page-link.page_active {
+    background: #065de0 !important;
+    color: #000 !important;
+}
+/* ================ pagination ================ */

@@ -29,6 +29,33 @@ const CategoryTable = () => {
             stock : '7' ,
             like_count : '2' ,
             status : '1' ,
+        } ,
+        {
+            id : 4 ,
+            category : 'gg' ,
+            title : 'sss' ,
+            price : '3333' ,
+            stock : '7' ,
+            like_count : '2' ,
+            status : '1' ,
+        } ,
+        {
+            id : 5 ,
+            category : 'gg' ,
+            title : 'sss' ,
+            price : '3333' ,
+            stock : '7' ,
+            like_count : '2' ,
+            status : '1' ,
+        } ,
+        {
+            id : 6 ,
+            category : 'gg' ,
+            title : 'sss' ,
+            price : '3333' ,
+            stock : '7' ,
+            like_count : '2' ,
+            status : '1' ,
         }
     ]
 

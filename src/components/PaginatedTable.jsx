@@ -1,6 +1,36 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
-const PaginatedTable = ({data , dataInfo , additionField}) => {
+const numOfPage = 4;
+const PaginatedTable = ({data , dataInfo , additionField }) => {
+    // برای فیلد ها در هر صفحه
+    const [tableData , setTableData] = useState([]);
+    // برای پیجی که الان هست
+    const [currentPage , setCurrentPage] = useState(1);
+    // برای حلقه زدن و جا ب جایی بین صفحات
+    const [pages , setPages] = useState([]);
+    // تعداد کل صفحات
+    const [pageCount , setPageCount] = useState(1);
+
+    // برای جا ب جایی بین صفحات
+    useEffect(() => {
+        let pCount = Math.ceil(data.length / numOfPage);
+        setPageCount(pCount);
+
+        let pArr = [];
+        for (let i = 1; i <= pCount ; i++) pArr = [...pArr , i] ;
+        setPages(pArr);
+    }, []);
+
+    // برای فیلد ها
+    useEffect(() => {
+        let start = (currentPage*numOfPage)-numOfPage;
+        let end = (currentPage*numOfPage);
+
+        setTableData(data.slice(start , end))
+    }, [currentPage]);
+
+
+
 
     return (
         <>
@@ -10,19 +40,19 @@ const PaginatedTable = ({data , dataInfo , additionField}) => {
                         {dataInfo.map(i=>(
                             <th key={i.field}>{i.title}</th>
                         ))}
-                        {/* --- فیلد های اختصاصی / personalField --- */}
+                        {/* --- فیلد های اختصاصی / dedicatedField --- */}
                         {additionField.map(i=>(
                             <th key={i.field}>{i.title}</th>
                         ))}
                     </tr>
                 </thead>
                 <tbody>
-                    {data.map(d=>(
-                        <tr key={d.id}>
+                    {tableData.map(d=>(
+                        <tr key={d.id}> 
                             {dataInfo.map(i=>(
                                 <td key={`${i.field}_${d.id}`}>{d[i.field]}</td>
                             ))}
-                            {/* --- فیلد های اختصاصی / personalField --- */}
+                            {/* --- فیلد های اختصاصی / dedicatedField --- */}
                             {additionField.map(i=>(
                                 <td key={i.field}>{i.element(d.id)}</td>
                             ))}
@@ -32,19 +62,21 @@ const PaginatedTable = ({data , dataInfo , additionField}) => {
             </table>
             
             <nav aria-label="Page navigation example" className="d-flex justify-content-center">
-                <ul className="pagination dir_ltr bg-dark">
-                    <li className="page-item">
-                        <a className="page-link bg-dark" href="#" aria-label="Previous">
-                        <span aria-hidden="true">&raquo;</span>
-                        </a>
+                <ul className="pagination mx-auto p-0 bg-dark">
+                    <li className="page-item prev pointer" onClick={()=>setCurrentPage(currentPage - 1)}>
+                        <button type='button' disabled={currentPage - 1 == 0} className="page-link bg-dark prev-btn">
+                            <span aria-hidden="true">قبلی</span>
+                        </button>
                     </li>
-                    <li className="page-item"><a className="page-link bg-dark" href="#">1</a></li>
-                    <li className="page-item"><a className="page-link bg-dark" href="#">2</a></li>
-                    <li className="page-item"><a className="page-link bg-dark" href="#">3</a></li>
-                    <li className="page-item">
-                        <a className="page-link bg-dark" href="#" aria-label="Next">
-                        <span aria-hidden="true">&laquo;</span>
-                        </a>
+                    {pages.map(page=>(
+                        <li key={page} className={`page-item pointer `} onClick={()=>setCurrentPage(page)}>
+                            <span className={`page-link bg-dark ${currentPage === page ? 'page_active' : null}`}>{page}</span>
+                        </li>
+                    ))}
+                    <li className="page-item next pointer" onClick={()=>setCurrentPage(currentPage + 1)}>
+                        <button type='button' disabled={currentPage + 1 > pageCount} className="page-link bg-dark next-btn">
+                            <span aria-hidden="true">بعدی</span>
+                        </button>
                     </li>
                 </ul>
             </nav>
