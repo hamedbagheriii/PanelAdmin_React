@@ -9,9 +9,9 @@ const Index = () => {
     return (
         <AdminContextContainer>
             <div>
+                <IndexContent/>
                 <IndexNavbar/>
                 <IndexSidebar/>
-                <IndexContent/>
             </div>
         </AdminContextContainer>
     );

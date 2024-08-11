@@ -1,0 +1,44 @@
+/* ================ Modal ================ */
+.modal-backdrop.fade{
+    display: none !important;
+}
+
+.modal{
+    z-index: 1039 !important;
+}
+
+.modal-content{
+    background: #212529;
+    color: white !important;
+}
+
+.modal-body{
+    max-width: 700px !important;
+}
+
+.modal-body .input-group-text{
+    background: #30353a !important;
+    color: #0D6EFD !important;
+    z-index: 1040 !important;
+}
+
+.modal-body .form-control{
+    background: #212529 !important;
+    color: #fff;
+    box-shadow: none !important;
+}
+.modal-body .form-control:focus ,
+.modal-body .form-control:focus + .input-group-text{
+    border-color: #0D6EFD !important;
+}
+
+.modal-btn{
+    min-width: 120px !important;
+    max-width: 220px !important;
+}
+/* ================ Modal ================ */
+
+
+
+
+

@@ -1,4 +1,4 @@
-import Chart from 'chart.js/auto';
+import Chart, { Legend } from 'chart.js/auto';
 
 
 
@@ -16,7 +16,7 @@ import Chart from 'chart.js/auto';
                 fill: true,
                 cubicInterpolationMode: 'monotone',
                 tension: 0.4,
-                color:'#ffff'
+                color:'#ffff',
 
             }
         ]
@@ -30,9 +30,21 @@ import Chart from 'chart.js/auto';
             plugins: {
                 title: {
                     display: true,
-                    text: 'نمودار فروش یک سال گذشته',
-                    color:'#ffff'
+                    text: 'نمودار فروش یک سال گذشته :',
+                    color:'#ffff' ,
+                    font : {
+                        size : 16,
+                        family : 'vazir', 
+                    }
                 },
+                legend:{
+                    labels:{
+                        font : {
+                            size : 13,
+                            family : 'vazir', 
+                        }
+                    }
+                }
             },
             interaction: {
                 intersect: false,
@@ -44,6 +56,19 @@ import Chart from 'chart.js/auto';
                         display: true,
                         text: 'زمان',
                         color:'#ffff',
+                        font : {
+                            size : 15,
+                            family : 'vazir',
+                             
+                        }
+                    },
+                    legend:{
+                        labels:{
+                            font : {
+                                size : 13,
+                                family : 'vazir', 
+                            }
+                        }
                     }
                 },
                 y: {
@@ -51,15 +76,34 @@ import Chart from 'chart.js/auto';
                     title: {
                         display: true,
                         text: ' میلیون تومان',
-                        color:'#ffff'
+                        color:'#ffff',
+                        font : {
+                            size : 14,
+                            family : 'vazir',
+                             
+                        }
                     },
+                    legend:{
+                        labels:{
+                            font : {
+                                size : 12,
+                                family : 'vazir', 
+                            }
+                        }
+                    }
                     // suggestedMin: -10,
                     // suggestedMax: 200
                 }
             }
         },
     };
-
+    Chart.defaults.borderColor = '#fff00';
+    Chart.defaults.color = '#ffff';
+    Chart.defaults.font = {
+        family : 'vazir' ,
+        size : 12,
+    };
+    
     const ctx = document.getElementById('myCharts').getContext('2d');
     new Chart(ctx , config)
 // }
