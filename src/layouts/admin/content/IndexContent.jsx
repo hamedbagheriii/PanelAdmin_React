@@ -16,11 +16,11 @@ const IndexContent = () => {
 
             {/* ====== SHOP ===== */}
 
-            {/* <Category/> */}
+            <Category/>
 
             <Product/>
-        
 
+            
 
         </section>
     );

@@ -1,158 +1,149 @@
 import React from 'react';
 import { createPortal } from 'react-dom';
+import ModalsContainer from '../../../components/ModalsContainer';
 
 const AddProduct = () => {
     return (
-        <div className="modal fade" id="add_product_modal" >
-            <div className="modal-dialog modal-fullscreen">
-                <div className="modal-content">
-                    <div className="modal-header">
-                        <h5 className="modal-title flex-fill" id="exampleModalLabel">افزودن محصول جدید</h5>
-                        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div className="modal-body w-100 d-flex align-items-center mx-auto">
-                        <div className="container modal-Product h-100 pt-3  ">
-                            <div className="row mx-auto align-items-center justify-content-center h-100 gap-2">
-                                <div className="col-12 ">
-                                    <div className="input-group mb-2 dir_ltr" >
-                                        <select type="text" className="form-control">
-                                            <option value="1">انتخاب دسته محصول</option>
-                                            <option value="1">دسته شماره 1</option>
-                                        </select>
-                                        <span className="input-group-text w_6rem justify-content-center">دسته</span>
-                                    </div>
-                                    <div className="col-12 col-md-6 col-lg-8">
-                                        <span className="chips_elem">
-                                            <i className="fas fa-times text-danger"></i>
-                                            دسته فلان
-                                        </span>
-                                        <span className="chips_elem">
-                                            <i className="fas fa-times text-danger"></i>
-                                            دسته فلان
-                                        </span>
-                                    </div>
-                                </div>
-                                <div className="col-12 ">
-                                    <div className="input-group my-3 dir_ltr">
-                                        <input type="text" className="form-control" placeholder="عنوان محصول"/>
-                                        <span className="input-group-text w_6rem justify-content-center">عنوان</span>
-                                    </div>
-                                </div>
-                                <div className="col-12 ">
-                                    <div className="input-group mb-3 dir_ltr" >
-                                        <input type="text" className="form-control" placeholder="قیمت محصول"/>
-                                        <span className="input-group-text w_6rem justify-content-center">قیمت</span>
-                                    </div>
-                                </div>
-                                <div className="col-12 ">
-                                    <div className="input-group mb-3 dir_ltr">
-                                        <input type="text" className="form-control" placeholder="وزن محصول (کیلوگرم)"/>
-                                        <span className="input-group-text w_6rem justify-content-center">وزن</span>
-                                    </div>
-                                </div>
-                                <div className="col-12 ">
-                                    <div className="input-group mb-3 dir_ltr" >
-                                        <span className="input-group-text justify-content-center">
-                                            <i className="fas fa-plus text-success hoverable_text pointer"></i>
-                                        </span>
-                                        <input type="text" className="form-control" placeholder="قسمتی از نام برند را وارد کنید" list="brandLists"/>
-                                        <span className="input-group-text w_6rem justify-content-center">برند</span>
-                                        <datalist id="brandLists">
-                                            <option value="سامسونگ"/>
-                                            <option value="سونی"/>
-                                            <option value="اپل"/>
-                                        </datalist>
-                                    </div>
-                                </div>
-                                <div className="col-12 ">
-                                    <div className="input-group mb-2 dir_ltr" >
-                                        <input type="text" className="form-control" placeholder="قسمتی از نام رنگ را وارد کنید" list="colorList"/>
-                                        <datalist id="colorList">
-                                            <option value="مشکی"/>
-                                            <option value="سفید"/>
-                                            <option value="قرمز"/>
-                                        </datalist>
-                                        <span className="input-group-text w_6rem justify-content-center">رنگ</span>
-                                    </div>
-                                    <div className="col-12 col-md-6 col-lg-8 mb-3 d-flex">
-                                        <span className="color_tag chips_elem d-flex justify-content-center align-items-center pb-2 bg-dark">
-                                            <i className="fas fa-times text-danger hoverable_text"></i>
-                                        </span>
-                                    </div>
-                                </div>
-                                <div className="col-12 ">
-                                    <div className="input-group mb-2 dir_ltr" >
-                                        <input type="text" className="form-control" placeholder="قسمتی از نام گارانتی را وارد کنید" list="guarantiList"/>
-                                        <datalist id="guarantiList">
-                                            <option value="گارانتی فلان 1"/>
-                                            <option value="گارانتی فلان 2"/>
-                                            <option value="گارانتی فلان 3"/>
-                                        </datalist>
-                                        <span className="input-group-text w_6rem justify-content-center">گارانتی</span>
-                                    </div>
-                                    <div className="col-12 col-md-6 col-lg-8 mb-3">
-                                        <span className="chips_elem">
-                                            <i className="fas fa-times text-danger"></i>
-                                            گارانتی فلان
-                                        </span>
-                                        <span className="chips_elem">
-                                            <i className="fas fa-times text-danger"></i>
-                                            گارانتی فلان
-                                        </span>
-                                    </div>
-                                </div>
-                                <div className="col-12 ">
-                                    <div className="input-group mb-3 dir_ltr">
-                                        <textarea type="text" className="form-control" placeholder="توضیحات" rows="5"></textarea>
-                                        <span className="input-group-text w_6rem justify-content-center">توضیحات</span>
-                                    </div>
-                                </div>
-                                <div className="col-12 ">
-                                    <div className="input-group mb-3 dir_ltr">
-                                        <input type="file" className="form-control" placeholder="تصویر"/>
-                                        <span className="input-group-text w_6rem justify-content-center">تصویر</span>
-                                    </div>
-                                </div>
-                                <div className="col-12 ">
-                                    <div className="input-group mb-3 dir_ltr">
-                                        <input type="text" className="form-control" placeholder="یک کلمه در مورد تصویر"/>
-                                        <span className="input-group-text w_6rem justify-content-center">توضیح تصویر</span>
-                                    </div>
-                                </div>
-                                <div className="col-12 ">
-                                    <div className="input-group mb-3 dir_ltr">
-                                        <input type="text" className="form-control" placeholder="با - از هم جدا شوند"/>
-                                        <span className="input-group-text w_6rem justify-content-center">تگ ها</span>
-                                    </div>
-                                </div>
-                                <div className="col-12 ">
-                                    <div className="input-group mb-3 dir_ltr">
-                                        <input type="number" className="form-control" placeholder="فقط عدد"/>
-                                        <span className="input-group-text w_6rem justify-content-center">موجودی</span>
-                                    </div>
-                                </div>
-                                <div className="col-12 ">
-                                    <div className="input-group mb-3 dir_ltr">
-                                        <input type="number" className="form-control" placeholder="فقط عدد "/>
-                                        <span className="input-group-text w_6rem justify-content-center">درصد تخفیف</span>
-                                    </div>
-                                </div>
-                                <div className="col-12 row justify-content-center pb-3">
-                                    <div className="form-check form-switch col-6">
-                                        <input className="form-check-input pointer" type="checkbox" id="flexSwitchCheckDefault" />
-                                        <label className="form-check-label pointer" for="flexSwitchCheckDefault">وضعیت فعال</label>
-                                    </div>
-                                </div>
-                            </div>
+        <ModalsContainer
+         id={'add_product_modal'}
+         fullscreen={true}
+         title={'افزودن محصول'}
+        >
+            <div className="container modal-Product h-100 pt-3  ">
+                <div className="row mx-auto align-items-center justify-content-center h-100 gap-2">
+                    <div className="col-12 ">
+                        <div className="input-group mb-2 dir_ltr" >
+                            <select type="text" className="form-control">
+                                <option value="1">انتخاب دسته محصول</option>
+                                <option value="1">دسته شماره 1</option>
+                            </select>
+                            <span className="input-group-text w_6rem justify-content-center">دسته</span>
+                        </div>
+                        <div className="col-12 col-md-6 col-lg-8">
+                            <span className="chips_elem">
+                                <i className="fas fa-times text-danger"></i>
+                                دسته فلان
+                            </span>
+                            <span className="chips_elem">
+                                <i className="fas fa-times text-danger"></i>
+                                دسته فلان
+                            </span>
                         </div>
                     </div>
-                    <div className="modal-footer w-100 d-flex justify-content-around ">
-                        <button type="button" className="btn btn-danger modal-btn w-25" data-bs-dismiss="modal">انصراف</button>
-                        <button type='submit' className="btn btn-primary modal-btn w-25">ذخیره</button>
+                    <div className="col-12 ">
+                        <div className="input-group my-3 dir_ltr">
+                            <input type="text" className="form-control" placeholder="عنوان محصول"/>
+                            <span className="input-group-text w_6rem justify-content-center">عنوان</span>
+                        </div>
+                    </div>
+                    <div className="col-12 ">
+                        <div className="input-group mb-3 dir_ltr" >
+                            <input type="text" className="form-control" placeholder="قیمت محصول"/>
+                            <span className="input-group-text w_6rem justify-content-center">قیمت</span>
+                        </div>
+                    </div>
+                    <div className="col-12 ">
+                        <div className="input-group mb-3 dir_ltr">
+                            <input type="text" className="form-control" placeholder="وزن محصول (کیلوگرم)"/>
+                            <span className="input-group-text w_6rem justify-content-center">وزن</span>
+                        </div>
+                    </div>
+                    <div className="col-12 ">
+                        <div className="input-group mb-3 dir_ltr" >
+                            <span className="input-group-text justify-content-center">
+                                <i className="fas fa-plus text-success hoverable_text pointer"></i>
+                            </span>
+                            <input type="text" className="form-control" placeholder="قسمتی از نام برند را وارد کنید" list="brandLists"/>
+                            <span className="input-group-text w_6rem justify-content-center">برند</span>
+                            <datalist id="brandLists">
+                                <option value="سامسونگ"/>
+                                <option value="سونی"/>
+                                <option value="اپل"/>
+                            </datalist>
+                        </div>
+                    </div>
+                    <div className="col-12 ">
+                        <div className="input-group mb-2 dir_ltr" >
+                            <input type="text" className="form-control" placeholder="قسمتی از نام رنگ را وارد کنید" list="colorList"/>
+                            <datalist id="colorList">
+                                <option value="مشکی"/>
+                                <option value="سفید"/>
+                                <option value="قرمز"/>
+                            </datalist>
+                            <span className="input-group-text w_6rem justify-content-center">رنگ</span>
+                        </div>
+                        <div className="col-12 col-md-6 col-lg-8 mb-3 d-flex">
+                            <span className="color_tag chips_elem d-flex justify-content-center align-items-center pb-2 bg-dark">
+                                <i className="fas fa-times text-danger hoverable_text"></i>
+                            </span>
+                        </div>
+                    </div>
+                    <div className="col-12 ">
+                        <div className="input-group mb-2 dir_ltr" >
+                            <input type="text" className="form-control" placeholder="قسمتی از نام گارانتی را وارد کنید" list="guarantiList"/>
+                            <datalist id="guarantiList">
+                                <option value="گارانتی فلان 1"/>
+                                <option value="گارانتی فلان 2"/>
+                                <option value="گارانتی فلان 3"/>
+                            </datalist>
+                            <span className="input-group-text w_6rem justify-content-center">گارانتی</span>
+                        </div>
+                        <div className="col-12 col-md-6 col-lg-8 mb-3">
+                            <span className="chips_elem">
+                                <i className="fas fa-times text-danger"></i>
+                                گارانتی فلان
+                            </span>
+                            <span className="chips_elem">
+                                <i className="fas fa-times text-danger"></i>
+                                گارانتی فلان
+                            </span>
+                        </div>
+                    </div>
+                    <div className="col-12 ">
+                        <div className="input-group mb-3 dir_ltr">
+                            <textarea type="text" className="form-control" placeholder="توضیحات" rows="5"></textarea>
+                            <span className="input-group-text w_6rem justify-content-center">توضیحات</span>
+                        </div>
+                    </div>
+                    <div className="col-12 ">
+                        <div className="input-group mb-3 dir_ltr">
+                            <input type="file" className="form-control" placeholder="تصویر"/>
+                            <span className="input-group-text w_6rem justify-content-center">تصویر</span>
+                        </div>
+                    </div>
+                    <div className="col-12 ">
+                        <div className="input-group mb-3 dir_ltr">
+                            <input type="text" className="form-control" placeholder="یک کلمه در مورد تصویر"/>
+                            <span className="input-group-text w_6rem justify-content-center">توضیح تصویر</span>
+                        </div>
+                    </div>
+                    <div className="col-12 ">
+                        <div className="input-group mb-3 dir_ltr">
+                            <input type="text" className="form-control" placeholder="با - از هم جدا شوند"/>
+                            <span className="input-group-text w_6rem justify-content-center">تگ ها</span>
+                        </div>
+                    </div>
+                    <div className="col-12 ">
+                        <div className="input-group mb-3 dir_ltr">
+                            <input type="number" className="form-control" placeholder="فقط عدد"/>
+                            <span className="input-group-text w_6rem justify-content-center">موجودی</span>
+                        </div>
+                    </div>
+                    <div className="col-12 ">
+                        <div className="input-group mb-3 dir_ltr">
+                            <input type="number" className="form-control" placeholder="فقط عدد "/>
+                            <span className="input-group-text w_6rem justify-content-center">درصد تخفیف</span>
+                        </div>
+                    </div>
+                    <div className="col-12 row justify-content-center pb-3">
+                        <div className="form-check form-switch col-6">
+                            <input className="form-check-input pointer" type="checkbox" id="flexSwitchCheckDefault" />
+                            <label className="form-check-label pointer" htmlFor="flexSwitchCheckDefault">وضعیت فعال</label>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </ModalsContainer>
     );
 }
 

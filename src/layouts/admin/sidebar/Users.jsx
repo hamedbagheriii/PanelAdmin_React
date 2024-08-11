@@ -12,7 +12,7 @@ const Users = () => {
 
             <SidebarLi text={'نقش ها'} id={'manage_role_section'} icon={'fas fa-user-tag'} />
 
-            <SidebarLi text={'مجوز ها'} id={'manage_permission_section'} icon={'fas fa-shield-alt'} />
+            <SidebarLi text={'مجوز ها'} id={'manage_permission_section'} icon={'fas fa-shield-alt me-1'} />
             
         </>
     );

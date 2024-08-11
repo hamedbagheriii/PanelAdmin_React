@@ -1,6 +1,6 @@
 import React from 'react';
 
-const SidebarLi = ({id , icon , text}) => {
+const SidebarLi = ({id , icon , text , URL}) => {
     return (
         <li className="py-1 text-start pe-4 sidebar_menu_item" data-section-id={`${id}`}>
             <i className={`ms-3 icon pe-2 ${icon}  text-light`}></i>

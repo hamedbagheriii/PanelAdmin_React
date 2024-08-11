@@ -107,4 +107,3 @@ import Chart, { Legend } from 'chart.js/auto';
     const ctx = document.getElementById('myCharts').getContext('2d');
     new Chart(ctx , config)
 // }
-// handleLoadChart()
