@@ -12,13 +12,13 @@ const IndexContent = () => {
         <section id="content_section" className={` py-3 px-3
         ${showSlidebar ? 'with_sidebar' : null}`}>
             
-            {/* <Dashboard/> */}
+            <Dashboard/>
 
             {/* ====== SHOP ===== */}
 
-            <Category/>
+            {/* <Category/> */}
 
-            <Product/>
+            {/* <Product/> */}
 
             
 

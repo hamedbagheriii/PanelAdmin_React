@@ -1,7 +1,7 @@
 import React from 'react';
-import PaginatedTable from '../../../components/PaginatedTable';
+import PaginatedTable from '../../components/PaginatedTable';
 
-const CategoryTable = () => {
+const DashbordTable = () => {
     const data = [
         {
             id : 1 ,
@@ -61,31 +61,17 @@ const CategoryTable = () => {
 
     const dataInfo = [
         {field : 'id' , title : '#'},
+        {field : 'category' , title : 'دسته'},
         {field : 'title' , title : 'عنوان'},
-        {field : 'status' , title : 'وضعیت'},
+        {field : 'stock' , title : 'موجودی'},
         {field : 'price' , title : 'قیمت'},
     ]
 
     const additionFieldElement = (itemId)=>{
         return(
             <>
-                <i className="fas fa-project-diagram text-info mx-1 hoverable_text pointer has_tooltip"
-                 title="زیرمجموعه"
-                 data-bs-toggle="tooltip"
-                 data-bs-placement="top">
-                </i>
-                <i className="fas fa-edit text-warning mx-1 hoverable_text pointer has_tooltip"
-                 title="ویرایش دسته"
-                 data-bs-toggle="tooltip"
-                 data-bs-placement="top">
-                </i>
-                <i className="fas fa-plus text-success mx-1 hoverable_text pointer has_tooltip"
-                 title="افزودن ویژگی"
-                 data-bs-placement="top"
-                 data-bs-toggle="modal" data-bs-target="#add_product_category_attr_modal">
-                </i>
                 <i className="fas fa-times text-danger mx-1 hoverable_text pointer has_tooltip"
-                 title="حذف دسته"
+                 title="حذف"
                  data-bs-toggle="tooltip"
                  data-bs-placement="top">
                 </i>
@@ -104,8 +90,19 @@ const CategoryTable = () => {
     ]
 
     return (
-        <PaginatedTable data={data} dataInfo={dataInfo} additionField={additionField} />
+        <div className="row">
+
+            <div className="col-12 col-lg-6 ">
+                <p className="text-center mt-3 text-white fw-bold">محصولات رو به اتمام :</p>
+                
+                <PaginatedTable data={data} dataInfo={dataInfo} additionField={additionField} />
+            </div>
+            <div className="col-12 col-lg-6 mt-4 mt-lg-0 text-light text-white">
+                <canvas id="myCharts" height="195"></canvas>
+            </div>
+
+        </div>
     );
 }
 
-export default CategoryTable;
+export default DashbordTable;

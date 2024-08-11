@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import Cards from './Cards';
-import Table from './ProductTable';
+import DashbordTable from './DashbordTable';
 
 const Dashboard = () => {
 
@@ -14,8 +14,7 @@ const Dashboard = () => {
 
             <Cards/>
 
-            <Table/>
-
+            <DashbordTable/>
 
         </div>
     );

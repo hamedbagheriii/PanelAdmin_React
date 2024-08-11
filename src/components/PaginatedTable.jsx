@@ -33,7 +33,7 @@ const PaginatedTable = ({data , dataInfo , additionField }) => {
 
 
     return (
-        <>
+        <div className='h-75 d-flex flex-column justify-content-between'>
             <table className="table table-responsive text-center table-hover font_08 table-dark table-bordered">
                 <thead className="table-dark">
                     <tr className='fs-6 text-primary'>
@@ -61,7 +61,7 @@ const PaginatedTable = ({data , dataInfo , additionField }) => {
                 </tbody>
             </table>
             
-            <nav aria-label="Page navigation example" className="d-flex justify-content-center">
+            <nav aria-label="Page navigation example " className="d-flex justify-content-center ">
                 <ul className="pagination mx-auto p-0 bg-dark">
                     <li className="page-item prev pointer" onClick={()=>setCurrentPage(currentPage - 1)}>
                         <button type='button' disabled={currentPage - 1 == 0} className="page-link bg-dark prev-btn">
@@ -80,7 +80,7 @@ const PaginatedTable = ({data , dataInfo , additionField }) => {
                     </li>
                 </ul>
             </nav>
-        </>
+        </div>
     );
 }
 
