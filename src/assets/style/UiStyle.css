@@ -12,7 +12,10 @@
     color: white !important;
 }
 
-.modal-body{
+.modal-Category{
+    max-width: 700px !important;
+}
+.modal-Product{
     max-width: 700px !important;
 }
 
