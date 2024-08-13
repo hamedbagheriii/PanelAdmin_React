@@ -28,7 +28,6 @@ const HandleLoadChart = ()=>{
         data: data,
         options: {
             responsive: true,
-            highet : 500 ,
             plugins: {
                 title: {
                     display: true,
@@ -108,7 +107,7 @@ const HandleLoadChart = ()=>{
 
     
     return(
-        <Line  data={config.data}  />
+        <Line  data={config.data} width={200} style={{maxWidth:100+'%',maxHeight:400}}  options={config.options}  />
     )
 }
 

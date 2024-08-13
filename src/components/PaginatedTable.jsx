@@ -40,7 +40,7 @@ const PaginatedTable = ({data , dataInfo , additionField , numOfPage , searchPar
 
     return (
         <>
-            <div className="row justify-content-between">
+            <div className="row justify-content-between"> 
                 <div className="col-10 col-md-6 col-lg-8">
                     <div className="input-group mb-3 dir_ltr d-flex justify-content-end">
                         <input type="text" className="form-control" style={{maxWidth:350}} ref={searchRef} placeholder={searchParams.placeholder} />
@@ -54,7 +54,7 @@ const PaginatedTable = ({data , dataInfo , additionField , numOfPage , searchPar
                     {children}
                 </div>
             </div>
-            <div className='h-75 d-flex flex-column justify-content-between'>
+            <div className='h-75 d-flex flex-column justify-content-between' >
                 <table className="table table-responsive text-center table-hover font_08 table-dark table-bordered">
                     <thead className="table-dark">
                         <tr className='fs-6 text-primary'>

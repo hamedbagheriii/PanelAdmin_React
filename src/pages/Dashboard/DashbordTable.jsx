@@ -99,14 +99,14 @@ const DashbordTable = () => {
     return (
         <div className="row">
 
-            <div className="col-12 col-lg-6 ">
+            <div className="col-12 col-lg-6 " >
                 <p className="text-center mt-3 text-white fw-bold">محصولات رو به اتمام :</p>
                 
                 <PaginatedTable data={data} dataInfo={dataInfo} additionField={additionField}
                  searchParams={searchParams} numOfPage={4} />
             </div>
-            <div className="col-12 d-flex align-items-center justify-content-center col-lg-6 mt-4 mt-lg-0 text-light text-white">
-                    <HandleLoadChart />
+            <div className="col-12 d-flex align-items-center justify-content-center col-lg-6 mt-4 mt-lg-0 text-light text-white" >
+                <HandleLoadChart />
             </div>
 
         </div>
