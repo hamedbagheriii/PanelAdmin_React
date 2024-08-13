@@ -1,5 +1,6 @@
 import React from 'react';
 import PaginatedTable from '../../../components/PaginatedTable';
+import AddProduct from './AddProduct';
 
 const ProductTable = () => {
     const data = [
@@ -73,9 +74,18 @@ const ProductTable = () => {
         }
     ]
 
+    const searchParams = {
+        title : 'جستجو' ,
+        placeholder : 'قسمتی از عنوان را وارد کنید .' ,
+        searchField : 'title'
+    }
 
     return (
-        <PaginatedTable data={data} dataInfo={dataInfo} additionField={additionField} />
+        <PaginatedTable data={data} dataInfo={dataInfo} additionField={additionField}
+         searchParams={searchParams} numOfPage={4}>
+            {/* --- Modal add Product --- */}
+            <AddProduct/>
+        </PaginatedTable>
     );
 }
 

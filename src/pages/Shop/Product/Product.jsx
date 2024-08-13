@@ -13,10 +13,6 @@ const Product = () => {
             {/* --- page table --- */}
             <ProductTable/>
 
-            {/* --- Modal add Product --- */}
-            <ModalsContainer>
-                <AddProduct/>
-            </ModalsContainer>
         </div>
     );
 }
