@@ -8,11 +8,11 @@ const Users = () => {
                 <span className="hiddenable no_wrap group_sidebar_title ">کاربران و همکاران</span>
             </li>
             
-            <SidebarLi text={'مشاهده کاربران'} id={'manage_user_section'} icon={'fas fa-users'} />
+            <SidebarLi targetPatch={'/test'} text={'مشاهده کاربران'} id={'manage_user_section'} icon={'fas fa-users'} />
 
-            <SidebarLi text={'نقش ها'} id={'manage_role_section'} icon={'fas fa-user-tag'} />
+            <SidebarLi targetPatch={'/test'} text={'نقش ها'} id={'manage_role_section'} icon={'fas fa-user-tag'} />
 
-            <SidebarLi text={'مجوز ها'} id={'manage_permission_section'} icon={'fas fa-shield-alt me-1'} />
+            <SidebarLi targetPatch={'/test'} text={'مجوز ها'} id={'manage_permission_section'} icon={'fas fa-shield-alt me-1'} />
             
         </>
     );

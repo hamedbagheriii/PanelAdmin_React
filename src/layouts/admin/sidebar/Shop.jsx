@@ -8,17 +8,17 @@ const Shop = () => {
                 <span className="hiddenable no_wrap group_sidebar_title mt-0">فروشگاه</span>
             </li>
 
-            <SidebarLi text={'مدیریت گروه محصول'} id={'manage_product_category'} icon={'fas fa-stream'} />
+            <SidebarLi targetPatch={'/Category'} text={'مدیریت گروه محصول'} id={'manage_product_category'} icon={'fas fa-stream'} />
 
-            <SidebarLi text={'مدیریت محصول'} id={'manage_product_section'} icon={'fas fa-cube'} />
+            <SidebarLi targetPatch={'/Product'} text={'مدیریت محصول'} id={'manage_product_section'} icon={'fas fa-cube'} />
 
-            <SidebarLi text={'مدیریت برند ها'} id={'manage_brand_section'} icon={'fas fa-copyright'} />
+            <SidebarLi targetPatch={'/test'} text={'مدیریت برند ها'} id={'manage_brand_section'} icon={'fas fa-copyright'} />
             
-            <SidebarLi text={'مدیریت گارانتی ها'} id={'manage_guarantee_section'} icon={'fab fa-pagelines'} />
+            <SidebarLi targetPatch={'/test'} text={'مدیریت گارانتی ها'} id={'manage_guarantee_section'} icon={'fab fa-pagelines'} />
 
-            <SidebarLi text={'مدیریت رنگ ها'} id={'manage_color_section'} icon={'fas fa-palette'} />
+            <SidebarLi targetPatch={'/test'} text={'مدیریت رنگ ها'} id={'manage_color_section'} icon={'fas fa-palette'} />
             
-            <SidebarLi text={'مدیریت تخفیف ها'} id={'manage_discount_section'} icon={'fas fa-percentage'} />
+            <SidebarLi targetPatch={'/test'} text={'مدیریت تخفیف ها'} id={'manage_discount_section'} icon={'fas fa-percentage'} />
             
         </>
     );

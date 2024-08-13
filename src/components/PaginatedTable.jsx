@@ -6,7 +6,6 @@ const PaginatedTable = ({data , dataInfo , additionField , numOfPage , searchPar
 
     const [initData , setInitData] = useState(data);
     const [tableData , setTableData] = useState([]);
-    const [tableSearch , setTableSearch] = useState([]);
     const [currentPage , setCurrentPage] = useState(1);
     const [pages , setPages] = useState([]);
     const [pageCount , setPageCount] = useState(1);
@@ -42,9 +41,9 @@ const PaginatedTable = ({data , dataInfo , additionField , numOfPage , searchPar
     return (
         <>
             <div className="row justify-content-between">
-                <div className="col-10 col-md-6 col-lg-4">
-                    <div className="input-group mb-3 dir_ltr">
-                        <input type="text" className="form-control" ref={searchRef} placeholder={searchParams.placeholder} />
+                <div className="col-10 col-md-6 col-lg-8">
+                    <div className="input-group mb-3 dir_ltr d-flex justify-content-end">
+                        <input type="text" className="form-control" style={{maxWidth:350}} ref={searchRef} placeholder={searchParams.placeholder} />
                         <button type='button' className="input-group-text btn btn-primary" 
                          onClick={()=>handleSetSearch(searchRef.current.value)} >
                             {searchParams.title}

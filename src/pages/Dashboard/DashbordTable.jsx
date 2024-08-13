@@ -1,5 +1,6 @@
 import React from 'react';
 import PaginatedTable from '../../components/PaginatedTable';
+import HandleLoadChart from '../../assets/js/Chart';
 
 const DashbordTable = () => {
     const data = [
@@ -104,8 +105,8 @@ const DashbordTable = () => {
                 <PaginatedTable data={data} dataInfo={dataInfo} additionField={additionField}
                  searchParams={searchParams} numOfPage={4} />
             </div>
-            <div className="col-12 col-lg-6 mt-4 mt-lg-0 text-light text-white">
-                <canvas id="myCharts" height="195"></canvas>
+            <div className="col-12 d-flex align-items-center justify-content-center col-lg-6 mt-4 mt-lg-0 text-light text-white">
+                    <HandleLoadChart />
             </div>
 
         </div>

@@ -1,13 +1,11 @@
 import React, { useEffect } from 'react';
 import Cards from './Cards';
 import DashbordTable from './DashbordTable';
+// import {handleLoadChart} from '../../assets/js/Chart.js'
 
 const Dashboard = () => {
 
   
-    useEffect(() => {
-        require('../../assets/js/Chart') 
-    }, []);
 
     return (
         <div id="dashboard_section" className="dashboard_section main_section">
@@ -21,3 +19,4 @@ const Dashboard = () => {
 }
 
 export default Dashboard;
+

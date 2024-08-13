@@ -1,8 +1,9 @@
+import React from 'react';
 import Chart, { Legend } from 'chart.js/auto';
+import {Line } from 'react-chartjs-2'
 
 
-
-// export const handleLoadChart = ()=>{
+const HandleLoadChart = ()=>{
     const labels = ['فروردین' , 'اردیبهشت', 'خرداد' , 'تیر' , 'مرداد' , 'شهریور' ,
     'مهر' , 'آبان' , 'آذر' , 'دی' , 'بهمن' , 'اسفند'];
     const datapoints = [0, 20, 20, 60, 60, 120, 180, 120, 125, 105, 110, 170];
@@ -27,6 +28,7 @@ import Chart, { Legend } from 'chart.js/auto';
         data: data,
         options: {
             responsive: true,
+            highet : 500 ,
             plugins: {
                 title: {
                     display: true,
@@ -103,7 +105,11 @@ import Chart, { Legend } from 'chart.js/auto';
         family : 'vazir' ,
         size : 12,
     };
+
     
-    const ctx = document.getElementById('myCharts').getContext('2d');
-    new Chart(ctx , config)
-// }
+    return(
+        <Line  data={config.data}  />
+    )
+}
+
+export default HandleLoadChart;
