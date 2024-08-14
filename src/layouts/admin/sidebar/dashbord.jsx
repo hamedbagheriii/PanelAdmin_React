@@ -1,7 +1,7 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 
-const Dashbord = () => {
+const DashbordSidebar = () => {
     return (
         <>
             <NavLink to={'/Dashboard'}  className={`py-1 text-start pe-4 sidebar_menu_item mt-2 `}  >
@@ -12,4 +12,4 @@ const Dashbord = () => {
     );
 }
 
-export default Dashbord;
+export default DashbordSidebar;

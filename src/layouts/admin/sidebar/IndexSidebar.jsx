@@ -3,9 +3,9 @@ import Shop from './Shop';
 import Orders from './Orders';
 import Users from './Users';
 import Communication from './Communication';
-import Dashbord from './Dashbord';
 import { adminContext } from '../../../context/adminLayoutContext';
 import Avatar from './Avatar';
+import DashbordSidebar from './Dashbord';
 
 const IndexSidebar = () => {
     const {showSlidebar} = useContext(adminContext)
@@ -20,7 +20,7 @@ const IndexSidebar = () => {
 
                     {/* <!-- ================ Dashbord ================= --> */}
                     
-                        <Dashbord/>
+                        <DashbordSidebar/>
 
                     {/* <!-- ================ Shop ================= --> */}
                     
