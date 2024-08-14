@@ -9,7 +9,7 @@ const AddGuarantie = () => {
 
             <ModalsContainer
             id={'add_guarantee_modal'}
-            fullscreen={true}
+            fullscreen={false}
             title={'افزودن گارانتی'}
             >
                 <div className="container">
@@ -22,7 +22,7 @@ const AddGuarantie = () => {
                         </div>
                         <div className="col-12">
                             <div className="input-group my-3 dir_ltr">
-                                <input type="text" className="form-control" placeholder="" />
+                                <textarea type="text" className="form-control" placeholder="" />
                                 <span className="input-group-text w_8rem justify-content-center">توضیحات گارانتی</span>
                             </div>
                         </div>

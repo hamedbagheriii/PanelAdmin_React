@@ -1,12 +1,13 @@
 import React, { useContext, useEffect } from 'react';
 import { adminContext } from '../../../context/adminLayoutContext';
-import Dashboard from '../../../pages/Dashboard/Dashboard';
-import Category from '../../../pages/Shop/Category/Category';
-import Product from '../../../pages/Shop/Product/Product';
+import Dashboard from '../../../pages/Dashboard/Dashboard.jsx';
+import Category from '../../../pages/Shop/Category/Category.jsx';
+import Product from '../../../pages/Shop/Product/Product.jsx';
 import { Route, Routes } from 'react-router-dom';
-import Colors from '../../../pages/Shop/Colors/Colors';
-import Guaranties from '../../../pages/Shop/Guaranties/Guaranties';
-import Brands from '../../../pages/Shop/Brands/Brands';
+import Colors from '../../../pages/Shop/Colors/Colors.jsx';
+import Guaranties from '../../../pages/Shop/Guaranties/Guaranties.jsx';
+import Brands from '../../../pages/Shop/Brands/Brands.jsx';
+import Discount from '../../../pages/Shop/Discount/Discount.jsx';
 
 const IndexContent = () => {
     const {showSlidebar} = useContext(adminContext)
@@ -33,6 +34,8 @@ const IndexContent = () => {
             <Route path='/Guaranties' element={<Guaranties/>} />
 
             <Route path='/Colors' element={<Colors/>} />
+
+            <Route path='/Discount' element={<Discount/>} />
 
 
 

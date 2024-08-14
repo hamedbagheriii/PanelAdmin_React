@@ -75,7 +75,7 @@ const BrandsTable = () => {
 
     const searchParams = {
         title : 'جستجو' ,
-        placeholder : 'قسمتی از عنوان را وارد کنید .' ,
+        placeholder : 'قسمتی از عنوان انگلیسی را وارد کنید .' ,
         searchField : 'title'
     }
 
