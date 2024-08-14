@@ -82,6 +82,7 @@ const BrandsTable = () => {
     return (
         <PaginatedTable data={data} dataInfo={dataInfo} additionField={additionField}
         searchParams={searchParams} numOfPage={4} >
+            {/* --- Modal add Brand --- */}
             <AddBrand />
         </PaginatedTable>            
     );

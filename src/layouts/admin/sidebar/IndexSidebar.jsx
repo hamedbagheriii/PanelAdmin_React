@@ -1,11 +1,11 @@
 import React, { useContext } from 'react';
-import Shop from './Shop';
-import Orders from './Orders';
-import Users from './Users';
-import Communication from './Communication';
 import { adminContext } from '../../../context/adminLayoutContext';
 import Avatar from './Avatar';
 import DashbordSidebar from './DashbordSidebar';
+import OrdersSidebar from './OrdersSidebar';
+import ShopSidebar from './ShopSidebar';
+import UsersSidebar from './UsersSidebar';
+import CommunicationSidebar from './CommunicationSidebar';
 
 const IndexSidebar = () => {
     const {showSlidebar} = useContext(adminContext)
@@ -24,19 +24,19 @@ const IndexSidebar = () => {
 
                     {/* <!-- ================ Shop ================= --> */}
                     
-                        <Shop/>
+                        <ShopSidebar/>
 
                     {/* <!-- ================ Orders ================= --> */}
 
-                        <Orders/>
+                        <OrdersSidebar/>
 
                     {/* <!-- ================ Users ================= --> */}
 
-                        <Users/>
+                        <UsersSidebar/>
 
                     {/* <!-- ================ Communication ================= --> */}
                     
-                        <Communication/>
+                        <CommunicationSidebar/>
 
                 </ul>
             </div>

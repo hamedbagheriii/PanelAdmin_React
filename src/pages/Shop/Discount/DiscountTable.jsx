@@ -70,7 +70,7 @@ const DiscountTable = () => {
     return (
         <PaginatedTable data={data} dataInfo={dataInfo} additionField={additionField}
          searchParams={searchParams} numOfPage={4}>
-            {/* --- Modal add Product --- */}
+            {/* --- Modal add Duscount --- */}
             <AddDiscount/>
         </PaginatedTable>
     );

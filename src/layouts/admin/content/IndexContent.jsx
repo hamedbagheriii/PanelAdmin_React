@@ -8,6 +8,8 @@ import Colors from '../../../pages/Shop/Colors/Colors.jsx';
 import Guaranties from '../../../pages/Shop/Guaranties/Guaranties.jsx';
 import Brands from '../../../pages/Shop/Brands/Brands.jsx';
 import Discount from '../../../pages/Shop/Discount/Discount.jsx';
+import Carts from '../../../pages/Orders/Carts/Carts.jsx';
+import Orders from '../../../pages/Orders/Order/Orders.jsx';
 
 const IndexContent = () => {
     const {showSlidebar} = useContext(adminContext)
@@ -36,6 +38,17 @@ const IndexContent = () => {
             <Route path='/Colors' element={<Colors/>} />
 
             <Route path='/Discount' element={<Discount/>} />
+
+
+
+            {/* ====== SHOP ===== */}
+
+            <Route path='/Carts' element={<Carts/>} />
+
+            <Route path='/Orders' element={<Orders/>} />
+
+            <Route path='/Deliverys' element={<Carts/>} />
+
 
 
 

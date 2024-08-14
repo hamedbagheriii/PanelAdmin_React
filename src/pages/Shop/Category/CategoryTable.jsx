@@ -124,7 +124,7 @@ const CategoryTable = () => {
     return (
         <PaginatedTable data={data} dataInfo={dataInfo} additionField={additionField}
          searchParams={searchParams} numOfPage={4} >
-            {/* --- Modal add Product --- */}
+            {/* --- Modal add Category --- */}
             <AddCategory/>
         </PaginatedTable>
     );

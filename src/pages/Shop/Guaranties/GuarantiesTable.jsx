@@ -68,6 +68,7 @@ const GuarantiesTable = () => {
     return (
         <PaginatedTable data={data} dataInfo={dataInfo} additionField={additionField}
         searchParams={searchParams} numOfPage={4} >
+            {/* --- Modal add Guarantie --- */}
             <AddGuarantie />
         </PaginatedTable>            
     );

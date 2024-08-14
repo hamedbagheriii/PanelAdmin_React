@@ -1,7 +1,7 @@
 import React from 'react';
 import SidebarLi from '../../../UI/Sidebar/Li';
 
-const Communication = () => {
+const CommunicationSidebar = () => {
     return (
         <>
             <li className="py-1 text-start d-flex justify-content-center no_pointer no_hover ">
@@ -16,4 +16,4 @@ const Communication = () => {
     );
 }
 
-export default Communication;
+export default CommunicationSidebar;

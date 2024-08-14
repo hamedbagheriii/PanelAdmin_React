@@ -99,6 +99,7 @@ const ColorsTable = () => {
         <>
             <PaginatedTable data={data} dataInfo={dataInfo} additionField={additionField}
              searchParams={searchParams} numOfPage={4} targetSearch={targetSearch}>
+                {/* --- Modal add Color --- */}
                 <AddColor/>
             </PaginatedTable>
         </>

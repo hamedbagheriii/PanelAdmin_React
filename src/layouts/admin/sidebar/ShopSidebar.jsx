@@ -1,7 +1,7 @@
 import React from 'react';
 import SidebarLi from '../../../UI/Sidebar/Li';
 
-const Shop = () => {
+const ShopSidebar = () => {
     return (
         <>
             <li className="py-1 text-start d-flex justify-content-center no_pointer no_hover ">
@@ -24,4 +24,4 @@ const Shop = () => {
     );
 }
 
-export default Shop;
+export default ShopSidebar;
