@@ -12,11 +12,11 @@ const Shop = () => {
 
             <SidebarLi targetPatch={'/Product'} text={'مدیریت محصول'} id={'manage_product_section'} icon={'fas fa-cube'} />
 
-            <SidebarLi targetPatch={'/test'} text={'مدیریت برند ها'} id={'manage_brand_section'} icon={'fas fa-copyright'} />
+            <SidebarLi targetPatch={'/Brands'} text={'مدیریت برند ها'} id={'manage_brand_section'} icon={'fas fa-copyright'} />
             
-            <SidebarLi targetPatch={'/test'} text={'مدیریت گارانتی ها'} id={'manage_guarantee_section'} icon={'fab fa-pagelines'} />
+            <SidebarLi targetPatch={'/Guaranties'} text={'مدیریت گارانتی ها'} id={'manage_guarantee_section'} icon={'fab fa-pagelines'} />
 
-            <SidebarLi targetPatch={'/test'} text={'مدیریت رنگ ها'} id={'manage_color_section'} icon={'fas fa-palette'} />
+            <SidebarLi targetPatch={'/Colors'} text={'مدیریت رنگ ها'} id={'manage_color_section'} icon={'fas fa-palette'} />
             
             <SidebarLi targetPatch={'/test'} text={'مدیریت تخفیف ها'} id={'manage_discount_section'} icon={'fas fa-percentage'} />
             

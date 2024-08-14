@@ -71,11 +71,13 @@ const DashbordTable = () => {
     const additionFieldElement = (itemId)=>{
         return(
             <>
-                <i className="fas fa-times text-danger mx-1 hoverable_text pointer has_tooltip"
-                 title="حذف"
-                 data-bs-toggle="tooltip"
-                 data-bs-placement="top">
-                </i>
+                <td>
+                    <i className="fas fa-times text-danger mx-1 hoverable_text pointer has_tooltip"
+                    title="حذف"
+                    data-bs-toggle="tooltip"
+                    data-bs-placement="top">
+                    </i>
+                </td>
             </>
         )
     }
