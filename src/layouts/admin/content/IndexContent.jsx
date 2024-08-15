@@ -10,6 +10,9 @@ import Brands from '../../../pages/Shop/Brands/Brands.jsx';
 import Discount from '../../../pages/Shop/Discount/Discount.jsx';
 import Carts from '../../../pages/Orders/Carts/Carts.jsx';
 import Orders from '../../../pages/Orders/Order/Orders.jsx';
+import Deliverys from '../../../pages/Orders/Deliverys/Deliverys.jsx';
+import Users from '../../../pages/Users/UsersSection/Users.jsx';
+import Roles from '../../../pages/Users/Roles/Roles.jsx';
 
 const IndexContent = () => {
     const {showSlidebar} = useContext(adminContext)
@@ -41,13 +44,23 @@ const IndexContent = () => {
 
 
 
-            {/* ====== SHOP ===== */}
+            {/* ====== Cart ===== */}
 
             <Route path='/Carts' element={<Carts/>} />
 
             <Route path='/Orders' element={<Orders/>} />
 
-            <Route path='/Deliverys' element={<Carts/>} />
+            <Route path='/Deliverys' element={<Deliverys/>} />
+
+
+
+            {/* ====== Users ===== */}
+            
+            <Route path='/Users' element={<Users/>} />
+
+            <Route path='/Roles' element={<Roles/>} />
+
+            <Route path='/Permissions' element={<Roles/>} />
 
 
 
