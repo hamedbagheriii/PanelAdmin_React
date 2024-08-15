@@ -15,6 +15,7 @@ import Users from '../../../pages/Users/UsersSection/Users.jsx';
 import Roles from '../../../pages/Users/Roles/Roles.jsx';
 import Permissions from '../../../pages/Users/Permissions/Permissions.jsx';
 import Questions from '../../../pages/Communication/Questions/Questions.jsx';
+import Comments from '../../../pages/Communication/Comments/Comments.jsx';
 
 const IndexContent = () => {
     const {showSlidebar} = useContext(adminContext)
@@ -32,45 +33,45 @@ const IndexContent = () => {
 
             {/* ====== SHOP ===== */}
 
-            <Route path='/Category' element={<Category/>} />
+            <Route path='/Shop/Category' element={<Category/>} />
 
-            <Route path='/Product' element={<Product/>} />
+            <Route path='/Shop/Product' element={<Product/>} />
 
-            <Route path='/Brands' element={<Brands/>} />
+            <Route path='/Shop/Brands' element={<Brands/>} />
 
-            <Route path='/Guaranties' element={<Guaranties/>} />
+            <Route path='/Shop/Guaranties' element={<Guaranties/>} />
 
-            <Route path='/Colors' element={<Colors/>} />
+            <Route path='/Shop/Colors' element={<Colors/>} />
 
-            <Route path='/Discount' element={<Discount/>} />
+            <Route path='/Shop/Discount' element={<Discount/>} />
 
 
 
             {/* ====== Cart ===== */}
 
-            <Route path='/Carts' element={<Carts/>} />
+            <Route path='/Cart/Carts' element={<Carts/>} />
 
-            <Route path='/Orders' element={<Orders/>} />
+            <Route path='/Cart/Orders' element={<Orders/>} />
 
-            <Route path='/Deliverys' element={<Deliverys/>} />
+            <Route path='/Cart/Deliverys' element={<Deliverys/>} />
 
 
 
             {/* ====== Users ===== */}
             
-            <Route path='/Users' element={<Users/>} />
+            <Route path='/Users/Users' element={<Users/>} />
 
-            <Route path='/Roles' element={<Roles/>} />
+            <Route path='/Users/Roles' element={<Roles/>} />
 
-            <Route path='/Permissions' element={<Permissions/>} />
+            <Route path='/Users/Permissions' element={<Permissions/>} />
 
 
 
             {/* ====== Communication ===== */}
 
-            <Route path='/Questions' element={<Questions/>} />
+            <Route path='/Communication/Questions' element={<Questions/>} />
 
-            <Route path='/Comments' element={<Permissions/>} />
+            <Route path='/Communication/Comments' element={<Comments/>} />
 
 
 
