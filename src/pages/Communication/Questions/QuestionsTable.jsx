@@ -1,25 +1,26 @@
 import React from 'react';
 import PaginatedTable from '../../../components/PaginatedTable';
-import AddRole from './AddRole';
+import AddQuestion from './AddQuestion';
 
-const RolesTable = () => {
+
+const QuestionsTable = () => {
     const data = [
         {
             id : 1 ,
-            title : 'کاربر' ,
-            dec : 'توضیحاتی در مورد این نقش که چیست و کلیات آن کدام است' ,
+            fullName : 'قاسم بساکی' ,
+            questionsType : 'پرسش' ,
+            category : 'محصولات' ,
+            dataText : 'قسمتی از متن سوال برای این محصول مثلا 100 کارکتر' ,
         } ,
-        {
-            id : 2 ,
-            title : 'کاربر ویژه' ,
-            dec : 'توضیحاتی در مورد این نقش که چیست و کلیات آن کدام است' ,
-        } ,
+        
     ]
 
     const dataInfo = [
         {field : 'id' , title : '#'},
-        {field : 'title' , title : 'عنوان'},
-        {field : 'dec' , title : 'توضیحات'},
+        {field : 'fullName' , title : 'نام و نام خانوادگی'},
+        {field : 'questionsType' , title : 'نوع سوال'},
+        {field : 'category' , title : 'دسته'},
+        {field : 'dataText' , title : 'توضیحات'},
     ]
 
     const additionFieldElement = (itemId)=>{
@@ -31,13 +32,10 @@ const RolesTable = () => {
                         <input className="form-check-input pointer mx-1 mb-1" type="checkbox" id={`flexSwitchCheckDefault-${itemId}`} defaultChecked={true}/>
                     </div> 
                 </td>
+                <td>1400/10/12</td>
                 <td>
-                    <i className="fas fa-edit text-warning mx-1 hoverable_text pointer has_tooltip"
-                    title="ویرایش نقش" data-bs-toggle="modal" data-bs-placement="top" 
-                    data-bs-target="#add_role_modal"></i>
                     <i className="fas fa-times text-danger mx-1 hoverable_text pointer has_tooltip"
-                    title="حذف نقش" data-bs-toggle="tooltip" data-bs-placement="top"></i>
-
+                    title="حذف سوال" data-bs-toggle="tooltip" data-bs-placement="top"></i>
                 </td>
             </>
         )
@@ -50,6 +48,11 @@ const RolesTable = () => {
             element : (itemId)=> additionFieldElement(itemId)
         } ,
         {
+            title : 'تاریخ' ,
+            field : 'date' ,
+            element : ()=>{}
+        } ,
+        {
             title : 'عملیات' ,
             field : 'operation' ,
             element : ()=>{}
@@ -58,17 +61,17 @@ const RolesTable = () => {
 
     const searchParams = {
         title : 'جستجو' ,
-        placeholder : 'قسمتی از نام نقش را وارد کنید .' ,
-        searchField : 'title'
+        placeholder : 'قسمتی از سوال یا نام شخص را وارد کنید .' ,
+        searchField : 'dataText'
     }
 
     return (
         <PaginatedTable data={data} dataInfo={dataInfo} additionField={additionField}
          searchParams={searchParams} numOfPage={4}>
             {/* --- Modal add Role --- */}
-            <AddRole/>
+            <AddQuestion/>
         </PaginatedTable>
     );
 }
 
-export default RolesTable;
+export default QuestionsTable;

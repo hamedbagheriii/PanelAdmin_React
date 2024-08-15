@@ -13,6 +13,8 @@ import Orders from '../../../pages/Orders/Order/Orders.jsx';
 import Deliverys from '../../../pages/Orders/Deliverys/Deliverys.jsx';
 import Users from '../../../pages/Users/UsersSection/Users.jsx';
 import Roles from '../../../pages/Users/Roles/Roles.jsx';
+import Permissions from '../../../pages/Users/Permissions/Permissions.jsx';
+import Questions from '../../../pages/Communication/Questions/Questions.jsx';
 
 const IndexContent = () => {
     const {showSlidebar} = useContext(adminContext)
@@ -60,7 +62,15 @@ const IndexContent = () => {
 
             <Route path='/Roles' element={<Roles/>} />
 
-            <Route path='/Permissions' element={<Roles/>} />
+            <Route path='/Permissions' element={<Permissions/>} />
+
+
+
+            {/* ====== Communication ===== */}
+
+            <Route path='/Questions' element={<Questions/>} />
+
+            <Route path='/Comments' element={<Permissions/>} />
 
 
 

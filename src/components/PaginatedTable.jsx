@@ -57,7 +57,7 @@ const PaginatedTable = ({data , dataInfo , additionField , numOfPage , searchPar
                                 </button>
                                 <div className='w-100'>
                                     {targetSearch.map(t=>(
-                                        <button className={`btn input-group-text text-white fs-6 fw-bold`}
+                                        <button key={t.target+'btn'} className={`btn input-group-text text-white fs-6 fw-bold`}
                                         disabled={TSP.target == t.target}
                                         onClick={()=>setTSP({placeholder : t.placeholder , target : t.target})}
                                         style={{backgroundColor: t.color,borderRadius:'0px 0px 4px 4px'}}>

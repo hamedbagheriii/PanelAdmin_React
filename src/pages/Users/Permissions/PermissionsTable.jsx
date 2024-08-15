@@ -1,17 +1,17 @@
 import React from 'react';
 import PaginatedTable from '../../../components/PaginatedTable';
-import AddRole from './AddRole';
+import AddPermission from './AddPermission';
 
-const RolesTable = () => {
+const PermissionsTable = () => {
     const data = [
         {
             id : 1 ,
-            title : 'کاربر' ,
+            title : 'سطح عادی' ,
             dec : 'توضیحاتی در مورد این نقش که چیست و کلیات آن کدام است' ,
         } ,
         {
             id : 2 ,
-            title : 'کاربر ویژه' ,
+            title : 'سطح ادمین' ,
             dec : 'توضیحاتی در مورد این نقش که چیست و کلیات آن کدام است' ,
         } ,
     ]
@@ -33,10 +33,10 @@ const RolesTable = () => {
                 </td>
                 <td>
                     <i className="fas fa-edit text-warning mx-1 hoverable_text pointer has_tooltip"
-                    title="ویرایش نقش" data-bs-toggle="modal" data-bs-placement="top" 
+                    title="ویرایش مجوز" data-bs-toggle="modal" data-bs-placement="top" 
                     data-bs-target="#add_role_modal"></i>
                     <i className="fas fa-times text-danger mx-1 hoverable_text pointer has_tooltip"
-                    title="حذف نقش" data-bs-toggle="tooltip" data-bs-placement="top"></i>
+                    title="حذف مجوز" data-bs-toggle="tooltip" data-bs-placement="top"></i>
 
                 </td>
             </>
@@ -66,9 +66,9 @@ const RolesTable = () => {
         <PaginatedTable data={data} dataInfo={dataInfo} additionField={additionField}
          searchParams={searchParams} numOfPage={4}>
             {/* --- Modal add Role --- */}
-            <AddRole/>
+            <AddPermission/>
         </PaginatedTable>
     );
 }
 
-export default RolesTable;
+export default PermissionsTable;
