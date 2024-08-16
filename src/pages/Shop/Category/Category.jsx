@@ -2,6 +2,7 @@ import React from 'react';
 import CategoryTable from './CategoryTable';
 import AddCategory from './AddCategory';
 import PageContainer from '../../../components/PageContainer';
+import AddAtrrCategory from './AddAtrrCategory';
 
 const Category = () => {
     return (
@@ -12,8 +13,9 @@ const Category = () => {
 
             {/* --- page table --- */}
             <CategoryTable/>
-            
-        </div>
+
+            <AddAtrrCategory />
+        </div>  
     );
 }
 

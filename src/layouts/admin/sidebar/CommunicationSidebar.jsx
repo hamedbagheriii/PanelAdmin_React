@@ -8,9 +8,9 @@ const CommunicationSidebar = () => {
                 <span className="hiddenable no_wrap group_sidebar_title ">ارتباطات</span>
             </li>
             
-            <SidebarLi  targetPatch={'/Communication/Questions'} text={'سوال ها'} id={'manage_question_section'} icon={'fas fa-question-circle'} />
+            <SidebarLi  targetPatch={'/Questions'} text={'سوال ها'} id={'manage_question_section'} icon={'fas fa-question-circle'} />
 
-            <SidebarLi  targetPatch={'/Communication/Comments'} text={'نظرات'} id={'manage_comments_section'} icon={'fas fa-comment'} />
+            <SidebarLi  targetPatch={'/Comments'} text={'نظرات'} id={'manage_comments_section'} icon={'fas fa-comment'} />
             
         </>
     );

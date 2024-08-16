@@ -8,11 +8,11 @@ const OrdersSidebar = () => {
                 <span className="hiddenable no_wrap group_sidebar_title">سفارشات و سبد</span>
             </li>
 
-            <SidebarLi targetPatch={'/Cart/Carts'} text={'مدیریت سبد ها'} id={'manage_cart_section'} icon={'fas fa-shopping-basket'} />
+            <SidebarLi targetPatch={'/Carts'} text={'مدیریت سبد ها'} id={'manage_cart_section'} icon={'fas fa-shopping-basket'} />
             
-            <SidebarLi targetPatch={'/Cart/Orders'} text={'مدیریت سفارشات'} id={'manage_orders_section'} icon={'fas fa-luggage-cart'} />
+            <SidebarLi targetPatch={'/Orders'} text={'مدیریت سفارشات'} id={'manage_orders_section'} icon={'fas fa-luggage-cart'} />
 
-            <SidebarLi targetPatch={'/Cart/Deliverys'} text={'مدیریت نحوه ارسال'} id={'manage_deliveries_section'} icon={'fas fa-truck-loading'} />
+            <SidebarLi targetPatch={'/Deliverys'} text={'مدیریت نحوه ارسال'} id={'manage_deliveries_section'} icon={'fas fa-truck-loading'} />
 
         </>
     );

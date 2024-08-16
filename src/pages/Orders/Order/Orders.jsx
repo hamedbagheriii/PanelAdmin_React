@@ -1,6 +1,7 @@
 import React from 'react';
 import PageContainer from '../../../components/PageContainer';
 import OrdersTable from './OrdersTable';
+import OrderDetails from './OrderDetails';
 
 const Orders = () => {
     return (
@@ -11,6 +12,7 @@ const Orders = () => {
             {/* --- page table --- */}
             <OrdersTable/>
 
+            <OrderDetails/>
         </div>
     );
 }

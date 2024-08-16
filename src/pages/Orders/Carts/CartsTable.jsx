@@ -120,6 +120,7 @@ const CartTable = () => {
          searchParams={searchParams} numOfPage={4}>
             
         </PaginatedTable>
+        
     );
 }
 
