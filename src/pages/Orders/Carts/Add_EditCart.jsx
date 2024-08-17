@@ -2,11 +2,13 @@ import React from 'react';
 import ModalsContainer from '../../../components/ModalsContainer';
 import BtnModal from '../../../UI/pages/btnModal';
 
-const EditCart = () => {
+const Add_EditCart = () => {
     return (
         <>
+            <BtnModal id={`edit_add_cart_modal`} />
+
             <ModalsContainer
-            id={'edit_cart_modal'}
+            id={'edit_add_cart_modal'}
             fullscreen={true}
             title={'تغیر جزيیات سبد خرید'}
             >
@@ -91,4 +93,4 @@ const EditCart = () => {
     );
 }
 
-export default EditCart;
+export default Add_EditCart;

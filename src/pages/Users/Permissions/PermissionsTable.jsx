@@ -1,6 +1,5 @@
 import React from 'react';
 import PaginatedTable from '../../../components/PaginatedTable';
-import AddPermission from './AddPermission';
 
 const PermissionsTable = () => {
     const data = [
@@ -31,14 +30,6 @@ const PermissionsTable = () => {
                         <input className="form-check-input pointer mx-1 mb-1" type="checkbox" id={`flexSwitchCheckDefault-${itemId}`} defaultChecked={true}/>
                     </div> 
                 </td>
-                <td>
-                    <i className="fas fa-edit text-warning mx-1 hoverable_text pointer has_tooltip"
-                    title="ویرایش مجوز" data-bs-toggle="modal" data-bs-placement="top" 
-                    data-bs-target="#add_Permission_modal"></i>
-                    <i className="fas fa-times text-danger mx-1 hoverable_text pointer has_tooltip"
-                    title="حذف مجوز" data-bs-toggle="tooltip" data-bs-placement="top"></i>
-
-                </td>
             </>
         )
     }
@@ -48,11 +39,6 @@ const PermissionsTable = () => {
             title : 'وضعیت' ,
             field : 'status' ,
             element : (itemId)=> additionFieldElement(itemId)
-        } ,
-        {
-            title : 'عملیات' ,
-            field : 'operation' ,
-            element : ()=>{}
         }
     ]
 
@@ -65,8 +51,6 @@ const PermissionsTable = () => {
     return (
         <PaginatedTable data={data} dataInfo={dataInfo} additionField={additionField}
          searchParams={searchParams} numOfPage={4}>
-            {/* --- Modal add Role --- */}
-            <AddPermission/>
         </PaginatedTable>
     );
 }

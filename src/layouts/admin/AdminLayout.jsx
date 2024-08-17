@@ -5,7 +5,7 @@ import IndexContent from './content/IndexContent';
 import AdminContextContainer from '../../context/adminLayoutContext';
 
 
-const Index = () => {
+const AdminLayout = () => {
     return (
         <AdminContextContainer>
             <div>
@@ -17,4 +17,4 @@ const Index = () => {
     );
 }
 
-export default Index;
+export default AdminLayout;

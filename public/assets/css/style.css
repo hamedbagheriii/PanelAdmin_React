@@ -25,6 +25,10 @@ body{
     direction: rtl;
 }
 
+.App{
+    background: #292929 !important;
+    min-height: 100vh ;
+}
 
 /* ============================================= scrollbars ================================= */
 ::-webkit-scrollbar{

@@ -1,5 +1,7 @@
 import React from 'react';
 import PaginatedTable from '../../../components/PaginatedTable';
+import EditCart from './Add_EditCart';
+import Add_EditCart from './Add_EditCart';
 
 const CartTable = () => {
     const data = [
@@ -92,7 +94,7 @@ const CartTable = () => {
                 <td>
                     <i className="fas fa-edit text-warning mx-1 hoverable_text pointer has_tooltip" 
                     title="ویرایش و جزئیات سبد" data-bs-toggle="modal" data-bs-placement="top"
-                    data-bs-target="#edit_cart_modal"></i>
+                    data-bs-target="#edit_add_cart_modal"></i>
                     <i className="fas fa-times text-danger mx-1 hoverable_text pointer has_tooltip" 
                     title="حذف سبد" data-bs-toggle="tooltip" data-bs-placement="top"></i>
 
@@ -118,9 +120,8 @@ const CartTable = () => {
     return (
         <PaginatedTable data={data} dataInfo={dataInfo} additionField={additionField}
          searchParams={searchParams} numOfPage={4}>
-            
+            <Add_EditCart/>
         </PaginatedTable>
-        
     );
 }
 

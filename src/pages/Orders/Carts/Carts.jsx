@@ -1,7 +1,6 @@
 import React from 'react';
 import PageContainer from '../../../components/PageContainer';
 import CartTable from './CartsTable';
-import EditCart from './EditCart';
 
 const Carts = () => {
     return (
@@ -12,7 +11,6 @@ const Carts = () => {
             {/* --- page table --- */}
             <CartTable/>
 
-            <EditCart/>
         </div>
     );
 }

@@ -1,6 +1,7 @@
 import React from 'react';
-import Index from './layouts/admin/Index';
+import AdminLayout from './layouts/admin/AdminLayout';
 import { BrowserRouter } from 'react-router-dom';
+import AuthLayout from './layouts/auth/AuthLayout';
 
 
 const App = ()=>{
@@ -8,10 +9,12 @@ const App = ()=>{
 
     
     return (
-        <div className={` App  `}>
-            <BrowserRouter>
-                <Index/>
-            </BrowserRouter>
+        <div className={` App  d-flex align-items-center justify-content-center`}>
+            
+                <AuthLayout/>
+
+                {/* <AdminLayout/> */}
+                
         </div>
     ) 
 }
