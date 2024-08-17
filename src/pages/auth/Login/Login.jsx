@@ -13,7 +13,7 @@ const initialValues = {
     remember : false ,
 }
 
-const onSubmit = (values , submitProps)=>{
+const onSubmit = (values , submitProps , navigate)=>{
     axios.post('https://ecomadminapi.azhadev.ir/api/auth/login' , {
         ...values ,
         remember :values.remember ? 1 : 0
@@ -21,7 +21,8 @@ const onSubmit = (values , submitProps)=>{
         console.log(res);
         if (res.status === 200) {
             swal('با موفقیت وارد شدید .');
-            localStorage.setItem('token',res.data.token);
+            localStorage.setItem('loginToken',JSON.stringify(res.data));
+            navigate('/')
         }else{
             swal(res.data.message || res.data.phone[0])
         }
@@ -46,6 +47,9 @@ const validationSchema = Yup.object({
 
 
 const Login = () => {
+
+    const navigate = useNavigate();
+
     return (
         <>
             <div className='header w-75 mx-auto pt-5 d-flex flex-column border-bottom border-1 pb-4 '>
@@ -54,7 +58,7 @@ const Login = () => {
             </div>
             <Formik
              initialValues={initialValues}
-             onSubmit={onSubmit}
+             onSubmit={(values , submitProps)=>onSubmit(values , submitProps , navigate)}
              validationSchema={validationSchema}
              validateOnMount
             >

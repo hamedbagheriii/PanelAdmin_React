@@ -1,10 +1,12 @@
+
+
 @font-face {
     font-family: "Byekan";
-    src: url('../fonts/BYekan-webfont.ttf');
+    src: url('../font/BYekan-webfont.ttf');
 }
 @font-face {
     font-family: "vazir";
-    src: url('../fonts/Vazir.woff');
+    src: url('../font/Vazir.woff');
 }
 html , #root{
     min-height: 100vh;
@@ -29,6 +31,8 @@ body{
     background: #292929 !important;
     min-height: 100vh ;
 }
+
+
 
 /* ============================================= scrollbars ================================= */
 ::-webkit-scrollbar{
@@ -160,7 +164,7 @@ td , th {
     display: flex;
     justify-content: space-between;
     align-items: center;
-   background: #30353a !important;
+    background: #30353a !important;
 }
 .top_navbar .mini_menu{
     font-size: 0.8rem;

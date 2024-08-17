@@ -16,7 +16,7 @@ const IndexSidebar = () => {
                 <ul className="p-0 m-0 mx-auto">
 
                         <Avatar userName={'قاسم بساکی'} 
-                        img={'/assets/images/avatar/hamed.jpg'} />
+                        img={'./assets/images/avatar/hamed.jpg'} />
 
                     {/* <!-- ================ Dashbord ================= --> */}
                     

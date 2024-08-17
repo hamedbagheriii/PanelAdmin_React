@@ -1,17 +1,29 @@
 import React from 'react';
 import Login from '../../pages/auth/Login/Login';
-import { Route, Routes } from 'react-router-dom';
+import { Navigate, Route, Routes } from 'react-router-dom';
+import { useInLogin } from '../../hook/authHook';
 
 const AuthLayout = () => {
+
+    const {isLogin , loading} = useInLogin();
+
+
     return (
         <div className='bg-white w-100  mx-auto' style={{borderRadius:15,maxWidth:550}}>
-            <Routes>
+            {loading ? (
+                <div className='w-100 vh-100 text-white d-flex flex-column align-items-center
+                justify-content-center '>
+                    <span className='mx-auto fs-4 fw-bold'>لطفا صبر کنید . . .</span>
+                </div>
+            ) : !isLogin ? (
+                <Routes>
                 
-                <Route path='/Login' element={<Login/>} />
+                    <Route path='/auth/login' element={<Login/>} />
                 
-                <Route path='*' element={<Login/>} />
-                
-            </Routes>
+                </Routes>
+            ) : (
+                <Navigate to={'/'} />
+            )}
         </div>
     );
 }

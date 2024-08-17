@@ -4,7 +4,7 @@ import LeftContent from './LeftContent';
 
 const IndexNavbar = () => {
     return (
-        <nav className="navbar fixed-top navbar-dark bg-secondary top_navbar py-0">
+        <nav className="navbar fixed-top navbar-dark  top_navbar py-0">
             <div className="container-fluid h-100 pe-0">
     
                 <RightContent/>
