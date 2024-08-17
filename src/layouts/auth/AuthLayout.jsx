@@ -9,22 +9,24 @@ const AuthLayout = () => {
 
 
     return (
-        <div className='bg-white w-100  mx-auto' style={{borderRadius:15,maxWidth:550}}>
+        <>
             {loading ? (
                 <div className='w-100 vh-100 text-white d-flex flex-column align-items-center
                 justify-content-center '>
                     <span className='mx-auto fs-4 fw-bold'>لطفا صبر کنید . . .</span>
                 </div>
             ) : !isLogin ? (
-                <Routes>
-                
-                    <Route path='/auth/login' element={<Login/>} />
-                
-                </Routes>
+                <div className='bg-white w-100  mx-auto' style={{borderRadius:15,maxWidth:550}}>
+                    <Routes>
+                    
+                        <Route path='/auth/login' element={<Login/>} />
+                    
+                    </Routes>
+                </div>
             ) : (
                 <Navigate to={'/'} />
             )}
-        </div>
+        </>
     );
 }
 
