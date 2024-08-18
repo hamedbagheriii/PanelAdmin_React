@@ -9,7 +9,6 @@ import Logout from './pages/auth/Logout/Logout';
 
 
 const App = ()=>{
-    // دسترسی به مقادیر روت صفحه
     const location = useLocation();
     
     return (

@@ -6,6 +6,7 @@ import axios from 'axios';
 import swal from 'sweetalert';
 import { Link, useNavigate } from 'react-router-dom';
 import { Alert } from '../../../utils/alert';
+import { loginService } from '../../../services/auth';
 
 // ============== initial props ===============
 const initialValues = {
@@ -14,17 +15,18 @@ const initialValues = {
     remember : false ,
 }
 
-const onSubmit = (values , submitProps , navigate)=>{
-    axios.post('https://ecomadminapi.azhadev.ir/api/auth/login' , {
-        ...values ,
-        remember :values.remember ? 1 : 0
-    }).then(res=>{
-        console.log(res);
+const onSubmit = async (values , submitProps , navigate)=>{
+    try {
+        const res = await loginService(values);
+
         if (res.status === 200) {
             Alert('با موفقیت وارد شدید .' , '' , 'success')
             localStorage.setItem('loginToken',JSON.stringify(res.data));
             if (values.remember) {
                 localStorage.setItem('rememberData',JSON.stringify({...values}));                
+            }
+            else{
+                localStorage.removeItem('rememberData');
             }
             submitProps.resetForm();
             navigate('/')
@@ -34,10 +36,11 @@ const onSubmit = (values , submitProps , navigate)=>{
             , 'error')
         }
         submitProps.setSubmitting(false);
-    }).catch(err=>{
+    }
+    catch (err) {
         Alert('یک مشکل به وجود آمده است .' , `${err.data[0]}` , 'error')
         submitProps.setSubmitting(false);
-    })
+    }
 }
 
 const validationSchema = Yup.object({

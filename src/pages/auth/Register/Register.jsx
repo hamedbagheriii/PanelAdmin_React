@@ -5,6 +5,7 @@ import AuthFormikControl from '../../../components/authForm/formikComponent/Auth
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import { Alert } from '../../../utils/alert';
+import { registerService } from '../../../services/auth';
 
 // ============== initial props ===============
 const initialValues = {
@@ -13,10 +14,9 @@ const initialValues = {
     c_password : "" ,
 }
 
-const onSubmit = (values , submitProps , navigate)=>{
-    console.log(values);
-    axios.post('https://ecomadminapi.azhadev.ir/api/auth/register' , {...values} ).then(res=>{
-        console.log(res);
+const onSubmit = async (values , submitProps , navigate)=>{
+    try {
+        const res = await registerService(values);
         if (res.status === 200) {
             Alert('ثبت نام با موفقیت انجام شد .' , '' , 'success')
             localStorage.removeItem('loginToken');
@@ -29,10 +29,11 @@ const onSubmit = (values , submitProps , navigate)=>{
             , 'error')
         }
         submitProps.setSubmitting(false);
-    }).catch(err=>{
+    }
+    catch (err) {
         Alert('یک مشکل به وجود آمده است .' , `${err.data[0]}` , 'error')
         submitProps.setSubmitting(false);
-    })
+    }
 }
 
 const validationSchema = Yup.object({

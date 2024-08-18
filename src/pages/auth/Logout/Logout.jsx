@@ -2,33 +2,36 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { Navigate } from 'react-router-dom';
 import { Alert } from '../../../utils/alert';
+import { logoutService } from '../../../services/auth';
 
 const Logout = () => {
     const [loading , setLoading] = useState(true);
 
-    useEffect(() => {
-        const tokenData = JSON.parse(localStorage.getItem('loginToken'))
-        
+    const handleLogout = async (tokenData)=>{
+        try {
+            const res = await logoutService();
+            if(res.status == 200){
+                Alert('با موفقیت خارج شدید .' , '' , 'success')
+                localStorage.removeItem('loginToken');
+            }
+            else{
+                Alert('یک مشکل به وجود آمده است .' , '' , 'error')
+            }
+            setLoading(false);
+        }
+        catch (err) {
+            setLoading(false);
+            if (!tokenData) {
+                Alert('خطا در ارتباط با سرور !' , '' , 'error')
+            }
+        }
+    }
+
+    useEffect( () => {
+        const tokenData = JSON.parse(localStorage.getItem('loginToken'));
+
         if (tokenData) {
-            axios.get('https://ecomadminapi.azhadev.ir/api/auth/logout' , {
-                headers : {
-                    'Authorization' : `Bearer ${tokenData.token}`
-                }
-            }).then(res=>{
-                if(res.status == 200){
-                    Alert('با موفقیت خارج شدید .' , '' , 'success')
-                    localStorage.removeItem('loginToken');
-                }
-                else{
-                    Alert('یک مشکل به وجود آمده است .' , '' , 'error')
-                }
-                setLoading(false);
-            }).catch(err=>{
-                setLoading(false);
-                if (!tokenData) {
-                    Alert('خطا در ارتباط با سرور !' , '' , 'error')
-                }
-            })
+            handleLogout(tokenData);
         }else{
             setLoading(false);
         }

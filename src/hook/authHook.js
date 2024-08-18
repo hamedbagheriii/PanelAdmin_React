@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { getUserService } from "../services/auth";
 
 export const useInLogin = ()=>{
     const [isLogin , setIsLogin] = useState(false);
@@ -12,20 +13,20 @@ export const useInLogin = ()=>{
         }, time);
     } 
 
+    const handleGetUser = async ()=>{
+        try {
+            const res = await getUserService();
+            handleSetLoad(res.status == 200 ? true : false , false , 2000)
+        } catch (error) {
+            localStorage.removeItem('loginToken');
+            handleSetLoad(false,false,0);
+        }
+    }
+
     useEffect(() => {
         const loginToken = JSON.parse(localStorage.getItem('loginToken'));
         if(loginToken){
-            axios.get('https://ecomadminapi.azhadev.ir/api/auth/user' , {
-                headers : {
-                    'Authorization' : `Bearer ${loginToken.token}`
-                }
-            }).then(res=>{
-                console.log(res);
-                handleSetLoad(res.status == 200 ? true : false , false , 2000)
-            }).catch(err=>{
-                localStorage.removeItem('loginToken');
-                handleSetLoad(false,false,0);
-            })
+            handleGetUser();
         }
         else{
             handleSetLoad(false,false,0)
