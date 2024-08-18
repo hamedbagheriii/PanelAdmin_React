@@ -1,5 +1,5 @@
 import React from 'react';
-import PaginatedTable from '../../../components/PaginatedTable';
+import PaginatedTable from '../../../components/tableComponent/PaginatedTable';
 import AddColor from './AddColor';
 
 const ColorsTable = () => {

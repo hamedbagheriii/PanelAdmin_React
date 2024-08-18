@@ -17,6 +17,10 @@ const PaginatedTable = ({data , dataInfo , additionField , numOfPage , searchPar
     )
 
 
+    useEffect(() => {
+        setInitData(data)
+    }, [data]);
+
 
     useEffect(() => {
         let pCount = Math.ceil(initData.length / numOfPage);
@@ -34,7 +38,7 @@ const PaginatedTable = ({data , dataInfo , additionField , numOfPage , searchPar
         let end = (currentPage*numOfPage);
 
         setTableData(initData.slice(start , end));
-    }, [currentPage , initData]);
+    }, [currentPage , initData ]);
 
 
 

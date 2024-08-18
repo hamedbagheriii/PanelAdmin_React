@@ -1,8 +1,7 @@
 import React from 'react';
 import '../../../assets/style/UiStyle.css'
 import ModalsContainer from '../../../components/ModalsContainer';
-import BtnModal from '../../../UI/pages/btnModal';
-import PaginatedTable from '../../../components/PaginatedTable';
+import PaginatedTable from '../../../components/tableComponent/PaginatedTable';
 
 const AddAtrrCategory = () => {
     const data = [
