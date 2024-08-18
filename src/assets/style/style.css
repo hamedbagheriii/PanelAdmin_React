@@ -206,10 +206,15 @@ td , th {
     padding: 0;
     z-index: 1039 !important;
 }
+
 #sidebar_section .mini_sidebar{
     width: 85px;
    background: #30353a !important;
    transition: all 300ms ease;
+}
+#sidebar_section .mini_sidebar:hover{
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
 }
 
 #sidebar_section:hover .mini_sidebar.collapsedd{
@@ -233,6 +238,8 @@ td , th {
 
 #sidebar_section .mini_sidebar.expanded{
     width:250px;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
 }
 
 #sidebar_section .mini_sidebar.expanded .hiddenable{
