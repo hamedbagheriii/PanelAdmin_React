@@ -12,7 +12,7 @@ const Logout = () => {
         if (tokenData) {
             axios.get('https://ecomadminapi.azhadev.ir/api/auth/logout' , {
                 headers : {
-                    'Authorization' : `${tokenData.token_type} ${tokenData.token}`
+                    'Authorization' : `Bearer ${tokenData.token}`
                 }
             }).then(res=>{
                 if(res.status == 200){
@@ -25,7 +25,9 @@ const Logout = () => {
                 setLoading(false);
             }).catch(err=>{
                 setLoading(false);
-                Alert('خطا در ارتباط با سرور !' , '' , 'error')
+                if (!tokenData) {
+                    Alert('خطا در ارتباط با سرور !' , '' , 'error')
+                }
             })
         }else{
             setLoading(false);

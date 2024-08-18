@@ -2,6 +2,7 @@ import React from 'react';
 import Login from '../../pages/auth/Login/Login';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { useInLogin } from '../../hook/authHook';
+import Register from '../../pages/auth/Register/Register';
 
 const AuthLayout = () => {
 
@@ -20,6 +21,8 @@ const AuthLayout = () => {
                     <Routes>
                     
                         <Route path='/auth/login' element={<Login/>} />
+
+                        <Route path='/auth/register' element={<Register/>} />
                     
                     </Routes>
                 </div>

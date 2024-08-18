@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import {FastField, Form, Formik } from 'formik';
 import * as Yup from 'yup';
 import AuthFormikControl from '../../../components/authForm/formikComponent/AuthFormikControl';
 import axios from 'axios';
-import swal from 'sweetalert';
 import { Link, useNavigate } from 'react-router-dom';
 import { Alert } from '../../../utils/alert';
 
@@ -11,21 +10,17 @@ import { Alert } from '../../../utils/alert';
 const initialValues = {
     phone : "" ,
     password : "" ,
-    remember : false ,
+    c_password : "" ,
 }
 
 const onSubmit = (values , submitProps , navigate)=>{
-    axios.post('https://ecomadminapi.azhadev.ir/api/auth/login' , {
-        ...values ,
-        remember :values.remember ? 1 : 0
-    }).then(res=>{
+    console.log(values);
+    axios.post('https://ecomadminapi.azhadev.ir/api/auth/register' , {...values} ).then(res=>{
         console.log(res);
         if (res.status === 200) {
-            Alert('با موفقیت وارد شدید .' , '' , 'success')
-            localStorage.setItem('loginToken',JSON.stringify(res.data));
-            if (values.remember) {
-                localStorage.setItem('rememberData',JSON.stringify({...values}));                
-            }
+            Alert('ثبت نام با موفقیت انجام شد .' , '' , 'success')
+            localStorage.removeItem('loginToken');
+            localStorage.removeItem('rememberData');
             submitProps.resetForm();
             navigate('/')
         }else{
@@ -43,34 +38,25 @@ const onSubmit = (values , submitProps , navigate)=>{
 const validationSchema = Yup.object({
     phone : Yup.number().required('لطفا مقداری بنویسید .') ,
     password : Yup.string().required('لطفا مقداری بنویسید .').min(4,'حداقل 4 کاراکتر وارد کنید .') ,
-    remember : Yup.boolean() ,
+    c_password : Yup.string().required('لطفا مقداری بنویسید .').oneOf([Yup.ref('password' , '')] , 'پسرود ها مطابقت ندارند  .') ,
 })
 // ============== initial props ===============
 
 
-const Login = () => {
-    // remData : remember Data
-    const [remData , setRemData] = useState(null)
-    const navigate = useNavigate();
+const Register = () => {
 
-    useEffect(() => {
-        const LocalData = JSON.parse(localStorage.getItem('rememberData'));
-        if (LocalData) {
-            setRemData(LocalData);
-        }
-    }, []);
+    const navigate = useNavigate();
 
     return (
         <>
             <div className='header w-75 mx-auto pt-5 d-flex flex-column border-bottom border-1 pb-4 '>
                 <i className='fa fa-user text-primary mx-auto' style={{fontSize:90}}></i>
-                <span className='mx-auto mt-4 fs-4 fw-bold'>ورود به پنل</span>
+                <span className='mx-auto mt-4 fs-4 fw-bold'>ثبت نام</span>
             </div>
             <Formik
-             initialValues={remData || initialValues}
+             initialValues={initialValues}
              onSubmit={(values , submitProps)=>onSubmit(values , submitProps , navigate)}
              validationSchema={validationSchema}
-             enableReinitialize
              validateOnMount
             >
                 {formik=>{
@@ -81,7 +67,7 @@ const Login = () => {
                             
                             <AuthFormikControl type='password' name='password' control='input' label='رمز عبور' />              
 
-                            <AuthFormikControl type='checkbox' name='remember' control='switch' label='مرا به خاطر بسپار' />              
+                            <AuthFormikControl type='password' name='c_password' control='input' label='تکرار رمز عبور' />              
 
 
                             <div className='d-flex w-100 mt-5'>
@@ -90,12 +76,12 @@ const Login = () => {
                                         <div className="spinner-border text-light mt-1" style={{width:20,height:20}}>
                                             <span className="visually-hidden">Loading...</span>
                                         </div>
-                                    : 'ورود به حساب' }
+                                    : 'ثبت نام' }
                                 </button>
                             </div>
                             <div className='d-flex w-100 mt-4 mb-1'>
-                                <Link to={'/auth/register'} className='mx-auto text-dark fw-bold' style={{fontSize:14,textDecoration:'none'}}>
-                                    حساب کاربری ندارید ؟ <span className='text-primary'>ثبت نام . . .</span>
+                                <Link to={'/auth/login'} className='mx-auto text-dark fw-bold' style={{fontSize:14,textDecoration:'none'}}>
+                                    حساب کاربری دارد ؟ <span className='text-primary'>ورود به حساب . . .</span>
                                 </Link>
                             </div>
                         </Form>
@@ -106,4 +92,4 @@ const Login = () => {
     );
 }
 
-export default Login;
+export default Register;

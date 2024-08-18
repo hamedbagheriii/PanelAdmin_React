@@ -17,7 +17,7 @@ export const useInLogin = ()=>{
         if(loginToken){
             axios.get('https://ecomadminapi.azhadev.ir/api/auth/user' , {
                 headers : {
-                    'Authorization' : `${loginToken.token_type} ${loginToken.token}`
+                    'Authorization' : `Bearer ${loginToken.token}`
                 }
             }).then(res=>{
                 console.log(res);
