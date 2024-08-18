@@ -5,6 +5,7 @@ import AuthFormikControl from '../../../components/authForm/formikComponent/Auth
 import axios from 'axios';
 import swal from 'sweetalert';
 import { useNavigate } from 'react-router-dom';
+import { Alert } from '../../../utils/alert';
 
 // ============== initial props ===============
 const initialValues = {
@@ -20,22 +21,20 @@ const onSubmit = (values , submitProps , navigate)=>{
     }).then(res=>{
         console.log(res);
         if (res.status === 200) {
-            swal('با موفقیت وارد شدید .');
+            Alert('با موفقیت وارد شدید .' , '' , 'success')
             localStorage.setItem('loginToken',JSON.stringify(res.data));
             navigate('/')
+            submitProps.resetForm();
         }else{
-            swal(res.data.message || res.data.phone[0])
+            Alert('یک مشکل به وجود آمده است .' ,
+            `${res.data.message || res.data.phone[0]}`
+            , 'error')
         }
-    }).catch(err=>{
-        console.log(err.data[0]);
-        swal('مشکل در اتصال به سرور .')
-    })
-    
-
-    setTimeout(() => {
-        submitProps.resetForm();
         submitProps.setSubmitting(false);
-    }, 3000);
+    }).catch(err=>{
+        Alert('یک مشکل به وجود آمده است .' , `${err.data[0]}` , 'error')
+        submitProps.setSubmitting(false);
+    })
 }
 
 const validationSchema = Yup.object({

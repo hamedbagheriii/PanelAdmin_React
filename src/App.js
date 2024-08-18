@@ -5,6 +5,7 @@ import AuthLayout from './layouts/auth/AuthLayout';
 import  './assets/style/bootstrap.min.css';
 import  './assets/fontawesome/css/all.css';
 import  './assets/style/style.css';
+import Logout from './pages/auth/Logout/Logout';
 
 
 const App = ()=>{
@@ -13,10 +14,11 @@ const App = ()=>{
     
     return (
         <div className={` App  d-flex align-items-center justify-content-center`}>
-            
             {location.pathname.includes('/auth') ?(
                 <AuthLayout/>
-            ) :
+            ) : location.pathname.includes('/Logout') ? (
+                <Logout/>
+            ) : 
                 <AdminLayout/>
             }
 
