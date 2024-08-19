@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import {FastField, Form, Formik } from 'formik';
 import * as Yup from 'yup';
-import AuthFormikControl from '../../../components/authForm/formikComponent/AuthFormikControl';
+import AuthFormikControl from '../../../components/authForm/AuthFormikControl';
 import axios from 'axios';
 import swal from 'sweetalert';
 import { Link, useNavigate } from 'react-router-dom';

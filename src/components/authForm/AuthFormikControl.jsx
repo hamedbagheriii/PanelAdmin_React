@@ -1,6 +1,6 @@
 import React from 'react';
 import Input from './input';
-import Switch from './Switch';
+import Switch from '../form/formikComponent/Switch';
 
 const AuthFormikControl = (props) => {
     switch (props.control) {

@@ -1,9 +1,81 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import '../../../assets/style/UiStyle.css'
 import ModalsContainer from '../../../components/ModalsContainer';
 import BtnModal from '../../../UI/pages/btnModal';
+import * as Yup from 'yup'
+import { Form, Formik } from 'formik';
+import FormikControl from '../../../components/form/FormikControl';
+import { getCategoriesService } from '../../../services/shop/category';
+import { Alert } from '../../../utils/alert';
+
+
+// ========== initial formik props ==========
+const initialValues = {
+    parent_id : '' ,
+    title  : '' ,
+    descriptions : '' ,
+    image : null ,
+    is_active : true ,
+    show_in_menu : true ,
+}
+
+const onSubmit = (values , submitProps)=>{
+    console.log(values);
+    submitProps.resetForm();
+}
+
+const validationSchema = Yup.object({
+    parent_id : Yup.number() ,
+    title : Yup.string().required('لطفا مقداری بنویسید .').matches(
+        /^[\u0600-\u06FF\sa-zA-Z0-9@!%$?&]+$/,
+        "فقط از حروف و اعداد استفاده شود ."
+      ),
+    description: Yup.string().matches(
+      /^[\u0600-\u06FF\sa-zA-Z0-9@!%$?&]+$/,
+      "فقط از حروف و اعداد استفاده شود ."
+    ),
+    image: Yup.mixed()
+      .test("filesize", "حجم فایل نمیتواند بیشتر 500 کیلوبایت باشد .", (value) =>
+        !value ? true : value.size <= 500 * 1024
+      )
+      .test("format", "فرمت فایل باید jpg باشد .", (value) =>
+        !value ? true : value.type === "image/jpeg"
+      ).nullable(true),
+    is_active: Yup.boolean(),
+    show_in_menu: Yup.boolean(),
+})
+// ========== initial formik props ==========
+
+
+
+
 
 const AddCategory = () => {
+    // ========== inital params ==========
+    const [parents , setParents] = useState([])
+
+    const handleGetParentsCategories = async ()=>{
+        try {
+            const res = await getCategoriesService();
+            
+            if (res.status == 200) {
+                setParents(()=>res.data.data.map(i=>{
+                    return  {id : i.id , value : i.title}
+                })) 
+            }
+            else{
+                Alert('مشکلی پیش آمده است .' , res.data.message , 'error')
+            }
+        } catch (error) {
+            Alert('مشکلی از سمت سرور رخ داده است .' ,'', 'error')
+        }
+    }
+
+    useEffect(() => {
+        handleGetParentsCategories();
+    }, []);
+    // ========== inital params ==========
+
     return (
         <>
             <BtnModal id={`add_product_category_modal`} />
@@ -13,43 +85,70 @@ const AddCategory = () => {
             fullscreen={true}
             title={'افزودن دسته محصولات'}
             >
-                <div className="container modal-Category h-100 pt-3 ">
-                    <div className="row mx-auto align-items-center justify-content-around h-50 gap-2">
-                        <div className="col-12 ">
-                            <div className="input-group mb-3 dir_ltr" >
-                                <select type="text" className="form-control">
-                                    <option value="1">بدون والد</option>
-                                    <option value="1">دسته شماره 1</option>
-                                </select>
-                                <span className="input-group-text w_6rem justify-content-center">دسته والد</span>
+                <Formik
+                    initialValues={initialValues}
+                    onSubmit={onSubmit}
+                    validationSchema={validationSchema}
+                    validateOnMount
+                >
+                    <Form className='mx-auto'>
+                        <div className="container modal-Category h-100 pt-3 ">
+                            <div className="row mx-auto align-items-center justify-content-around h-50 gap-2">
+                                {parents.length ? 
+                                    <FormikControl 
+                                    className=''
+                                    control='select'
+                                    options={parents}
+                                    name='parent_id'
+                                    label='دسته والد'
+                                    />
+                                : null}
+
+                                <FormikControl 
+                                    className=''
+                                    control='input'
+                                    name='title'
+                                    label='عنوان'
+                                    type='text'
+                                    placeholder='عنوان دسته'
+                                />
+
+                                <FormikControl 
+                                    className=''
+                                    control='textarea'
+                                    name='description'
+                                    label='توضیحات'
+                                    type='text'
+                                    placeholder='توضیحات'
+                                />
+   
+                                <FormikControl 
+                                    className=''
+                                    control='file'
+                                    name='image'
+                                    label='تصویر'
+                                    placeholder='تصویر'
+                                />
+
+                                <FormikControl 
+                                    control='switch'
+                                    name='is_active'
+                                    label='وضعیت فعال'
+                                />
+
+                                <FormikControl 
+                                    control='switch'
+                                    name='show_in_menu'
+                                    label='نمایش در منو'
+                                />
                             </div>
                         </div>
-                        <div className="col-12">
-                            <div className="input-group mb-3 dir_ltr" >
-                                <input type="text" className="form-control" placeholder="عنوان دسته"/>
-                                <span className="input-group-text w_6rem justify-content-center">عنوان</span>
-                            </div>
+                        <div className="modal-footer w-100 d-flex justify-content-around" >
+                            <button type="button" className="btn btn-danger modal-btn w-25" data-bs-dismiss="modal">انصراف</button>
+                            <button type='submit' className="btn btn-primary modal-btn w-25">ذخیره</button>
                         </div>
-                        <div className="col-12">
-                            <div className="input-group mb-3 dir_ltr" >
-                                <textarea type="text" className="form-control" placeholder="توضیحات" rows="5"></textarea>
-                                <span className="input-group-text w_6rem justify-content-center">توضیحات</span>
-                            </div>
-                        </div>
-                        <div className="col-12">
-                            <div className="input-group mb-3 dir_ltr">
-                                <input type="file" className="form-control btnsss"  placeholder="تصویر" />
-                                <span className="input-group-text w_6rem justify-content-center">تصویر</span>
-                            </div>
-                        </div>
-                        <div className="col-12 row justify-content-center pb-3">
-                            <div className="form-check form-switch col-6 ">
-                                <label className="form-check-label pointer"  htmlFor="flexSwitchCheckDefault">وضعیت فعال</label>
-                                <input className="form-check-input pointer" type="checkbox" id="flexSwitchCheckDefault"  />
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                    </Form>
+                </Formik>
             </ModalsContainer>
         </>
     );
