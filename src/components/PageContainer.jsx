@@ -1,9 +1,9 @@
 import React from 'react';
 
-const PageContainer = ({title}) => {
+const PageContainer = ({title , styleClass}) => {
     return (
         <div className='flex'>
-            <h4 className="text-center my-3 text-white">{title}</h4>
+            <h4 className={`text-center fw-bolder my-3 mb-4 ${styleClass}`} style={{color:'#fff'}}>{title}</h4>
         </div>
     );
 }

@@ -60,3 +60,18 @@
     color: #000 !important;
 }
 /* ================ pagination ================ */
+
+
+
+/* ================ prevPageBTN ================ */
+.prevPageBTN{
+    position: fixed !important;
+    bottom:30px !important;
+    left:30px !important;
+    height:50px !important;
+    box-shadow: 0 0 10px 2px rgb(24, 16, 16);
+}
+.prevPageBTN button {
+    width: 100px !important;
+}
+/* ================ prevPageBTN ================ */

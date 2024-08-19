@@ -1,7 +1,7 @@
 import axios from "axios"
 import config from './config.json'
 
-const httpService = (url , method , data , params=null )=>{
+const httpService = (url , method , data=null , params=null )=>{
     const tokenInfo = JSON.parse(localStorage.getItem('loginToken'));
 
     return axios({

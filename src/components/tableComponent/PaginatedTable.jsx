@@ -2,7 +2,8 @@ import React, { Fragment, useEffect, useRef, useState } from 'react';
 
 
 
-const PaginatedTable = ({data , dataInfo , additionField , numOfPage , searchParams , targetSearch , children}) => {
+const PaginatedTable = ({data , dataInfo , additionField ,
+     numOfPage , searchParams , targetSearch , children}) => {
     const searchRef = useRef();
 
     const [initData , setInitData] = useState(data);
@@ -19,6 +20,7 @@ const PaginatedTable = ({data , dataInfo , additionField , numOfPage , searchPar
 
     useEffect(() => {
         setInitData(data)
+        setCurrentPage(1)
     }, [data]);
 
 

@@ -16,7 +16,7 @@ import Roles from '../../../pages/Users/Roles/Roles.jsx';
 import Permissions from '../../../pages/Users/Permissions/Permissions.jsx';
 import Questions from '../../../pages/Communication/Questions/Questions.jsx';
 import Comments from '../../../pages/Communication/Comments/Comments.jsx';
-import Logout from '../../../pages/auth/Logout/Logout.jsx';
+import CategoryOutlet from '../../../pages/Shop/Category/categoryOutlet.jsx';
 
 
 const IndexContent = () => {
@@ -35,7 +35,9 @@ const IndexContent = () => {
 
             {/* ====== SHOP ===== */}
 
-            <Route path='/Category' element={<Category/>} />
+            <Route path='/Category' element={<Category/>} >
+                <Route path=':categoryID' element={<CategoryOutlet/>}/>
+            </Route>
 
             <Route path='/Product' element={<Product/>} />
 

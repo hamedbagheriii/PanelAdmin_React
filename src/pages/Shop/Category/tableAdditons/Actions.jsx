@@ -1,14 +1,22 @@
 import React from 'react';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 
 const Actions = ({rowData}) => {
+    const navigate = useNavigate();
+    const params = useParams();
     return (
         <>
             <td>
-                <i className="fas fa-project-diagram text-info mx-1 hoverable_text pointer has_tooltip"
-                title="زیرمجموعه"
-                data-bs-toggle="tooltip"
-                data-bs-placement="top">
-                </i>
+                {!params.categoryID ? (
+                    <i className="fas fa-project-diagram text-info mx-1 hoverable_text pointer has_tooltip"
+                    title="زیرمجموعه"
+                    data-bs-toggle="tooltip"
+                    data-bs-placement="top"
+                    onClick={()=>navigate(`/Category/${rowData.id}` , {state: {parentData : rowData}} )}>
+                    </i>
+                ) : (
+                    null
+                )}
                 <i className="fas fa-edit text-warning mx-1 hoverable_text pointer has_tooltip"
                 title="ویرایش دسته"
                 data-bs-toggle="modal"
