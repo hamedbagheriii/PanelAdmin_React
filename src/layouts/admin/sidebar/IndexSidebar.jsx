@@ -8,11 +8,10 @@ import UsersSidebar from './UsersSidebar';
 import CommunicationSidebar from './CommunicationSidebar';
 
 const IndexSidebar = () => {
-    const {showSlidebar} = useContext(adminContext)
-
+    const {showSlidebar , showSlidebarSM} = useContext(adminContext)
     return (
-        <section id="sidebar_section">
-            <div className={`mini_sidebar pb-4 collapsedd bg-dark h-100 ${showSlidebar ? 'expanded' : null}`}>
+        <section id="sidebar_section" className={`${showSlidebarSM ? 'activeSM' : null}`}>
+            <div className={`mini_sidebar pb-4 collapsedd bg-dark h-100 ${showSlidebar ?  'expanded' : null}`}>
                 <ul className="p-0 m-0 mx-auto">
 
                         <Avatar userName={'قاسم بساکی'} 

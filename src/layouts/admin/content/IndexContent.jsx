@@ -20,14 +20,14 @@ import CategoryOutlet from '../../../pages/Shop/Category/categoryOutlet.jsx';
 
 
 const IndexContent = () => {
-    const {showSlidebar} = useContext(adminContext)
+    const {showSlidebar , showSlidebarSM} = useContext(adminContext)
     
   
 
     
     return (
         <section id="content_section" className={` py-3 px-3
-        ${showSlidebar ? 'with_sidebar' : null}`}>
+        ${showSlidebar ? 'with_sidebar' : showSlidebarSM ? 'activeSM' : null}`}>
             
            <Routes>
             
