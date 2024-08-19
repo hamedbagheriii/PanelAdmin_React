@@ -22,12 +22,7 @@ const CategoryTable = () => {
                     setLoaing(false)
                 }, 500);
             }
-            else{
-                Alert('مشکلی پیش آمده است .' , res.data.message , 'error')
-            }
-        } catch (error) {
-            Alert('مشکلی از سمت سرور رخ داده است .' ,'', 'error')
-        }
+        } catch (error) {}
     }
     useEffect(() => {
         handleGetCategories()
