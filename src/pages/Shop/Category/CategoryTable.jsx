@@ -5,7 +5,8 @@ import { getCategoriesService } from '../../../services/shop/category';
 import { Alert } from '../../../utils/alert';
 import IsActive from './tableAdditons/isActive';
 import Actions from './tableAdditons/Actions';
-import { useLocation, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
+import { convertDate } from '../../../utils/convertDate';
 
 const CategoryTable = () => {
     const params = useParams();
@@ -19,7 +20,7 @@ const CategoryTable = () => {
                 setData(res.data.data);
                 setTimeout(() => {
                     setLoaing(false)
-                }, 1000);
+                }, 500);
             }
             else{
                 Alert('مشکلی پیش آمده است .' , res.data.message , 'error')
@@ -37,10 +38,19 @@ const CategoryTable = () => {
         {field : 'id' , title : '#'},
         {field : 'title' , title : 'عنوان'},
         {field : 'parent_id' , title : 'والد'},
-        {field : 'created_at' , title : 'تاریخ ثبت'},
     ]
     
     const additionField = [
+        // تبدیل تاریخ میلادی به شمسی
+        {   
+            field : 'created_at' ,
+            title : 'تاریخ ثبت' ,
+            element : (itemId ,rowData)=> (
+                <td>
+                    {convertDate(rowData.created_at)}
+                </td>
+            )
+        } ,
         {
             field : 'is_active' ,
             title : 'وضعیت' ,
