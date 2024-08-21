@@ -6,21 +6,24 @@ import { getUserService } from "../services/auth";
 export const useInLogin = ()=>{
     const [isLogin , setIsLogin] = useState(false);
     const [loading , setLoading] = useState(true);
+    const [isAdmin , setIsAdmin] = useState(false);
 
-    const handleSetLoad = (val1,val2,time)=>{
+    const handleSetLoad = (val1,val2,val3,time)=>{
         setTimeout(() => {
             setIsLogin(val1);
             setLoading(val2);
+            setIsAdmin(val3)
         }, time);
     } 
 
     const handleGetUser = async ()=>{
         try {
             const res = await getUserService();
-            handleSetLoad(res.status == 200 ? true : false , false , 2000)
+            handleSetLoad((res.status == 200 ? true : false ) , false ,
+            (res.data.roles[0] ? true : false) , 2000)
         } catch (error) {
             localStorage.removeItem('loginToken');
-            handleSetLoad(false,false,0);
+            handleSetLoad(false,false,false,0);
         }
     }
 
@@ -30,11 +33,11 @@ export const useInLogin = ()=>{
             handleGetUser();
         }
         else{
-            handleSetLoad(false,false,0)
+            handleSetLoad(false,false,false,0)
         }
     }, []);
 
 
 
-    return {loading , isLogin}
+    return {loading , isLogin , isAdmin}
 }
