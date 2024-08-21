@@ -12,6 +12,7 @@ const CategoryTable = () => {
     const params = useParams();
     const [data , setData] = useState([]);
     const [isLodaing , setLoaing] = useState(true);
+    const [forceReander , setForceReander] = useState(0);
 
     const handleGetCategories = async ()=>{
         try {
@@ -24,10 +25,11 @@ const CategoryTable = () => {
             }
         } catch (error) {}
     }
+
     useEffect(() => {
         handleGetCategories()
         setLoaing(true)
-    }, [params]);
+    }, [params , forceReander]);
 
     const dataInfo = [
         {field : 'id' , title : '#'},
@@ -70,7 +72,7 @@ const CategoryTable = () => {
                 <PaginatedTable data={data} dataInfo={dataInfo} additionField={additionField}
                  searchParams={searchParams} numOfPage={4}>
                     {/* --- Modal add Category --- */}
-                    <AddCategory/>
+                    <AddCategory setForceReander={setForceReander} />
                 </PaginatedTable>
             : 
                 <div className='w-100 mt-2'>

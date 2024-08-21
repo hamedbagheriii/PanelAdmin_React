@@ -5,8 +5,9 @@ import BtnModal from '../../../UI/pages/btnModal';
 import * as Yup from 'yup'
 import { Form, Formik } from 'formik';
 import FormikControl from '../../../components/form/FormikControl';
-import { getCategoriesService } from '../../../services/shop/category';
+import { createNewCategoryService, getCategoriesService } from '../../../services/shop/category';
 import { Alert } from '../../../utils/alert';
+import { useNavigate } from 'react-router-dom';
 
 
 // ========== initial formik props ==========
@@ -19,9 +20,23 @@ const initialValues = {
     show_in_menu : true ,
 }
 
-const onSubmit = (values , submitProps)=>{
-    console.log(values);
-    submitProps.resetForm();
+const onSubmit = async (values , submitProps , setForceReander)=>{
+    try {
+        values = {...values ,
+        is_active : values.is_active ? 1 : 0 ,
+        show_in_menu : values.show_in_menu ? 1 : 0} ;
+
+        const res = await createNewCategoryService(values);
+        if(res.status == 201){
+            Alert(`دسته بندی ${values.title} 
+            با موفقیت ایجاد شد .` , '' , 'success');
+    
+        submitProps.resetForm();
+        setForceReander(lastState=>lastState+1);
+        }
+    } catch (error) {
+        console.log(error);
+    }
 }
 
 const validationSchema = Yup.object({
@@ -50,9 +65,10 @@ const validationSchema = Yup.object({
 
 
 
-const AddCategory = () => {
+const AddCategory = ({setForceReander}) => {
     // ========== inital params ==========
-    const [parents , setParents] = useState([])
+    const [parents , setParents] = useState([]);
+    const navigate = useNavigate();
 
     const handleGetParentsCategories = async ()=>{
         try {
@@ -87,7 +103,7 @@ const AddCategory = () => {
             >
                 <Formik
                     initialValues={initialValues}
-                    onSubmit={onSubmit}
+                    onSubmit={(values , submitProps)=>onSubmit(values , submitProps , setForceReander)}
                     validationSchema={validationSchema}
                     validateOnMount
                 >
