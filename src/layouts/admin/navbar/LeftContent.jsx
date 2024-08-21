@@ -1,9 +1,16 @@
 import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { Confirm } from '../../../utils/confirm';
 
 const LeftContent = () => {
     const navigate = useNavigate();
+
+    const handleLogout = async ()=> {
+        const res = await Confirm("آیا میخواهید از حساب خارج شوید ؟");
+        if (res) {
+            navigate('/Logout')
+        }
+    }
 
     return (
         <div className="left_content d-flex flex-row-reverse">
@@ -23,7 +30,8 @@ const LeftContent = () => {
                     <span className="dropdown-item w-100 d-flex justify-content-start" href="#">پیام ها</span>
                 </Link>
                 <hr/>
-                <Link onClick={()=>Confirm({navigate})}  className="d-flex justify-content-center dropdown-item py-0 align-items-center px-2">
+                <Link onClick={handleLogout}  
+                className="d-flex justify-content-center dropdown-item py-0 align-items-center px-2">
                     <i className="fas fa-power-off"></i>
                     <span className="dropdown-item w-100 d-flex justify-content-start" href="#">خروج</span>
                 </Link>
