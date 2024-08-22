@@ -76,6 +76,7 @@
     left:30px !important;
     height:50px !important;
     box-shadow: 0 0 10px 2px rgb(24, 16, 16);
+    z-index: 2000 !important;
 }
 .prevPageBTN button {
     width: 100px !important;

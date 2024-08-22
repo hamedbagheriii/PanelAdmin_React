@@ -240,7 +240,7 @@ td , th {
    background: #30353a !important;
    transition: all 300ms ease;
 }
-#sidebar_section .mini_sidebar:hover{
+#sidebar_section .mini_sidebar{
     overflow-y: auto !important;
     overflow-x: hidden !important;
 }
