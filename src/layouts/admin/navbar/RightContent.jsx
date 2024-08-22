@@ -3,7 +3,8 @@ import { adminContext } from '../../../context/adminLayoutContext';
 import { Link } from 'react-router-dom';
 
 const RightContent = () => {
-    const {showSlidebar , setShowSlidebar , showSlidebarSM , setShowSlidebarSM} = useContext(adminContext)
+    const {showSlidebar , setShowSlidebar ,
+    showSlidebarSM , setShowSlidebarSM} = useContext(adminContext)
 
     return (
         <div className="right_content h-100 py-1 bg-dark">

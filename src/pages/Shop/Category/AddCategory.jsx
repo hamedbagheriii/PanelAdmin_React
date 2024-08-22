@@ -7,7 +7,8 @@ import { Form, Formik } from 'formik';
 import FormikControl from '../../../components/form/FormikControl';
 import { createNewCategoryService, getCategoriesService } from '../../../services/shop/category';
 import { Alert } from '../../../utils/alert';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import SubmitBTN from '../../../components/form/SubmitBTN';
 
 
 // ========== initial formik props ==========
@@ -20,7 +21,7 @@ const initialValues = {
     show_in_menu : true ,
 }
 
-const onSubmit = async (values , submitProps , setForceReander)=>{
+const onSubmit = async (values , submitProps , navigate )=>{
     try {
         values = {...values ,
         is_active : values.is_active ? 1 : 0 ,
@@ -28,11 +29,12 @@ const onSubmit = async (values , submitProps , setForceReander)=>{
 
         const res = await createNewCategoryService(values);
         if(res.status == 201){
+        setTimeout(() => {
             Alert(`دسته بندی ${values.title} 
             با موفقیت ایجاد شد .` , '' , 'success');
-    
-        submitProps.resetForm();
-        setForceReander(lastState=>lastState+1);
+            submitProps.resetForm();
+            navigate(`/Category`)
+        }, 500);
         }
     } catch (error) {
         console.log(error);
@@ -65,10 +67,11 @@ const validationSchema = Yup.object({
 
 
 
-const AddCategory = ({setForceReander}) => {
+const AddCategory = () => {
     // ========== inital params ==========
     const [parents , setParents] = useState([]);
     const navigate = useNavigate();
+    const params = useParams();
 
     const handleGetParentsCategories = async ()=>{
         try {
@@ -79,11 +82,8 @@ const AddCategory = ({setForceReander}) => {
                     return  {id : i.id , value : i.title}
                 })) 
             }
-            else{
-                Alert('مشکلی پیش آمده است .' , res.data.message , 'error')
-            }
+            // ارور ها در http تنظیم شده است .
         } catch (error) {
-            Alert('مشکلی از سمت سرور رخ داده است .' ,'', 'error')
         }
     }
 
@@ -103,67 +103,68 @@ const AddCategory = ({setForceReander}) => {
             >
                 <Formik
                     initialValues={initialValues}
-                    onSubmit={(values , submitProps)=>onSubmit(values , submitProps , setForceReander)}
+                    onSubmit={(values , submitProps)=>onSubmit(values , submitProps , navigate )}
                     validationSchema={validationSchema}
-                    validateOnMount
+                    validateOnMount={true}
                 >
-                    <Form className='mx-auto'>
-                        <div className="container modal-Category h-100 pt-3 ">
-                            <div className="row mx-auto align-items-center justify-content-around h-50 gap-2">
-                                {parents.length ? 
+                {(formik)=>{
+                    return (
+                        <Form className='mx-auto'>
+                            <div className="container modal-Category h-100 pt-3 ">
+                                <div className="row mx-auto align-items-center justify-content-around h-50 gap-2">
+                                    {parents.length ? 
+                                        <FormikControl 
+                                        className=''
+                                        control='select'
+                                        options={parents}
+                                        name='parent_id'
+                                        label='دسته والد'
+                                        />
+                                    : null}
+
                                     <FormikControl 
-                                    className=''
-                                    control='select'
-                                    options={parents}
-                                    name='parent_id'
-                                    label='دسته والد'
+                                        className=''
+                                        control='input'
+                                        name='title'
+                                        label='عنوان'
+                                        type='text'
+                                        placeholder='عنوان دسته'
                                     />
-                                : null}
 
-                                <FormikControl 
-                                    className=''
-                                    control='input'
-                                    name='title'
-                                    label='عنوان'
-                                    type='text'
-                                    placeholder='عنوان دسته'
-                                />
+                                    <FormikControl 
+                                        className=''
+                                        control='textarea'
+                                        name='description'
+                                        label='توضیحات'
+                                        type='text'
+                                        placeholder='توضیحات'
+                                    />
+    
+                                    <FormikControl 
+                                        className=''
+                                        control='file'
+                                        name='image'
+                                        label='تصویر'
+                                        placeholder='تصویر'
+                                    />
 
-                                <FormikControl 
-                                    className=''
-                                    control='textarea'
-                                    name='description'
-                                    label='توضیحات'
-                                    type='text'
-                                    placeholder='توضیحات'
-                                />
-   
-                                <FormikControl 
-                                    className=''
-                                    control='file'
-                                    name='image'
-                                    label='تصویر'
-                                    placeholder='تصویر'
-                                />
+                                    <FormikControl 
+                                        control='switch'
+                                        name='is_active'
+                                        label='وضعیت فعال'
+                                    />
 
-                                <FormikControl 
-                                    control='switch'
-                                    name='is_active'
-                                    label='وضعیت فعال'
-                                />
-
-                                <FormikControl 
-                                    control='switch'
-                                    name='show_in_menu'
-                                    label='نمایش در منو'
-                                />
+                                    <FormikControl 
+                                        control='switch'
+                                        name='show_in_menu'
+                                        label='نمایش در منو'
+                                    />
+                                </div>
                             </div>
-                        </div>
-                        <div className="modal-footer w-100 d-flex justify-content-around" >
-                            <button type="button" className="btn btn-danger modal-btn w-25" data-bs-dismiss="modal">انصراف</button>
-                            <button type='submit' className="btn btn-primary modal-btn w-25">ذخیره</button>
-                        </div>
-                    </Form>
+                            <SubmitBTN formik={formik} />
+                        </Form>
+                    )
+                }}
                 </Formik>
             </ModalsContainer>
         </>

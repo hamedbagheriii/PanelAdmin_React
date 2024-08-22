@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import PaginatedTable from '../../../components/tableComponent/PaginatedTable';
 import AddCategory from './AddCategory';
 import { getCategoriesService } from '../../../services/shop/category';
-import { Alert } from '../../../utils/alert';
 import IsActive from './tableAdditons/isActive';
 import Actions from './tableAdditons/Actions';
 import { useParams } from 'react-router-dom';
@@ -11,25 +10,28 @@ import { convertDate } from '../../../utils/convertDate';
 const CategoryTable = () => {
     const params = useParams();
     const [data , setData] = useState([]);
-    const [isLodaing , setLoaing] = useState(true);
-    const [forceReander , setForceReander] = useState(0);
+    const [isLoading , setLoading] = useState(true);
 
     const handleGetCategories = async ()=>{
         try {
             const res = await getCategoriesService(params.categoryID);
             if (res.status == 200) {
                 setData(res.data.data);
-                setTimeout(() => {
-                    setLoaing(false)
-                }, 500);
             }
-        } catch (error) {}
+        } catch (error) {
+            // set error in httpService
+            // finally : یعنی هروقت tryCatch تمام شد در هر صورت این رو اجرا کن
+        } finally {
+            setTimeout(() => {
+                setLoading(false)
+            }, 500);
+        }
     }
 
     useEffect(() => {
         handleGetCategories()
-        setLoaing(true)
-    }, [params , forceReander]);
+        setLoading(true)
+    }, [params]);
 
     const dataInfo = [
         {field : 'id' , title : '#'},
@@ -68,18 +70,11 @@ const CategoryTable = () => {
 
     return (
         <>
-            {!isLodaing ? 
-                <PaginatedTable data={data} dataInfo={dataInfo} additionField={additionField}
-                 searchParams={searchParams} numOfPage={4}>
-                    {/* --- Modal add Category --- */}
-                    <AddCategory setForceReander={setForceReander} />
-                </PaginatedTable>
-            : 
-                <div className='w-100 mt-2'>
-                    <hr className='bg-white w-75 mx-auto my-5' />
-                    <div className='w-100 fs-6 fw-bold alert text-center alert-primary' >لطفا کمی صبر کنید . . .</div>
-                </div>
-            }
+            <PaginatedTable data={data} dataInfo={dataInfo} additionField={additionField}
+             searchParams={searchParams} numOfPage={4} isLoading={isLoading}>
+                {/* --- Modal add Category --- */}
+                <AddCategory  />
+            </PaginatedTable>
         </>
     );
 }
