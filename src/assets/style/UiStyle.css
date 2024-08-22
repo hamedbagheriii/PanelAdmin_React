@@ -25,13 +25,15 @@
     max-width: 700px !important;
 }
 
-.modal-body .input-group-text{
+.modal-body .input-group-text ,
+.input_dark .input-group-text{
     background: #30353a !important;
     color: #0D6EFD !important;
     z-index: 1040 !important;
 }
 
-.modal-body .form-control{
+.modal-body .form-control ,
+.input_dark .form-control{
     background: #212529 !important;
     color: #fff;
     box-shadow: none !important;
