@@ -70,6 +70,7 @@ const validationSchema = Yup.object({
 const AddCategory = () => {
     // ========== inital params ==========
     const [parents , setParents] = useState([]);
+    const [reInitialValues , setReInitialValues] = useState(null);
     const navigate = useNavigate();
     const params = useParams();
 
@@ -90,6 +91,18 @@ const AddCategory = () => {
     useEffect(() => {
         handleGetParentsCategories();
     }, []);
+
+    useEffect(() => {
+        if(params.categoryID){
+            setReInitialValues({
+                ...initialValues ,
+                parent_id : params.categoryID
+            });
+        }
+        else{
+            setReInitialValues(null);
+        }
+    }, [params.categoryID]);
     // ========== inital params ==========
 
     return (
@@ -102,10 +115,11 @@ const AddCategory = () => {
             title={'افزودن دسته محصولات'}
             >
                 <Formik
-                    initialValues={initialValues}
+                    initialValues={reInitialValues || initialValues}
                     onSubmit={(values , submitProps)=>onSubmit(values , submitProps , navigate )}
                     validationSchema={validationSchema}
                     validateOnMount={true}
+                    enableReinitialize
                 >
                 {(formik)=>{
                     return (
