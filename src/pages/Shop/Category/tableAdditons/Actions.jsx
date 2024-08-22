@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { categoryContext } from '../../../../context/categoryContext';
 
-const Actions = ({rowData}) => {
+const Actions = ({rowData , handleDeleteCategory}) => {
     const navigate = useNavigate();
     const params = useParams();
     const {setEditId} = useContext(categoryContext);
@@ -35,7 +35,8 @@ const Actions = ({rowData}) => {
                 <i className="fas fa-times text-danger mx-1 hoverable_text pointer has_tooltip"
                 title="حذف دسته"
                 data-bs-toggle="tooltip"
-                data-bs-placement="top">
+                data-bs-placement="top"
+                onClick={()=>handleDeleteCategory(rowData)}>
                 </i>
             </td>
         </>

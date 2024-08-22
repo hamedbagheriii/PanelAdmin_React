@@ -19,5 +19,6 @@ export const Confirm =  (title)=>{
         });
         return false;
       }
-    }))
+    })
+  )
 }

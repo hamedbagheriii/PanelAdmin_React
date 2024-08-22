@@ -1,16 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import PaginatedTable from '../../../components/tableComponent/PaginatedTable';
 import AddCategory from './AddCategory';
-import { getCategoriesService } from '../../../services/shop/category';
+import { deleteCategoryService, getCategoriesService } from '../../../services/shop/category';
 import IsActive from './tableAdditons/isActive';
 import Actions from './tableAdditons/Actions';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { convertDate } from '../../../utils/convertDate';
+import { Confirm } from '../../../utils/confirm';
+import { Alert } from '../../../utils/alert';
 
 const CategoryTable = () => {
     const params = useParams();
     const [data , setData] = useState([]);
     const [isLoading , setLoading] = useState(true);
+    const navigate = useNavigate();
 
     const handleGetCategories = async ()=>{
         try {
@@ -25,6 +28,23 @@ const CategoryTable = () => {
             setTimeout(() => {
                 setLoading(false)
             }, 500);
+        }
+    }
+
+    const handleDeleteCategory = async (rowData)=>{
+        if (await Confirm(`آیا از حذف دسته بندی ${rowData.title} مطمعن هستید ؟`)) {
+            try {
+                const res = await deleteCategoryService(rowData.id);
+                if(res.status == 200){
+                    setTimeout(() => {
+                        Alert(`دسته بندی ${rowData.title} 
+                        با موفقیت حذف شد .` , '' , 'success');
+                        navigate(`/Category`)
+                    }, 0);
+                }
+            } catch (error) {
+                // set error in httpService
+            }
         }
     }
 
@@ -58,7 +78,8 @@ const CategoryTable = () => {
         {
             field : 'Operation' ,
             title : 'عملیات' ,
-            element : (itemId , rowData)=> <Actions rowData={rowData} />
+            element : (itemId , rowData)=> <Actions rowData={rowData}
+            handleDeleteCategory={handleDeleteCategory} />
         } ,
     ]
 
