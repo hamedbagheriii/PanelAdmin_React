@@ -20,7 +20,7 @@ const AddCategory = () => {
     const navigate = useNavigate();
     const params = useParams();
 
-    
+    // This is for get parents categories
     const handleGetParentsCategories = async ()=>{
         try {
             const res = await getCategoriesService();
@@ -36,6 +36,7 @@ const AddCategory = () => {
         }
     }
 
+    // This is for get Single category Data
     const handleGetSingleCategory = async ()=>{
         try {
             const res = await getSingleCategoryService(editId);
@@ -48,10 +49,12 @@ const AddCategory = () => {
         }
     }
 
+    // This is for calling get parents Cateogry function
     useEffect(() => {
         handleGetParentsCategories();
     }, []);
 
+    // This is for set ReInitialValues
     useEffect(() => {
         if (editCategory) {
             setReInitialValues({
@@ -75,6 +78,7 @@ const AddCategory = () => {
         }
     }, [params.categoryID , editCategory]);
 
+    // This is for calling get Single Category function
     useEffect(() => {
         if (editId) {
             handleGetSingleCategory();
@@ -84,6 +88,7 @@ const AddCategory = () => {
         }
     }, [editId]);
     // ========== inital params ==========
+
     return (
         <>
             <BtnModal id={`add_product_category_modal`} setEditId={setEditId} />

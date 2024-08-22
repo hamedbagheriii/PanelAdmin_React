@@ -13,7 +13,7 @@ const SubmitBTN = ({formik , setEditId}) => {
             <button type="button" className="btn btn-danger modal-btn w-25"
             onClick={()=>handleSetEditId(200)} data-bs-dismiss="modal">انصراف</button>
             <button type='submit' className="btn btn-primary modal-btn w-25"
-            disabled={formik.isSubmitting || !(formik.dirty || formik.isValid)}>
+            disabled={formik.isSubmitting || (!formik.dirty || !formik.isValid)}>
                 {formik.isSubmitting ?
                     <SpinnerLoad colorClass={'text-white'} inline={true} isSmall />
                 : 'ذخیره'}

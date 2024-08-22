@@ -1,8 +1,7 @@
 import React from 'react';
 import CategoryTable from './CategoryTable';
 import PageContainer from '../../../components/PageContainer';
-import AddAtrrCategory from './AddAtrrCategory';
-import { Outlet, useLocation, useOutlet, useParams } from 'react-router-dom';
+import { Outlet} from 'react-router-dom';
 import CategoryContextContainer from '../../../context/categoryContext';
 
 const Category = () => {
@@ -15,8 +14,6 @@ const Category = () => {
         
                 {/* --- page table --- */}
                 <CategoryTable/>
-        
-                <AddAtrrCategory />
             </div>  
         </CategoryContextContainer>
     );

@@ -15,6 +15,7 @@ const CategoryTable = () => {
     const [isLoading , setLoading] = useState(true);
     const navigate = useNavigate();
 
+    // get categories or get category
     const handleGetCategories = async ()=>{
         try {
             const res = await getCategoriesService(params.categoryID);
@@ -31,6 +32,7 @@ const CategoryTable = () => {
         }
     }
 
+    // delete cateogry
     const handleDeleteCategory = async (rowData)=>{
         if (await Confirm(`آیا از حذف دسته بندی ${rowData.title} مطمعن هستید ؟`)) {
             try {
@@ -48,11 +50,13 @@ const CategoryTable = () => {
         }
     }
 
+    // This is for calling functions
     useEffect(() => {
         handleGetCategories()
         setLoading(true)
     }, [params]);
 
+    // This is for inital props =>>>>
     const dataInfo = [
         {field : 'id' , title : '#'},
         {field : 'title' , title : 'عنوان'},
@@ -88,7 +92,8 @@ const CategoryTable = () => {
         placeholder : 'قسمتی از عنوان را وارد کنید .' ,
         searchField : 'title'
     }
-
+    // This is for inital props <<<<=
+    
     return (
         <>
             <PaginatedTable data={data} dataInfo={dataInfo} additionField={additionField}

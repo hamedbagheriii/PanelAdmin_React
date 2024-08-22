@@ -27,11 +27,13 @@ const Actions = ({rowData , handleDeleteCategory}) => {
                 data-bs-placement="top"
                 onClick={()=>setEditId(rowData.id)}>
                 </i>
-                <i className="fas fa-plus text-success mx-1 hoverable_text pointer has_tooltip"
-                title="افزودن ویژگی"
-                data-bs-placement="top"
-                data-bs-toggle="modal" data-bs-target="#add_product_category_attr_modal">
-                </i>
+                {params.categoryID ? (
+                    <i className="fas fa-receipt text-success mx-1 hoverable_text pointer has_tooltip"
+                    title="افزودن ویژگی"
+                    data-bs-placement="top"
+                    onClick={()=>navigate(`/Category/${rowData.id}/attributes` , {state: {categoryData : rowData}} )}>
+                    </i>
+                ) : null}
                 <i className="fas fa-times text-danger mx-1 hoverable_text pointer has_tooltip"
                 title="حذف دسته"
                 data-bs-toggle="tooltip"
