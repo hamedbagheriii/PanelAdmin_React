@@ -1,79 +1,26 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import '../../../assets/style/UiStyle.css'
 import ModalsContainer from '../../../components/ModalsContainer';
 import BtnModal from '../../../UI/pages/btnModal';
-import * as Yup from 'yup'
 import { Form, Formik } from 'formik';
 import FormikControl from '../../../components/form/FormikControl';
-import { createNewCategoryService, getCategoriesService } from '../../../services/shop/category';
-import { Alert } from '../../../utils/alert';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { getCategoriesService, getSingleCategoryService } from '../../../services/shop/category';
+import {useNavigate, useParams } from 'react-router-dom';
 import SubmitBTN from '../../../components/form/SubmitBTN';
-
-
-// ========== initial formik props ==========
-const initialValues = {
-    parent_id : '' ,
-    title  : '' ,
-    descriptions : '' ,
-    image : null ,
-    is_active : true ,
-    show_in_menu : true ,
-}
-
-const onSubmit = async (values , submitProps , navigate )=>{
-    try {
-        values = {...values ,
-        is_active : values.is_active ? 1 : 0 ,
-        show_in_menu : values.show_in_menu ? 1 : 0} ;
-
-        const res = await createNewCategoryService(values);
-        if(res.status == 201){
-        setTimeout(() => {
-            Alert(`دسته بندی ${values.title} 
-            با موفقیت ایجاد شد .` , '' , 'success');
-            submitProps.resetForm();
-            navigate(`/Category`)
-        }, 500);
-        }
-    } catch (error) {
-        console.log(error);
-    }
-}
-
-const validationSchema = Yup.object({
-    parent_id : Yup.number() ,
-    title : Yup.string().required('لطفا مقداری بنویسید .').matches(
-        /^[\u0600-\u06FF\sa-zA-Z0-9@!%$?&]+$/,
-        "فقط از حروف و اعداد استفاده شود ."
-      ),
-    description: Yup.string().matches(
-      /^[\u0600-\u06FF\sa-zA-Z0-9@!%$?&]+$/,
-      "فقط از حروف و اعداد استفاده شود ."
-    ),
-    image: Yup.mixed()
-      .test("filesize", "حجم فایل نمیتواند بیشتر 500 کیلوبایت باشد .", (value) =>
-        !value ? true : value.size <= 500 * 1024
-      )
-      .test("format", "فرمت فایل باید jpg باشد .", (value) =>
-        !value ? true : value.type === "image/jpeg"
-      ).nullable(true),
-    is_active: Yup.boolean(),
-    show_in_menu: Yup.boolean(),
-})
-// ========== initial formik props ==========
-
-
-
+import { categoryContext } from '../../../context/categoryContext';
+import { initialValues, onSubmit, validationSchema } from './core';
 
 
 const AddCategory = () => {
     // ========== inital params ==========
     const [parents , setParents] = useState([]);
     const [reInitialValues , setReInitialValues] = useState(null);
+    const [editCategory , setEditCategory] = useState(null);
+    const {editId , setEditId} = useContext(categoryContext);
     const navigate = useNavigate();
     const params = useParams();
 
+    
     const handleGetParentsCategories = async ()=>{
         try {
             const res = await getCategoriesService();
@@ -84,7 +31,20 @@ const AddCategory = () => {
                 })) 
             }
             // ارور ها در http تنظیم شده است .
+        }
+        catch (error) {
+        }
+    }
+
+    const handleGetSingleCategory = async ()=>{
+        try {
+            const res = await getSingleCategoryService(editId);
+            if (res.status == 200) {
+                const oldCategory = res.data.data;
+                setEditCategory(oldCategory);
+            }
         } catch (error) {
+            // set error in httpService
         }
     }
 
@@ -93,7 +53,18 @@ const AddCategory = () => {
     }, []);
 
     useEffect(() => {
-        if(params.categoryID){
+        if (editCategory) {
+            setReInitialValues({
+                // ' ' به معنی ولیو خالی است که در سلکلت ما ولیو خالی را به عنوان ایتم اول ست کردیم
+                parent_id : editCategory.parent_id || ' ',
+                title  : editCategory.title  ,
+                image : null ,
+                descriptions : editCategory.descriptions ,
+                is_active : (editCategory.is_active ? true : false) ,
+                show_in_menu : (editCategory.show_in_menu ? true : false) ,
+            })
+        }
+        else if(params.categoryID){
             setReInitialValues({
                 ...initialValues ,
                 parent_id : params.categoryID
@@ -102,21 +73,30 @@ const AddCategory = () => {
         else{
             setReInitialValues(null);
         }
-    }, [params.categoryID]);
-    // ========== inital params ==========
+    }, [params.categoryID , editCategory]);
 
+    useEffect(() => {
+        if (editId) {
+            handleGetSingleCategory();
+        }
+        else{
+            setEditCategory(null);
+        }
+    }, [editId]);
+    // ========== inital params ==========
     return (
         <>
-            <BtnModal id={`add_product_category_modal`} />
+            <BtnModal id={`add_product_category_modal`} setEditId={setEditId} />
 
             <ModalsContainer
             id={'add_product_category_modal'}
             fullscreen={true}
-            title={'افزودن دسته محصولات'}
+            setEditId={setEditId}
+            title={`${editId ? 'ویرایش' : 'افزودن'} دسته ${editCategory ? editCategory.title : 'محصولات'}`}
             >
                 <Formik
                     initialValues={reInitialValues || initialValues}
-                    onSubmit={(values , submitProps)=>onSubmit(values , submitProps , navigate )}
+                    onSubmit={(values , submitProps)=>onSubmit(values , submitProps , navigate , editId)}
                     validationSchema={validationSchema}
                     validateOnMount={true}
                     enableReinitialize
@@ -154,13 +134,15 @@ const AddCategory = () => {
                                         placeholder='توضیحات'
                                     />
     
-                                    <FormikControl 
+                                    {!editId ? 
+                                        <FormikControl 
                                         className=''
                                         control='file'
                                         name='image'
                                         label='تصویر'
                                         placeholder='تصویر'
-                                    />
+                                        /> 
+                                    : null }
 
                                     <FormikControl 
                                         control='switch'
@@ -175,7 +157,7 @@ const AddCategory = () => {
                                     />
                                 </div>
                             </div>
-                            <SubmitBTN formik={formik} />
+                            <SubmitBTN formik={formik} setEditId={setEditId}/>
                         </Form>
                     )
                 }}
