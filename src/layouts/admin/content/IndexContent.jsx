@@ -17,7 +17,7 @@ import Permissions from '../../../pages/Users/Permissions/Permissions.jsx';
 import Questions from '../../../pages/Communication/Questions/Questions.jsx';
 import Comments from '../../../pages/Communication/Comments/Comments.jsx';
 import CategoryOutlet from '../../../pages/Shop/Category/categoryOutlet.jsx';
-import AddAtrrCategory from '../../../pages/Shop/Category/attr/AddAtrrCategory.jsx';
+import AtrrCategory from '../../../pages/Shop/Category/attr/AtrrCategory.jsx';
 
 
 const IndexContent = () => {
@@ -39,7 +39,7 @@ const IndexContent = () => {
             <Route path='/Category' element={<Category/>} >
                 <Route path=':categoryID' element={<CategoryOutlet/>}/>
             </Route>
-            <Route path='/Category/:categoryID/attributes' element={<AddAtrrCategory/>}/>
+            <Route path='/Category/:categoryID/attributes' element={<AtrrCategory/>}/>
 
 
             <Route path='/Product' element={<Product/>} />

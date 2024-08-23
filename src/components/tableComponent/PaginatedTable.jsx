@@ -26,6 +26,7 @@ const PaginatedTable = ({data , dataInfo , additionField ,
 
 
     useEffect(() => {
+        setCurrentPage(1);
         let pCount = Math.ceil(initData.length / numOfPage);
         pCount = (pCount === 0 ? 1 : pCount);
         setPageCount(pCount);

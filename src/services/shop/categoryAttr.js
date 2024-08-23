@@ -7,3 +7,11 @@ export const getCategoriesAtrrsService = (cateogryId)=>{
 export const addCategoryAtrrsService = (cateogryId , data)=>{
     return httpService(`/admin/categories/${cateogryId}/attributes`,'post' , data)
 }
+
+export const getOneCategoryAtrrService = (cateogryId)=>{
+    return httpService(`/admin/categories/attributes/${cateogryId}`,'get')
+}
+
+export const editCategoryAtrrService = (cateogryId , data)=>{
+    return httpService(`/admin/categories/attributes/${cateogryId}`,'put', data)
+}
