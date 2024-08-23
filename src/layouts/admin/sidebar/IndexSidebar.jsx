@@ -6,6 +6,7 @@ import OrdersSidebar from './OrdersSidebar';
 import ShopSidebar from './ShopSidebar';
 import UsersSidebar from './UsersSidebar';
 import CommunicationSidebar from './CommunicationSidebar';
+import avatarIMG from '../../../assets/img/hamedb.jpg'
 
 const IndexSidebar = () => {
     const {showSlidebar , showSlidebarSM} = useContext(adminContext)
@@ -15,7 +16,7 @@ const IndexSidebar = () => {
                 <ul className="p-0 m-0 mx-auto">
 
                         <Avatar userName={'قاسم بساکی'} 
-                        img={'./assets/images/avatar/hamed.jpg'} />
+                        img={avatarIMG} />
 
                     {/* <!-- ================ Dashbord ================= --> */}
                     

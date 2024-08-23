@@ -2,14 +2,13 @@ import React, { useEffect, useState } from 'react';
 import '../../../../assets/style/UiStyle.css'
 import PaginatedTable from '../../../../components/tableComponent/PaginatedTable';
 import PrevPageBTN from '../../../../UI/All/PrevPageBTN';
-import {useLocation, useNavigate } from 'react-router-dom';
+import {useLocation } from 'react-router-dom';
 import ShowInFilter from './ShowInFilter';
 import AtrrAction from './AtrrAction';
-import { getCategoriesAtrrsService, getOneCategoryAtrrService } from '../../../../services/shop/categoryAttr';
-import {Formik ,Form} from 'formik';
-import SpinnerLoad from '../../../../UI/All/SpinnerLoad';
-import { initialValues, onSubmit, validationSchema } from './core';
-import FormikControl from '../../../../components/form/FormikControl';
+import { deleteCategoryAtrrService, getCategoriesAtrrsService, getOneCategoryAtrrService } from '../../../../services/shop/categoryAttr';
+import { Confirm } from '../../../../utils/confirm';
+import { Alert } from '../../../../utils/alert';
+import AddAttrCategory from './AddAttrCategory';
 
 
 
@@ -21,7 +20,7 @@ const AtrrCategory = () => {
     const [isLoadingEdit , setIsLoadingEdit] = useState(false);
     const [attrToEdit , setAttrToEdit] = useState(null);
 
-    // get categories Attrs
+    // This is for get categories Attrs
     const handleGetCateogryAttrs = async ()=>{
         try {
             let categoryID = location.state.categoryData.id;
@@ -39,7 +38,7 @@ const AtrrCategory = () => {
         }
     }
 
-    // get one category Attr
+    // This is for get one category Attr
     const handleGetCateogryAttr = async ()=>{
         try {
             const res = await getOneCategoryAtrrService(attrToEdit);
@@ -57,6 +56,22 @@ const AtrrCategory = () => {
                 setLoading(false);
                 setIsLoadingEdit(false);
             }, 500);
+        }
+    }
+
+    // This is for delete cateogry attr
+    const handleDeleteCategoryAttr = async (rowAttr)=>{
+        if (await Confirm(`آیا از حذف ویژگی ${rowAttr.title} اطمینان دارید ؟`)) {
+            try {
+                const res = await deleteCategoryAtrrService(rowAttr.id);
+                if (res.status == 200) {
+                    Alert('عملیات با موفقیت انجام شد .' ,
+                    `ویژگی ${rowAttr.title} با موفقیت حذف شد .` , 'success');
+                    handleGetCateogryAttrs();
+                }
+            } catch (error) {
+               // set error in httpService 
+            }
         }
     }
 
@@ -96,8 +111,8 @@ const AtrrCategory = () => {
         {
             title : 'عملیات' ,
             field : 'operation' ,
-            element : (itemId , rowData)=> <AtrrAction rowData={rowData}
-            setAttrToEdit={setAttrToEdit} />
+            element : (itemId , rowData)=> <AtrrAction rowData={rowData} attrToEdit={attrToEdit}
+            setAttrToEdit={setAttrToEdit} handleDeleteCategoryAttr={handleDeleteCategoryAttr} />
         }
     ]
     
@@ -118,80 +133,17 @@ const AtrrCategory = () => {
             </div>
             <hr className='bg-white w-75 mx-auto mt-3'/>
             <div className="container text-white">
-                <Formik
-                 initialValues={reinitalValues || initialValues}
-                 onSubmit={(values , submitProps)=>onSubmit(values , submitProps ,
-                (location.state.categoryData.id) , handleGetCateogryAttrs , attrToEdit ,
-                setAttrToEdit , setReinitalValues)}
-                 validationSchema={validationSchema}
-                 validateOnMount={true}
-                 enableReinitialize={true}
-                >
-                    {(formik)=>{
-                        return(
-                            <Form className="row justify-content-center input_dark">
-                                {!isLoadingEdit ?
-                                        <div className="row my-3">
-                                        <FormikControl
-                                         type='text'
-                                         control='input'
-                                         name='title'
-                                         placeholder="عنوان ویژگی جدید"
-                                         className='col-12 col-md-5 mx-auto'
-                                         label='عنوان'
-                                        />
-                                        <FormikControl
-                                         type='text'
-                                         control='input'
-                                         name='unit'
-                                         placeholder="واحد ویژگی جدید"
-                                         className='col-12 col-md-5 mx-auto mt-4 mt-md-0'
-                                         label='واحد'
-                                        />
-                                        <div className="col-12 mt-2">
-                                            <FormikControl
-                                             type='checkbox'
-                                             control='switch'
-                                             name='in_filter'
-                                             label="نمایش در فیلتر"
-                                            /> 
-                                        </div>
+                {/* ==== Add Attr ==== */}
+                <AddAttrCategory reinitalValues={reinitalValues} isLoadingEdit={isLoadingEdit}
+                location={location} attrToEdit={attrToEdit} 
+                handleGetCateogryAttrs={handleGetCateogryAttrs} setAttrToEdit={setAttrToEdit}
+                setReinitalValues={setReinitalValues} />
+                {/* ==== Add Attr ==== */}
 
-                                        <div className="col-12 d-flex justify-content-center gap-3 align-items-center mt-3">
-                                            {attrToEdit ?
-                                                <button type="button" className="btn btn-danger modal-btn w-25"
-                                                onClick={()=>{
-                                                setAttrToEdit(null)
-                                                setReinitalValues(null)}}>
-                                                    انصراف
-                                                </button>
-                                            : null }
-                                            <button type='submit' className="btn btn-primary modal-btn bt w-25"
-                                            disabled={formik.isSubmitting || (!formik.dirty || !formik.isValid)}>
-                                                {formik.isSubmitting ?
-                                                    <SpinnerLoad colorClass={'text-white'} inline={true} isSmall />
-                                                : 'ذخیره'}
-                                            </button>
-                                        </div>
-                                    </div>
-                                :
-                                    <div className='w-100 mt-2'>
-                                        <div className='w-100 fs-6 fw-bold alert text-center alert-primary' >
-                                            <SpinnerLoad  />
-                                            <span className='fs-5 mt-1'>
-                                                لطفا کمی صبر کنید . . .
-                                            </span>
-                                        </div>
-                                    </div>
-                                }
-                            </Form>
-                        )
-                    }}
-                </Formik>
-                
-                {/* ==== table ==== */}
+
+                {/* ==== Table ==== */}
                 <hr/>
-                <div className={`${isLoading ? 'mb-0 mt-4' : 'mb-3 mt-2'} w-100 d-flex justify-content-center`} >
+                <div className={`${isLoading ? 'mb-0' : 'mb-3'} mt-4 w-100 d-flex justify-content-center`} >
                     <h6 className='d-flex fw-bold text-primary fs-4'>
                         مدیریت ویژگی های دسته 
                         <span className='text-white text-center pe-2'>
@@ -203,8 +155,7 @@ const AtrrCategory = () => {
                 searchParams={searchParams} numOfPage={4} isLoading={isLoading}>
                 
                 </PaginatedTable>
-                {/* ==== table ==== */}
-
+                {/* ==== Table ==== */}
             </div>
             <PrevPageBTN />
         </>

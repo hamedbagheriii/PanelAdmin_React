@@ -92,6 +92,10 @@ body{
     cursor: default !important;
 }
 
+.DangerMode{
+    background: #581919 !important;
+}
+
 .no_hover{
     background: unset !important;
 }

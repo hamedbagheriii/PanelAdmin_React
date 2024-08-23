@@ -18,7 +18,6 @@ export const onSubmit = async (values , submitProps , cateogryId , handleGetCate
             if (res.status == 200) {
                 Alert('عملیات با موفقیت انجام شد .' 
                 ,`ویژگی ${values.title} با موفقیت ویرایش شد .` , 'success');
-                handleGetCateogryAttrs();
                 setAttrToEdit(null);
                 setReinitalValues(null);
             }
@@ -28,13 +27,15 @@ export const onSubmit = async (values , submitProps , cateogryId , handleGetCate
             if (res.status == 201) {
                 Alert('عملیات با موفقیت انجام شد .' 
                 ,`ویژگی ${values.title} با موفقیت ایجاد شد .` , 'success');
-                handleGetCateogryAttrs()
             }
         }
     } catch (error) {
         // set error in httpService
     }
-    submitProps.resetForm();
+    finally {
+        handleGetCateogryAttrs();
+        submitProps.resetForm();
+    }
 }
 
 export const validationSchema = Yup.object({
