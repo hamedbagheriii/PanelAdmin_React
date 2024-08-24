@@ -1,7 +1,7 @@
 import React from 'react';
 import * as Yup from 'yup';
 import { Alert } from "../../../utils/alert";
-import { createBrandService } from '../../../services/shop/brand/brand';
+import { createBrandService, editBrandsService } from '../../../services/shop/brand/brand';
 
 // ========== initial formik props ==========
 export const initialValues = {
@@ -11,23 +11,36 @@ export const initialValues = {
     logo : null ,
 }
 
-export const onSubmit = async (values , submitProps , handleGetBrands)=>{
+export const onSubmit = async (values , submitProps , handleGetBrands , setBrandToEdit , brandToEdit 
+    , setReinitalValues)=>{
     const handleShowAlert = (title)=>{
         setTimeout(() => {
             Alert(` برند ${values.original_name} 
             با موفقیت ${title} شد .` , '' , 'success');
+            setBrandToEdit(null);
+            setReinitalValues(null);
             submitProps.resetForm();
             handleGetBrands();
-        }, 500);
+        }, 0);
     }
 
+
     try {
-        const res = await createBrandService(values);
-        if(res.status == 201){
-            handleShowAlert('ایجاد')
+        if (brandToEdit) {
+            const res = await editBrandsService(brandToEdit,values);
+            if(res.status == 200){
+                handleShowAlert('ویرایش')
+            }
+        }
+        else {
+            const res = await createBrandService(values);
+            if(res.status == 201){
+                handleShowAlert('ایجاد');
+            }
         }
     } catch (error) {
-        console.log(error);
+        setBrandToEdit(null);
+        setReinitalValues(null);
     }
     console.log(values);
 }

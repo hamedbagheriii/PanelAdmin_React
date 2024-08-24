@@ -1,29 +1,62 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import BtnModal from '../../../UI/pages/btnModal';
 import ModalsContainer from '../../../components/ModalsContainer';
 import { Form, Formik } from 'formik';
 import { initialValues, onSubmit, validationSchema } from './core';
 import SubmitBTN from '../../../components/form/SubmitBTN';
 import FormikControl from '../../../components/form/FormikControl';
+import { getOneBrandService } from '../../../services/shop/brand/brand';
 
-const AddBrand = ({handleGetBrands}) => {
+
+const AddBrand = ({handleGetBrands , setBrandToEdit , brandToEdit}) => {
+    const [reinitalValues , setReinitalValues] = useState(null);
+
+    // This is for edit brand
+    const handleGetOneBrand = async ()=>{
+        try {
+            const res = await getOneBrandService(brandToEdit);
+            if (res.status == 200) {
+                let data = await res.data.data;
+                setReinitalValues({original_name : data.original_name ,
+                persian_name : data.persian_name || '' , descriptions : data.descriptions || '' ,
+                logo : null })
+            }
+        } catch (error) {
+            setBrandToEdit(null);
+            setReinitalValues(null);
+        }
+    }
+
+    // This is for calling edit brand function
+    useEffect(() => {
+        if (brandToEdit) {
+            handleGetOneBrand();
+        }
+        else{
+            setReinitalValues(null);
+        }
+    }, [brandToEdit]);
+
 
     return (
         <>
-            <BtnModal id={`add_brand_modal`} />
+            <BtnModal id={`add_brand_modal`} setEditId={setBrandToEdit} />
 
             <ModalsContainer
             id={'add_brand_modal'}
             fullscreen={true}
-            title={'افزودن برند'}
+            title={brandToEdit ? 'ویرایش برند' : 'افزودن برند'}
             >
                 <Formik
-                initialValues={initialValues}
-                onSubmit={(values , submitProps)=>onSubmit(values , submitProps , handleGetBrands)}
+                initialValues={reinitalValues || initialValues}
+                onSubmit={(values , submitProps)=>onSubmit(values , submitProps , handleGetBrands , 
+                setBrandToEdit , brandToEdit , setReinitalValues)}
                 validationSchema={validationSchema}
+                enableReinitialize={true}
                 validateOnMount={true}
                 >
                     {(formik)=>{
+                        console.log(formik);
                         return (
                             <Form className='w-100 mx-auto'>
                                 <div className="container modal_maxWidth">
@@ -62,9 +95,11 @@ const AddBrand = ({handleGetBrands}) => {
                                          control='file'
                                          formik={formik}
                                         />
+
+                                        
                                     </div>
                                 </div>
-                                <SubmitBTN formik={formik} closeModal={true} />
+                                <SubmitBTN formik={formik} closeModal={true} setEditId={setBrandToEdit} />
                             </Form>
                         )
                     }}
