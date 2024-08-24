@@ -1,4 +1,4 @@
 {
-    "onlineAPI" : "https://ecomadminapi.azhadev.ir/api",
+    "onlineAPI" : "https://ecomadminapi.azhadev.ir",
     "offlineAPI" : "https://127.0.0.1:3000/api"
 }

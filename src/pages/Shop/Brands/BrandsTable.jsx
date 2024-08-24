@@ -1,73 +1,59 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PaginatedTable from '../../../components/tableComponent/PaginatedTable';
 import AddBrand from './AddBrand';
-import imgLOGO from '../../../assets/img/logoKFC.png'
+import BrandLogo from './tableAdditons/BrandLogo';
+import Actions from './tableAdditons/Actions';
+import { useParams } from 'react-router-dom';
+import { getBrandsService } from '../../../services/shop/brand/brand';
 
 const BrandsTable = () => {
-    const data = [
-        {
-            id : 1 ,
-            title : 'KFC' ,
-            titleFA : 'کی اف سی' ,
-            img : '../../../assets/img/logoKFC.png' ,
-            dec : `لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و
-            با استفاده از طراحان گرافیک است، چاپگرها و متون بلکه روزنامه و مجله 
-            در ستون و سطرآنچنان که لازم است .` ,
-        } ,
-        {
-            id : 2 ,
-            title : 'KFC' ,
-            titleFA : 'کی اف سی' ,
-            img : '../../public/assets/images/logoKFC.png' ,
-            dec : `لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و
-            با استفاده از طراحان گرافیک است، چاپگرها و متون بلکه روزنامه و مجله 
-            در ستون و سطرآنچنان که لازم است .` ,
-        } ,
-        {
-            id : 3 ,
-            title : 'KFC' ,
-            titleFA : 'کی اف سی' ,
-            img : '../../public/assets/images/logoKFC.png' ,
-            dec : `لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و
-            با استفاده از طراحان گرافیک است، چاپگرها و متون بلکه روزنامه و مجله 
-            در ستون و سطرآنچنان که لازم است .` ,
-        } ,
+    const params = useParams();
+    const [data , setData] = useState([]);
+    const [isLoading , setLoading] = useState(true);
 
-    ]
+    // This is for get Brands
+    const handleGetBrands = async ()=>{
+        try {
+            const res = await getBrandsService();
+            if (res.status == 200) {
+                setData(res.data.data);
+            }
+        } catch (error) {
+            // set error in httpService
+        }
+        finally {
+            setTimeout(() => {
+                setLoading(false);
+            }, 500);
+        }
+    }
 
+
+    // This is for calling Get brands function
+    useEffect(() => {
+        handleGetBrands();
+        setLoading(true)
+    }, []);
+
+
+    // This is for inital props <<<<=
     const dataInfo = [
         {field : 'id' , title : '#'},
-        {field : 'title' , title : 'عنوان'},
-        {field : 'titleFA' , title : 'عنوان فارسی'},
-        {field : 'dec' , title : 'توضیحات'},
+        {field : 'original_name' , title : 'عنوان'},
+        {field : 'persian_name' , title : 'عنوان فارسی'},
+        {field : 'descriptions' , title : 'توضیحات'},
     ]
 
-    const additionFieldElement = (itemId , d)=>{
-        return(
-            <>
-                <td>
-                    <img src={imgLOGO} width="50" />
-                </td>
-                <td>
-                    <i className="fas fa-edit text-warning mx-1 hoverable_text pointer has_tooltip"
-                     title="ویرایش برند" data-bs-toggle="modal" data-bs-placement="top" data-bs-target="#add_brand_modal"></i>
-                    <i className="fas fa-times text-danger mx-1 hoverable_text pointer has_tooltip"
-                     title="حذف برند" data-bs-toggle="tooltip" data-bs-placement="top"></i>
-                </td>
-            </>
-        )
-    }
-    
     const additionField = [
         {
-            field : 'Logo' ,
+            field : 'logo' ,
             title : 'لوگو' ,
-            element : (itemId , d)=> additionFieldElement(itemId , d)
+            element : (itemId , rowData)=> <BrandLogo rowData={rowData} />
         } ,
         {
             field : 'Operation' ,
             title : 'عملیات' ,
-            element : ()=>{}
+            element : (itemId , rowData)=> <Actions rowData={rowData} />
         } ,
         
         
@@ -76,14 +62,17 @@ const BrandsTable = () => {
     const searchParams = {
         title : 'جستجو' ,
         placeholder : 'قسمتی از عنوان انگلیسی را وارد کنید .' ,
-        searchField : 'title'
+        searchField : 'original_name'
     }
+    // This is for inital props <<<<=
+
+
 
     return (
         <PaginatedTable data={data} dataInfo={dataInfo} additionField={additionField}
-        searchParams={searchParams} numOfPage={4} >
+        searchParams={searchParams} numOfPage={4} isLoading={isLoading}>
             {/* --- Modal add Brand --- */}
-            <AddBrand />
+            <AddBrand handleGetBrands={handleGetBrands} />
         </PaginatedTable>            
     );
 }

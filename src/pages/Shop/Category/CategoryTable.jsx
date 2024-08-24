@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import PaginatedTable from '../../../components/tableComponent/PaginatedTable';
 import AddCategory from './AddCategory';
-import { deleteCategoryService, getCategoriesService } from '../../../services/shop/category';
+import { deleteCategoryService, getCategoriesService } from '../../../services/shop/categorories/category';
 import IsActive from './tableAdditons/isActive';
 import Actions from './tableAdditons/Actions';
 import { useNavigate, useParams } from 'react-router-dom';

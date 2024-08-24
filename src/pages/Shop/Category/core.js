@@ -1,4 +1,4 @@
-import { createNewCategoryService, editCategoryService } from "../../../services/shop/category";
+import { createNewCategoryService, editCategoryService } from "../../../services/shop/categorories/category";
 import * as Yup from 'yup';
 import { Alert } from "../../../utils/alert";
 

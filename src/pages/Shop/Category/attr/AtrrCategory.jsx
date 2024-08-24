@@ -5,7 +5,7 @@ import PrevPageBTN from '../../../../UI/All/PrevPageBTN';
 import {useLocation } from 'react-router-dom';
 import ShowInFilter from './ShowInFilter';
 import AtrrAction from './AtrrAction';
-import { deleteCategoryAtrrService, getCategoriesAtrrsService, getOneCategoryAtrrService } from '../../../../services/shop/categoryAttr';
+import { deleteCategoryAtrrService, getCategoriesAtrrsService, getOneCategoryAtrrService } from '../../../../services/shop/categorories/categoryAttr';
 import { Confirm } from '../../../../utils/confirm';
 import { Alert } from '../../../../utils/alert';
 import AddAttrCategory from './AddAttrCategory';

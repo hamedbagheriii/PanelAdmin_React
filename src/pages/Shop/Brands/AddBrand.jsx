@@ -1,54 +1,74 @@
 import React from 'react';
 import BtnModal from '../../../UI/pages/btnModal';
 import ModalsContainer from '../../../components/ModalsContainer';
+import { Form, Formik } from 'formik';
+import { initialValues, onSubmit, validationSchema } from './core';
+import SubmitBTN from '../../../components/form/SubmitBTN';
+import FormikControl from '../../../components/form/FormikControl';
 
-const AddBrand = () => {
+const AddBrand = ({handleGetBrands}) => {
+
     return (
         <>
             <BtnModal id={`add_brand_modal`} />
 
             <ModalsContainer
             id={'add_brand_modal'}
-            fullscreen={false}
+            fullscreen={true}
             title={'افزودن برند'}
             >
-                <div className="container">
-                   <div className="row justify-content-center">
-                       <div className="col-12">
-                           <div className="input-group my-3 dir_ltr">
-                               <input type="text" className="form-control" placeholder="کیبرد را در حالت لاتین قرار دهید" />
-                               <span className="input-group-text w_8rem justify-content-center">عنوان لاتیتن برند</span>
-                           </div>
-                       </div>
-                       <div className="col-12">
-                           <div className="input-group my-3 dir_ltr">
-                               <input type="text" className="form-control" placeholder="کیبرد را در حالت فارسی قرار دهید" />
-                               <span className="input-group-text w_8rem justify-content-center">عنوان فارسی برند</span>
-                           </div>
-                       </div>
-                       <div className="col-12">
-                           <div className="input-group my-3 dir_ltr">
-                               <input type="text" className="form-control" placeholder="متن کوتاه در مورد برند" />
-                               <span className="input-group-text w_8rem justify-content-center">توضیحات برند</span>
-                           </div>
-                       </div>
-                       <div className="col-12">
-                           <div className="input-group mb-3 dir_ltr">
-                               <input type="file" className="form-control" placeholder="تصویر" />
-                               <span className="input-group-text w_6rem justify-content-center">تصویر</span>
-                           </div>
-                       </div>
-                       <div className="col-12">
-                           <div className="input-group mb-3 dir_ltr">
-                               <input type="text" className="form-control" placeholder="یک کلمه در مورد تصویر" />
-                               <span className="input-group-text w_6rem justify-content-center">توضیح تصویر</span>
-                           </div>
-                       </div>                                              
-                       <div className="btn_box text-center col-12 col-md-6 col-lg-8 mt-4">
-                           <button className="btn btn-primary ">ذخیره</button>
-                       </div>
-                   </div>
-                </div>
+                <Formik
+                initialValues={initialValues}
+                onSubmit={(values , submitProps)=>onSubmit(values , submitProps , handleGetBrands)}
+                validationSchema={validationSchema}
+                validateOnMount={true}
+                >
+                    {(formik)=>{
+                        return (
+                            <Form className='w-100 mx-auto'>
+                                <div className="container modal_maxWidth">
+                                    <div className="row justify-content-center">
+                                        <FormikControl 
+                                         name='original_name'
+                                         type='text'
+                                         className=''
+                                         label='عنوان لاتیتن برند'
+                                         placeholder='کیبرد را در حالت لاتین قرار دهید'
+                                         control='input'
+                                        />
+
+                                        <FormikControl 
+                                         name='persian_name'
+                                         type='text'
+                                         className='mt-4'
+                                         label='عنوان فارسی برند'
+                                         placeholder='کیبرد را در حالت فارسی قرار دهید'
+                                         control='input'
+                                        />
+
+                                        <FormikControl 
+                                         name='descriptions'
+                                         type='text'
+                                         className='mt-4 mb-4'
+                                         label='توضیحات برند'
+                                         placeholder='متن کوتاه در مورد برند'
+                                         control='input'
+                                        />
+
+                                        <FormikControl 
+                                         name='logo'
+                                         label='تصویر'
+                                         placeholder='تصویر'
+                                         control='file'
+                                         formik={formik}
+                                        />
+                                    </div>
+                                </div>
+                                <SubmitBTN formik={formik} closeModal={true} />
+                            </Form>
+                        )
+                    }}
+                </Formik>
             </ModalsContainer>   
         </>
     );

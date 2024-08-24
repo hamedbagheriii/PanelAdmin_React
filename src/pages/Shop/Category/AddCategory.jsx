@@ -4,7 +4,7 @@ import ModalsContainer from '../../../components/ModalsContainer';
 import BtnModal from '../../../UI/pages/btnModal';
 import { Form, Formik } from 'formik';
 import FormikControl from '../../../components/form/FormikControl';
-import { getCategoriesService, getSingleCategoryService } from '../../../services/shop/category';
+import { getCategoriesService, getSingleCategoryService } from '../../../services/shop/categorories/category';
 import {useNavigate, useParams } from 'react-router-dom';
 import SubmitBTN from '../../../components/form/SubmitBTN';
 import { categoryContext } from '../../../context/categoryContext';
@@ -109,7 +109,7 @@ const AddCategory = () => {
                 {(formik)=>{
                     return (
                         <Form className='mx-auto'>
-                            <div className="container modal-Category h-100 pt-3 ">
+                            <div className="container modal_maxWidth h-100 pt-3 ">
                                 <div className="row mx-auto align-items-center justify-content-around h-50 gap-2">
                                     {parents.length ? 
                                         <FormikControl 
@@ -146,6 +146,7 @@ const AddCategory = () => {
                                         name='image'
                                         label='تصویر'
                                         placeholder='تصویر'
+                                        formik={formik}
                                         /> 
                                     : null }
 

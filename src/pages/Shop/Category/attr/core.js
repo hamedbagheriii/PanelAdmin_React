@@ -1,5 +1,5 @@
 import * as Yup from 'yup'
-import { addCategoryAtrrsService, editCategoryAtrrService } from '../../../../services/shop/categoryAttr';
+import { addCategoryAtrrsService, editCategoryAtrrService } from '../../../../services/shop/categorories/categoryAttr';
 import { Alert } from '../../../../utils/alert';
 
 
