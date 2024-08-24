@@ -11,7 +11,7 @@ import { getOneBrandService } from '../../../services/shop/brand/brand';
 const AddBrand = ({handleGetBrands , setBrandToEdit , brandToEdit}) => {
     const [reinitalValues , setReinitalValues] = useState(null);
 
-    // This is for edit brand
+    // This is for get one brand
     const handleGetOneBrand = async ()=>{
         try {
             const res = await getOneBrandService(brandToEdit);
@@ -56,7 +56,6 @@ const AddBrand = ({handleGetBrands , setBrandToEdit , brandToEdit}) => {
                 validateOnMount={true}
                 >
                     {(formik)=>{
-                        console.log(formik);
                         return (
                             <Form className='w-100 mx-auto'>
                                 <div className="container modal_maxWidth">
