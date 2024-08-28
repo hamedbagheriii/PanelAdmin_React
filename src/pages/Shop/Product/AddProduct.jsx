@@ -1,16 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import PageContainer from '../../../components/PageContainer';
-import { Form, Formik } from 'formik';
+import { ErrorMessage, Form, Formik } from 'formik';
 import { useNavigate } from 'react-router-dom';
 import SpinnerLoad from '../../../UI/All/SpinnerLoad';
 import { initialValues, onSubmit, validationSchema } from './core';
 import FormikControl from '../../../components/form/FormikControl';
 import { getCategoriesService } from '../../../services/shop/categorories/category';
+import LoadingAlert from '../../../UI/All/LoadingAlert';
+import PersonalError from '../../../components/form/personalComponenet/personalError';
 
 
 const AddProduct = () => {
     const navigate = useNavigate();
     const [parentCategories , setParentCategories] = useState([]);
+    const [selectedCategories , setSelectedCategories] = useState([]);
     const [mainCategories , setMainCategories] = useState(null);
     const [isLoading , setIsLoading] = useState(true);
 
@@ -31,7 +34,7 @@ const AddProduct = () => {
         }
     }
 
-
+    // this is for get and set main Categories
     const handleSetMainCategories = async (value)=>{
         setMainCategories('waiting');
         if (value > 0) {
@@ -51,7 +54,39 @@ const AddProduct = () => {
         }
     }
 
-    
+    // this is for set selected Categories
+    const handleSelectCategory = (value , formik)=>{
+        if (value > 0) {
+            setSelectedCategories(prevState=>{
+                // findIndex : روی ارایه مپ میزنه و شرط چک میکنه و ایندکس ان چیز رو برمیگردونه و اما اگر پیدا نکنه -1 برمیگردونه
+                if (prevState.findIndex(d=>d.id == value) == -1) {
+                    const newData = [...prevState , mainCategories.filter(i=>i.id == value)[0]];
+                    
+                    const selectedIds = newData.map(s=>s.id);
+                    formik.setFieldValue('category_ids' , selectedIds.join('-'))
+                    
+                    return newData;
+                }
+                else{
+                    return prevState;
+                }
+            })
+        }
+    }
+
+    // this is for delede selected Categories
+    const handleDeleteSelectedCategory = (categoryId , formik)=>{
+        setSelectedCategories(prevState=>{
+            let newData = prevState.filter(i=>i.id !== categoryId)
+
+            let selectedIds = newData.map(s=>s.id)
+            formik.setFieldValue('category_ids' , selectedIds.join('-'))
+
+            return newData;
+        })
+    }
+
+
 
     // this is for calling get categories funcation
     useEffect(() => {
@@ -66,7 +101,9 @@ const AddProduct = () => {
                     <Formik
                     initialValues={initialValues}
                     onSubmit={onSubmit}
-                    validationSchema={validationSchema}>
+                    validationSchema={validationSchema}
+                    validateOnMount
+                    >
                         {(formik)=>{
                             return (
                                 <Form className='w-100'>
@@ -75,7 +112,7 @@ const AddProduct = () => {
                                     <div className="container h-100 pt-3 modal_maxWidth input_dark">
                                         <div className="row mx-auto align-items-center justify-content-center h-100 gap-2"> 
                                             {parentCategories.length  ?
-                                                <div className="col-12 ">
+                                                <div className="col-12 mb-0">
                                                         <FormikControl 
                                                         control='select'
                                                         options={parentCategories}
@@ -89,12 +126,7 @@ const AddProduct = () => {
 
                                             {mainCategories == 'waiting' ?
                                                 <div className='w-100 '>
-                                                    <div className='w-100 fs-6 fw-bold alert text-center alert-primary' >
-                                                        <SpinnerLoad  />
-                                                        <span className='fs-5 mt-1'>
-                                                            لطفا کمی صبر کنید . . .
-                                                        </span>
-                                                    </div>
+                                                        <LoadingAlert />
                                                 </div>
                                             : mainCategories !== null  ?
                                                 <div className="col-12 ">
@@ -104,16 +136,26 @@ const AddProduct = () => {
                                                         name='mainCats'
                                                         label='دسته اصلی'
                                                         firstItem='دسته اصلی را انتخاب کنید . . .'
+                                                        handleOnChange={handleSelectCategory}                                                        
                                                         />
-                                                    <div className="col-12 mt-4 col-md-6 col-lg-8">
-                                                        <span className="chips_elem">
-                                                            <i className="fas fa-times text-danger"></i>
-                                                            دسته فلان
-                                                        </span>
-                                                    </div>
+                                                        {selectedCategories.length ?
+                                                            <div className="col-12 mt-4 d-flex flex-wrap gap-2">
+                                                                {selectedCategories.map(category=>(
+                                                                    <span key={category.id} className="chips_elem bg-primary text-white text-center">
+                                                                        <i className="fas fa-times ms-2 text-danger"
+                                                                        onClick={()=>handleDeleteSelectedCategory(category.id , formik)}></i>
+                                                                        دسته {category.value}
+                                                                    </span>
+                                                                ))}
+                                                            </div>
+                                                        : null}
                                                 </div>  
                                             : null }
-                                            
+
+                                            <div className='col-6 ms-auto'>
+                                                <ErrorMessage name='category_ids' component={PersonalError} />
+                                            </div>
+
                                             <div className="col-12 ">
                                                 <div className="input-group my-3 dir_ltr">
                                                     <input type="text" className="form-control" placeholder="عنوان محصول"/>
@@ -230,9 +272,9 @@ const AddProduct = () => {
             
                                     <div className="modal-footer mt-3 pt-4 w-100 d-flex justify-content-around" >
                                         <button type="button" className="btn btn-danger modal-btn w-25"
-                                        onClick={()=>navigate(-1)} data-bs-dismiss="modal">انصراف</button>
+                                        onClick={()=>navigate(-1)} data-bs-dismiss="modal">بازگشت</button>
                                         <button type='submit' className="btn btn-primary modal-btn w-25" 
-                                        disabled={formik.isSubmitting || (!formik.dirty || !formik.isValid)}>
+                                       >
                                             {formik.isSubmitting ?
                                                 <SpinnerLoad colorClass={'text-white'} inline={true} isSmall />
                                             : 'ذخیره'}
@@ -245,12 +287,7 @@ const AddProduct = () => {
                 :
                     <div className='w-100 mt-2'>
                         <hr className='bg-white w-75 mx-auto my-5' />
-                        <div className='w-100 fs-6 fw-bold alert text-center alert-primary' >
-                            <SpinnerLoad  />
-                            <span className='fs-5 mt-1'>
-                                لطفا کمی صبر کنید . . .
-                            </span>
-                        </div>
+                        <LoadingAlert />
                     </div>
                 }
         </>

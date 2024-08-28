@@ -6,6 +6,7 @@ import { deleteProductService, getProductsService } from '../../../services/shop
 import { Alert } from '../../../utils/alert';
 import { Confirm } from '../../../utils/confirm';
 import { Link } from 'react-router-dom';
+import AddBtnLink from '../../../UI/All/AddBtnLink';
 
 const ProductTable = () => {
     const [tableData , setTableData] = useState([]);
@@ -99,9 +100,7 @@ const ProductTable = () => {
         setSearchField={setSearchField} tableData={tableData} setCurrentPage={setCurrentPage}
         currentPage={currentPage} pageCount={pageCount} searchField={searchField }>
             {/* --- Modal add Product --- */}
-            <Link className="btn btn-primary d-flex justify-content-center align-items-center" to={'/Product/Add-Product'} >
-                <i className="fas fa-plus text-light"></i>
-            </Link>
+            <AddBtnLink pach={'/Product/Add-Product'} />
         </PaginatedDataTable>
     );
 }
