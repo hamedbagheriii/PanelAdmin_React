@@ -2,14 +2,16 @@ import React, { useEffect, useState } from 'react';
 import AddProduct from './AddProduct';
 import ProductAction from './tableAddition/ProductAction';
 import PaginatedDataTable from '../../../components/tableComponent/paginatedDataTable';
-import { getProductsService } from '../../../services/shop/product/product';
+import { deleteProductService, getProductsService } from '../../../services/shop/product/product';
+import { Alert } from '../../../utils/alert';
+import { Confirm } from '../../../utils/confirm';
 
 const ProductTable = () => {
     const [tableData , setTableData] = useState([]);
     const [isLoading , setLoading] = useState(true);
     const [currentPage , setCurrentPage] = useState(1);
     const [countOnPage , setCountOnPage] = useState(4);
-    const [pageCount , setPageCount] = useState(10);
+    const [pageCount , setPageCount] = useState(1);
     const [searchField , setSearchField] = useState('');
 
 
@@ -21,13 +23,30 @@ const ProductTable = () => {
             const res = await getProductsService(currentPage,countOnPage,searchField);
             if (res.status == 200) {
                 setTableData(res.data.data);
-                // setPageCount(res.data.last_page);
+                setPageCount(res.data.last_page);
             }
         } catch (error) {
             // set error in httpService
         }
         finally{
             setLoading(false);
+        }
+    }
+
+    // This is for delete product
+    const handleDeleteProduct = async (rowData)=>{
+        if (await Confirm(`آیا از حذف محصول ${rowData.title}
+        اطمینان دارید ؟`)) {
+            try {
+                const res = await deleteProductService(rowData.id);
+                if (res.status == 200) {
+                    Alert('عملیات با موفقیت انجام شد .' ,
+                    `محصول ${rowData.title} با موفقیت حذف شد .` , 'success');
+                    handleGetProducts();
+                }
+            } catch (error) {
+                // set error in httpService
+            }
         }
     }
 
@@ -62,7 +81,8 @@ const ProductTable = () => {
         {
             field : null ,
             title : 'عملیات',
-            element : (rowData)=> <ProductAction rowData={rowData}/>
+            element : (rowData)=> <ProductAction rowData={rowData}
+            handleDeleteProduct={handleDeleteProduct}/>
         },
     ]
 

@@ -5,13 +5,15 @@ import SpinnerLoad from '../../UI/All/SpinnerLoad';
 
 const PaginatedTable = ({data , dataInfo , additionField ,
     numOfPage , searchParams , targetSearch , children , isLoading}) => {
-
+        
     const searchRef = useRef();
     const [initData , setInitData] = useState(data);
     const [tableData , setTableData] = useState([]);
     const [currentPage , setCurrentPage] = useState(1);
     const [pages , setPages] = useState([]);
     const [pageCount , setPageCount] = useState(1);
+    const pageRange = 2;
+
     // TSP = target Search placeholder
     const [TSP , setTSP] = useState(
         {placeholder : searchParams.placeholder ,
@@ -129,11 +131,33 @@ const PaginatedTable = ({data , dataInfo , additionField ,
                                         <span aria-hidden="true">قبلی</span>
                                     </button>
                                 </li>
-                                {pages.map(page=>(
-                                    <li key={page} className={`page-item pointer `} onClick={()=>setCurrentPage(page)}>
-                                        <span className={`page-link bg-dark ${currentPage === page ? 'page_active' : null}`}>{page}</span>
+                                {currentPage > pageRange ?
+                                    <li className={`page-item pointer `} onClick={()=>setCurrentPage(1)}>
+                                        <span className={`page-link bg-dark `}>1</span>
                                     </li>
+                                : null}
+
+                                {pages.map(page=>(
+                                    page > currentPage - pageRange && page < currentPage+pageRange ? (
+                                        <li key={page} className={`page-item pointer `} onClick={()=>setCurrentPage(page)}>
+                                            <span className={`page-link bg-dark ${currentPage === page ? 'page_active' : null}`}>{page}</span>
+                                        </li>
+                                    ) : null
                                 ))}
+
+                                {currentPage < pageCount-(pageRange-1) ?
+                                    <>
+                                        {currentPage < pageCount-pageRange ?
+                                            <li  className={`page-item  `}>
+                                                <span className={`page-link bg-dark`}>...</span>
+                                            </li>
+                                        : null}
+                                        <li className={`page-item pointer `} onClick={()=>setCurrentPage(pageCount)}>
+                                            <span className={`page-link bg-dark `}>{pageCount}</span>
+                                        </li>
+                                    </>
+                                : null}
+
                                 <li className="page-item next pointer" onClick={()=>setCurrentPage(currentPage + 1)}>
                                     <button type='button' disabled={currentPage + 1 > pageCount} className="page-link bg-dark next-btn">
                                         <span aria-hidden="true">بعدی</span>
