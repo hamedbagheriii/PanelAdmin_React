@@ -1,6 +1,5 @@
 import React, { Fragment, useEffect, useRef, useState } from 'react';
 import SpinnerLoad from '../../UI/All/SpinnerLoad';
-import PrevPageBTN from '../../UI/All/PrevPageBTN';
 
 
 
@@ -110,11 +109,9 @@ const PaginatedDataTable = ({tableData  , searchParams ,
 
                                 {pages.map(page=>(
                                     (page < currentPage + pageRange) && (page > currentPage - pageRange)  ? (
-                                        <>
-                                            <li key={page} className={`page-item pointer `} onClick={()=>setCurrentPage(page)}>
-                                                <span className={`page-link bg-dark ${currentPage === page ? 'page_active' : null}`}>{page}</span>
-                                            </li>
-                                        </>
+                                        <li key={page} className={`page-item pointer `} onClick={()=>setCurrentPage(page)}>
+                                            <span className={`page-link bg-dark ${currentPage === page ? 'page_active' : null}`}>{page}</span>
+                                        </li>
                                     ) : null
                                 ))}
 

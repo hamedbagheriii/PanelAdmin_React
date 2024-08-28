@@ -18,6 +18,7 @@ import Questions from '../../../pages/Communication/Questions/Questions.jsx';
 import Comments from '../../../pages/Communication/Comments/Comments.jsx';
 import CategoryOutlet from '../../../pages/Shop/Category/categoryOutlet.jsx';
 import AtrrCategory from '../../../pages/Shop/Category/attr/AtrrCategory.jsx';
+import AddProduct from '../../../pages/Shop/Product/AddProduct.jsx';
 
 
 const IndexContent = () => {
@@ -43,6 +44,7 @@ const IndexContent = () => {
 
 
             <Route path='/Product' element={<Product/>} />
+            <Route path='/Product/Add-Product' element={<AddProduct/>} />
 
             <Route path='/Brands' element={<Brands/>} />
 

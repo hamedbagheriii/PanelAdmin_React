@@ -118,6 +118,7 @@ const AddCategory = () => {
                                         options={parents}
                                         name='parent_id'
                                         label='دسته والد'
+                                        firstItem='دسته والد را انتخاب کنید . . .'
                                         />
                                     : null}
 
