@@ -1,79 +1,73 @@
-import React from 'react';
-import PaginatedTable from '../../../components/tableComponent/PaginatedTable';
+import React, { useEffect, useState } from 'react';
 import AddProduct from './AddProduct';
+import ProductAction from './tableAddition/ProductAction';
+import PaginatedDataTable from '../../../components/tableComponent/paginatedDataTable';
+import { getProductsService } from '../../../services/shop/product/product';
 
 const ProductTable = () => {
-    const data = [
-        {
-            id : 1 ,
-            category : 'aaa' ,
-            title : 'bbb' ,
-            price : '1111' ,
-            stock : '5' ,
-            like_count : '2' ,
-            status : '1' ,
-        } ,
-        {
-            id : 2 ,
-            category : 'ccc' ,
-            title : 'jjj' ,
-            price : '2222' ,
-            stock : '2' ,
-            like_count : '2' ,
-            status : '1' ,
-        } ,
-        {
-            id : 3 ,
-            category : 'gg' ,
-            title : 'sss' ,
-            price : '3333' ,
-            stock : '7' ,
-            like_count : '2' ,
-            status : '1' ,
-        }
-    ]
+    const [tableData , setTableData] = useState([]);
+    const [isLoading , setLoading] = useState(true);
+    const [currentPage , setCurrentPage] = useState(1);
+    const [countOnPage , setCountOnPage] = useState(4);
+    const [pageCount , setPageCount] = useState(1);
+    const [searchField , setSearchField] = useState('');
 
+
+
+
+    // This is for get products
+    const handleGetProducts = async ()=>{
+        try {
+            const res = await getProductsService(currentPage,countOnPage,searchField);
+            if (res.status == 200) {
+                setTableData(res.data.data);
+                setPageCount(res.data.last_page);
+            }
+        } catch (error) {
+            // set error in httpService
+        }
+        finally{
+            setLoading(false);
+        }
+    }
+
+    // This is for calling Get products function
+    useEffect(() => {
+        handleGetProducts();
+        setLoading(true);
+    }, []);
+
+    // This is for calling Get products function when edit currentPage
+    useEffect(() => {
+        handleGetProducts();
+        setLoading(true);
+    }, [currentPage]);
+
+    // This is for calling Get products function when edit searchField
+    useEffect(() => {
+        handleGetProducts();
+        setLoading(true);
+    }, [searchField]);
+
+
+
+    // This is for inital props <<<<=
     const dataInfo = [
         {field : 'id' , title : '#'},
-        {field : 'category' , title : 'دسته'},
+        {
+            field : null ,
+            title : 'گروه محصول',
+            element : (rowData)=> rowData.categories.length ?
+            rowData.categories[0].title : null ,
+        },
         {field : 'title' , title : 'عنوان'},
         {field : 'price' , title : 'قیمت'},
         {field : 'stock' , title : 'موجودی'},
-        {field : 'like_count' , title : 'تعداد لایک'},
-        {field : 'status' , title : 'وضعیت'},
-    ]
-
-    const additionFieldElement = (itemId)=>{
-        return(
-            <>  
-                <td>
-                    <i className="fas fa-edit text-warning mx-1 hoverable_text pointer has_tooltip"
-                    title="ویرایش محصول"
-                    data-bs-toggle="modal"
-                    data-bs-placement="top"
-                    data-bs-target="#add_product_modal">                
-                    </i>
-                    <i className="fas fa-receipt text-info mx-1 hoverable_text pointer has_tooltip"
-                    title="ثبت ویژگی"
-                    data-bs-toggle="modal"
-                    data-bs-target="#add_product_attr_modal">
-                    </i>                
-                    <i className="fas fa-times text-danger mx-1 hoverable_text pointer has_tooltip"
-                    title="حذف محصول"
-                    data-bs-toggle="tooltip"
-                    data-bs-placement="top">
-                    </i>
-                </td>
-            </>
-        )
-    }
-    
-    const additionField = [
         {
-            title : 'عملیات' ,
-            field : 'operation' ,
-            element : (itemId)=> additionFieldElement(itemId)
-        }
+            field : null ,
+            title : 'عملیات',
+            element : (rowData)=> <ProductAction rowData={rowData}/>
+        },
     ]
 
     const searchParams = {
@@ -81,13 +75,15 @@ const ProductTable = () => {
         placeholder : 'قسمتی از عنوان را وارد کنید .' ,
         searchField : 'title'
     }
+    // This is for inital props <<<<=
 
     return (
-        <PaginatedTable data={data} dataInfo={dataInfo} additionField={additionField}
-         searchParams={searchParams} numOfPage={4}>
+        <PaginatedDataTable dataInfo={dataInfo} searchParams={searchParams} isLoading={isLoading}
+        setSearchField={setSearchField} tableData={tableData} setCurrentPage={setCurrentPage}
+        currentPage={currentPage} pageCount={pageCount} searchField={searchField }>
             {/* --- Modal add Product --- */}
             <AddProduct/>
-        </PaginatedTable>
+        </PaginatedDataTable>
     );
 }
 
