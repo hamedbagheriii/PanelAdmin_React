@@ -9,7 +9,7 @@ const ProductTable = () => {
     const [isLoading , setLoading] = useState(true);
     const [currentPage , setCurrentPage] = useState(1);
     const [countOnPage , setCountOnPage] = useState(4);
-    const [pageCount , setPageCount] = useState(1);
+    const [pageCount , setPageCount] = useState(10);
     const [searchField , setSearchField] = useState('');
 
 
@@ -21,7 +21,7 @@ const ProductTable = () => {
             const res = await getProductsService(currentPage,countOnPage,searchField);
             if (res.status == 200) {
                 setTableData(res.data.data);
-                setPageCount(res.data.last_page);
+                // setPageCount(res.data.last_page);
             }
         } catch (error) {
             // set error in httpService
@@ -37,17 +37,13 @@ const ProductTable = () => {
         setLoading(true);
     }, []);
 
-    // This is for calling Get products function when edit currentPage
+    // This is for calling Get products function when edit currentPage or searchField
     useEffect(() => {
         handleGetProducts();
         setLoading(true);
-    }, [currentPage]);
+    }, [currentPage , searchField]);
 
-    // This is for calling Get products function when edit searchField
-    useEffect(() => {
-        handleGetProducts();
-        setLoading(true);
-    }, [searchField]);
+
 
 
 

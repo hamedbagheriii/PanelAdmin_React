@@ -10,6 +10,8 @@ const PaginatedDataTable = ({tableData  , searchParams ,
  
     const searchRef = useRef();
     const [pages , setPages] = useState([]);
+    const pageRange = 2 ;
+
     // TSP = target Search placeholder
     const [TSP , setTSP] = useState(
         {placeholder : searchParams.placeholder ,
@@ -97,11 +99,38 @@ const PaginatedDataTable = ({tableData  , searchParams ,
                                         <span aria-hidden="true">قبلی</span>
                                     </button>
                                 </li>
+
+                                {currentPage > pageRange ?
+                                    <>
+                                        <li className={`page-item pointer`} onClick={()=>setCurrentPage(1)}>
+                                            <span className={`page-link bg-dark`}>1</span>
+                                        </li>
+                                    </>
+                                : null}
+
                                 {pages.map(page=>(
-                                    <li key={page} className={`page-item pointer `} onClick={()=>setCurrentPage(page)}>
-                                        <span className={`page-link bg-dark ${currentPage === page ? 'page_active' : null}`}>{page}</span>
-                                    </li>
+                                    (page < currentPage + pageRange) && (page > currentPage - pageRange)  ? (
+                                        <>
+                                            <li key={page} className={`page-item pointer `} onClick={()=>setCurrentPage(page)}>
+                                                <span className={`page-link bg-dark ${currentPage === page ? 'page_active' : null}`}>{page}</span>
+                                            </li>
+                                        </>
+                                    ) : null
                                 ))}
+
+                                {currentPage < pageCount-pageRange+1 ?
+                                    <>
+                                        {currentPage < pageCount-pageRange ? 
+                                            <li className={`page-item `}>
+                                                <span className={`page-link bg-dark`}>...</span>
+                                            </li>
+                                         : null} 
+                                        <li className={`page-item pointer `} onClick={()=>setCurrentPage(pageCount)}>
+                                            <span className={`page-link bg-dark`}>{pageCount}</span>
+                                        </li>
+                                    </>
+                                : null}
+
                                 <li className="page-item next pointer" onClick={()=>setCurrentPage(currentPage + 1)}>
                                     <button type='button' disabled={currentPage + 1 > pageCount} className="page-link bg-dark next-btn">
                                         <span aria-hidden="true">بعدی</span>
