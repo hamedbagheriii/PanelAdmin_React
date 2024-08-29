@@ -1,83 +1,74 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PaginatedTable from '../../../components/tableComponent/PaginatedTable';
 import AddColor from './AddColor';
+import { deleteColorService, getColorsService } from '../../../services/shop/color/colors';
+import { Alert } from '../../../utils/alert';
+import Actions from './tableAdditons/Actions';
+import { Confirm } from '../../../utils/confirm';
+import ShowColor from './tableAdditons/showColor';
 
 const ColorsTable = () => {
-    const data = [
-        {
-            id : 1 ,
-            title : 'مشکی' ,
-            color : '#000'
-        } ,
-        {
-            id : 2 ,
-            title : 'قرمز' ,
-            color : '#f44336'
-        } ,
-        {
-            id : 3 ,
-            title : 'بنفش' ,
-            color : '#e312ff'
-        } ,
-        {
-            id : 4 ,
-            title : 'مشکی' ,
-            color : '#000'
-        } ,
-        {
-            id : 5 ,
-            title : 'قرمز' ,
-            color : '#f44336'
-        } ,
-        {
-            id : 6 ,
-            title : 'بنفش' ,
-            color : '#e312ff'
-        } ,
-        {
-            id : 7 ,
-            title : 'قرمز' ,
-            color : '#f44336'
-        } ,
-        {
-            id : 8 ,
-            title : 'بنفش' ,
-            color : '#e312ff'
+    const [data , setData] = useState([]);
+    const [isLoading , setLoading] = useState(true);
+    const [colorToEdit , setColorToEdit] = useState(null);
+
+
+
+
+    // This is for get Colors
+    const handleGetColors = async ()=>{
+        try {
+            const res = await getColorsService();
+            if (res.status == 200) {
+                setData(res.data.data);
+            }
+        } catch (error) {
+            // set error in httpService
         }
-    ]
-
-    const dataInfo = [
-        {field : 'id' , title : '#'},
-        {field : 'title' , title : 'نام رنگ'},
-        {field : 'color' , title : 'کد رنگ'},
-    ]
-
-    const additionFieldElement = (itemId,d)=>{
-        return(
-            <>
-                <td className="p-2">
-                    <div className="w-100 h-100 d-block " 
-                    style={{background: d.color ,color: d.color}}>...</div>
-                </td>
-                <td>
-                    <i className="fas fa-times text-danger mx-1 hoverable_text pointer has_tooltip"
-                     title="حذف رنگ" data-bs-toggle="tooltip" data-bs-placement="top"></i>
-                </td>
-            </>
-        )
+        finally {
+            setTimeout(() => {
+                setLoading(false);
+            }, 500);
+        }
     }
-    
+
+    // This is for delete Color
+    const handleDeleteColor = async (rowData)=>{
+        if (await Confirm(`آیا از حذف رنگ ${rowData.title}
+        اطمینان دارید ؟`)) {
+            try {
+                const res = await deleteColorService(rowData.id);
+                if (res.status == 200) {
+                    Alert('عملیات با موفقیت انجام شد .',
+                    `رنگ ${rowData.title} با موفقیت حذف شد .` , 'success');
+                    handleGetColors();
+                }
+            } catch (error) {
+                // set error in httpService
+            }
+        }
+    }
+
+    // This is for calling Get Colors function
+    useEffect(() => {
+        handleGetColors();
+        setLoading(true)
+    }, []);
+
+
+
     const additionField = [
         {
-            title : 'رنگ' ,
             field : 'color' ,
-            element : (itemId,d)=> additionFieldElement(itemId,d)
+            title : 'رنگ' ,
+            element : (itemId , rowData)=> <ShowColor rowData={rowData} />
         } ,
         {
+            field : 'Operation' ,
             title : 'عملیات' ,
-            field : 'operation' ,
-            element : ()=>{}
-        }
+            element : (itemId , rowData)=> <Actions rowData={rowData}
+            handleDeleteColor={handleDeleteColor} setColorToEdit={setColorToEdit} />
+        } 
     ]
 
     const searchParams = {
@@ -85,12 +76,17 @@ const ColorsTable = () => {
         placeholder : 'قسمتی از نام رنگ را وارد کنید .' ,
         searchField : 'title'
     }
-
+    
+    const dataInfo = [
+        {field : 'id' , title : '#'},
+        {field : 'title' , title : 'نام رنگ'},
+        {field : 'code' , title : 'کد رنگ'},
+    ]
     
     const targetSearch = [
         {id : 1 , color : '#e312ff' , title : 'نام رنگ' , target : 'title' ,
         placeholder : 'قسمتی از نام رنگ را وارد کنید .'} ,
-        {id : 2 , color : '#000' , title : 'کد رنگ' , target : 'color' ,
+        {id : 2 , color : '#000' , title : 'کد رنگ' , target : 'code' ,
         placeholder : 'قسمتی از کد رنگ را وارد کنید .'} ,
     ]
 
@@ -98,9 +94,10 @@ const ColorsTable = () => {
     return (
         <>
             <PaginatedTable data={data} dataInfo={dataInfo} additionField={additionField}
-             searchParams={searchParams} numOfPage={4} targetSearch={targetSearch}>
+             searchParams={searchParams} numOfPage={4} targetSearch={targetSearch} isLoading={isLoading}>
                 {/* --- Modal add Color --- */}
-                <AddColor/>
+                <AddColor setColorToEdit={setColorToEdit} handleGetColors={handleGetColors}
+                colorToEdit={colorToEdit} />
             </PaginatedTable>
         </>
     );

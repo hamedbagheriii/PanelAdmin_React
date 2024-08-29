@@ -7,8 +7,8 @@ export const initialValues = {
     category_ids : '' ,
     title : '' ,
     price : '' ,
-    weight : null ,
-    brand_id : null ,
+    weight : '' ,
+    brand_id : '' ,
     color_ids : '' ,
     guarantee_ids : '' ,
     descriptions : '' ,
@@ -17,8 +17,8 @@ export const initialValues = {
     image : null ,
     alt_image : '' ,
     keywords : '' ,
-    stock : null ,
-    discount : null ,
+    stock : '' ,
+    discount : '' ,
 }
 
 export const onSubmit = async (values , submitProps )=>{
@@ -64,8 +64,8 @@ export const validationSchema = Yup.object({
         .matches(/^[\u0600-\u06FF\sa-zA-Z0-9@!%-.$?&]+$/, "فقط از حروف و اعداد استفاده شود"),
     price: Yup.number()
         .required("لطفا این قسمت را پر کنید ."),
-    weight: Yup.number(),
-    brand_id: Yup.number(),
+    weight: Yup.number().nullable(true),
+    brand_id: Yup.number().nullable(true),
     color_ids: Yup.string().matches(/^[0-9\s-]+$/,"فقط ازاعداد و خط تیره استفاده شود"),
     guarantee_ids: Yup.string().matches(/^[0-9\s-]+$/,"فقط ازاعداد و خط تیره استفاده شود"),
     descriptions: Yup.string().matches(/^[\u0600-\u06FF\sa-zA-Z0-9@!%-<>/:.$?&]+$/, "فقط از حروف و اعداد استفاده شود"),
@@ -77,7 +77,7 @@ export const validationSchema = Yup.object({
       )
       .test("format", "فرمت فایل باید jpg باشد", (value) =>
         !value ? true : value.type === "image/jpeg" || value.type === "image/png"
-      ),
+      ).nullable(true),
     alt_image: Yup.string().matches(/^[\u0600-\u06FF\sa-zA-Z0-9@!%-.$?&]+$/, "فقط از حروف و اعداد استفاده شود"),
     keywords: Yup.string().matches(/^[\u0600-\u06FF\sa-zA-Z0-9@!%-.$?&]+$/, "فقط از حروف و اعداد استفاده شود"),
     stock: Yup.number(),

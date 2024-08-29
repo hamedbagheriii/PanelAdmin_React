@@ -78,7 +78,6 @@ const BrandsTable = () => {
             handleDeleteBrand={handleDeleteBrand} setBrandToEdit={setBrandToEdit} />
         } ,
         
-        
     ]
 
     const searchParams = {
