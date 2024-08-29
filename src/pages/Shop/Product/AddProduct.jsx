@@ -13,7 +13,6 @@ import PersonalError from '../../../components/form/personalComponenet/personalE
 const AddProduct = () => {
     const navigate = useNavigate();
     const [parentCategories , setParentCategories] = useState([]);
-    const [selectedCategories , setSelectedCategories] = useState([]);
     const [mainCategories , setMainCategories] = useState(null);
     const [isLoading , setIsLoading] = useState(true);
 
@@ -54,41 +53,7 @@ const AddProduct = () => {
         }
     }
 
-    // this is for set selected Categories
-    const handleSelectCategory = (value , formik)=>{
-        if (value > 0) {
-            setSelectedCategories(prevState=>{
-                // findIndex : روی ارایه مپ میزنه و شرط چک میکنه و ایندکس ان چیز رو برمیگردونه و اما اگر پیدا نکنه -1 برمیگردونه
-                if (prevState.findIndex(d=>d.id == value) == -1) {
-                    const newData = [...prevState , mainCategories.filter(i=>i.id == value)[0]];
-                    
-                    const selectedIds = newData.map(s=>s.id);
-                    formik.setFieldValue('category_ids' , selectedIds.join('-'))
-                    
-                    return newData;
-                }
-                else{
-                    return prevState;
-                }
-            })
-        }
-    }
-
-    // this is for delede selected Categories
-    const handleDeleteSelectedCategory = (categoryId , formik)=>{
-        setSelectedCategories(prevState=>{
-            let newData = prevState.filter(i=>i.id !== categoryId)
-
-            let selectedIds = newData.map(s=>s.id)
-            formik.setFieldValue('category_ids' , selectedIds.join('-'))
-
-            return newData;
-        })
-    }
-
-
-
-    // this is for calling get categories funcation
+    
     useEffect(() => {
         getAllParentCategories();
         setIsLoading(true);
@@ -105,52 +70,32 @@ const AddProduct = () => {
                     validateOnMount
                     >
                         {(formik)=>{
+                            console.log(formik);
                             return (
                                 <Form className='w-100'>
                                     <PageContainer title={'افزودن محصول جدید'} />
                                     <hr  className='w-75 mx-auto bg-white pt-1 rounded-3'/>
                                     <div className="container h-100 pt-3 modal_maxWidth input_dark">
                                         <div className="row mx-auto align-items-center justify-content-center h-100 gap-2"> 
-                                            {parentCategories.length  ?
-                                                <div className="col-12 mb-0">
-                                                        <FormikControl 
-                                                        control='select'
-                                                        options={parentCategories}
-                                                        name='parentCats'
-                                                        label='دسته والد'
-                                                        firstItem='دسته والد را انتخاب کنید . . .'
-                                                        handleOnChange={handleSetMainCategories}
-                                                        />
-                                                </div>  
-                                            : null}
+                                            <div className="col-12 mb-0">
+                                                <FormikControl 
+                                                control='select'
+                                                options={parentCategories}
+                                                name='parentCats'
+                                                label='دسته والد'
+                                                firstItem='دسته والد را انتخاب کنید . . .'
+                                                handleOnChange={handleSetMainCategories}
+                                                />
+                                            </div>  
 
-                                            {mainCategories == 'waiting' ?
-                                                <div className='w-100 '>
-                                                        <LoadingAlert />
-                                                </div>
-                                            : mainCategories !== null  ?
-                                                <div className="col-12 ">
-                                                        <FormikControl 
-                                                        control='select'
-                                                        options={mainCategories}
-                                                        name='mainCats'
-                                                        label='دسته اصلی'
-                                                        firstItem='دسته اصلی را انتخاب کنید . . .'
-                                                        handleOnChange={handleSelectCategory}                                                        
-                                                        />
-                                                        {selectedCategories.length ?
-                                                            <div className="col-12 mt-4 d-flex flex-wrap gap-2">
-                                                                {selectedCategories.map(category=>(
-                                                                    <span key={category.id} className="chips_elem bg-primary text-white text-center">
-                                                                        <i className="fas fa-times ms-2 text-danger"
-                                                                        onClick={()=>handleDeleteSelectedCategory(category.id , formik)}></i>
-                                                                        دسته {category.value}
-                                                                    </span>
-                                                                ))}
-                                                            </div>
-                                                        : null}
-                                                </div>  
-                                            : null }
+                                            <FormikControl 
+                                            control='selectChips'
+                                            options={mainCategories}
+                                            label={'دسته اصلی'}
+                                            formik={formik}
+                                            name={'category_ids'}
+                                            firstItem='دسته اصلی را انتخاب کنید . . .'
+                                            />
 
                                             <div className='col-6 ms-auto'>
                                                 <ErrorMessage name='category_ids' component={PersonalError} />

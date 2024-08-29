@@ -111,16 +111,15 @@ const AddCategory = () => {
                         <Form className='mx-auto'>
                             <div className="container modal_maxWidth h-100 pt-3 ">
                                 <div className="row mx-auto align-items-center justify-content-around h-50 gap-2">
-                                    {parents.length ? 
-                                        <FormikControl 
-                                        className=''
-                                        control='select'
-                                        options={parents}
-                                        name='parent_id'
-                                        label='دسته والد'
-                                        firstItem='دسته والد را انتخاب کنید . . .'
-                                        />
-                                    : null}
+                                    <FormikControl 
+                                    className=''
+                                    control='select'
+                                    options={parents}
+                                    name='parent_id'
+                                    label='دسته والد'
+                                    firstItem='دسته والد را انتخاب کنید . . .'
+                                    
+                                    />
 
                                     <FormikControl 
                                         className=''

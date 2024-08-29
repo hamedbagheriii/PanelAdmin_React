@@ -1,7 +1,5 @@
 import React from 'react';
 import ProductTable from './ProductTable';
-import AddProduct from './AddProduct';
-import ModalsContainer from '../../../components/ModalsContainer';
 import PageContainer from '../../../components/PageContainer';
 import AddAtrrProduct from './AddAtrProduct';
 

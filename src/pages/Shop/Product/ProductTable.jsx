@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import AddProduct from './AddProduct';
 import ProductAction from './tableAddition/ProductAction';
 import PaginatedDataTable from '../../../components/tableComponent/paginatedDataTable';
 import { deleteProductService, getProductsService } from '../../../services/shop/product/product';
 import { Alert } from '../../../utils/alert';
 import { Confirm } from '../../../utils/confirm';
-import { Link } from 'react-router-dom';
 import AddBtnLink from '../../../UI/All/AddBtnLink';
 
 const ProductTable = () => {
@@ -13,7 +11,7 @@ const ProductTable = () => {
     const [isLoading , setLoading] = useState(true);
     const [currentPage , setCurrentPage] = useState(1);
     const [countOnPage , setCountOnPage] = useState(4);
-    const [pageCount , setPageCount] = useState(10);
+    const [pageCount , setPageCount] = useState(1);
     const [searchField , setSearchField] = useState('');
 
 
@@ -25,7 +23,7 @@ const ProductTable = () => {
             const res = await getProductsService(currentPage,countOnPage,searchField);
             if (res.status == 200) {
                 setTableData(res.data.data);
-                // setPageCount(res.data.last_page);
+                setPageCount(res.data.last_page);
             }
         } catch (error) {
             // set error in httpService
