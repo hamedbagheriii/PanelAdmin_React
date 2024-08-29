@@ -46,6 +46,7 @@ const AddProduct = () => {
                 }
             } catch (error) {
                 //set error in httpService
+                setMainCategories(null);
             }
         }
         else{
@@ -70,7 +71,6 @@ const AddProduct = () => {
                     validateOnMount
                     >
                         {(formik)=>{
-                            console.log(formik);
                             return (
                                 <Form className='w-100'>
                                     <PageContainer title={'افزودن محصول جدید'} />
@@ -89,7 +89,7 @@ const AddProduct = () => {
                                             </div>  
 
                                             <FormikControl 
-                                            control='selectChips'
+                                            control='searchableSelect'
                                             options={mainCategories}
                                             label={'دسته اصلی'}
                                             formik={formik}

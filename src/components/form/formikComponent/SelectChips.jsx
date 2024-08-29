@@ -6,7 +6,6 @@ const SelectChips = ({options , name , label , firstItem , chipsName='دسته' 
     className , formik , resultType='string'}) => {
     const [selectedArray , setSelectedArray] = useState([]);
 
-
     // this is for set selected handleSelectItem
     const handleSelectItem = (value , formik)=>{
         if (value > 0) {
@@ -33,8 +32,9 @@ const SelectChips = ({options , name , label , firstItem , chipsName='دسته' 
         setSelectedArray(prevState=>{
             let newData = prevState.filter(i=>i.id !== itemId)
 
-            let selectedIds = newData.map(s=>s.id)
-            formik.setFieldValue(name , selectedIds.join('-'))
+            const selectedIds = newData.map(s=>s.id)
+            const nameValue = resultType == 'string' ? selectedIds.join('-') : selectedIds ;
+            formik.setFieldValue(name , nameValue)
 
             return newData;
         })

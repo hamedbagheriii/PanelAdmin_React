@@ -115,7 +115,7 @@ const PaginatedDataTable = ({tableData  , searchParams ,
                                     ) : null
                                 ))}
 
-                                {currentPage < pageCount-(pageRange-1) ?
+                                {currentPage <= pageCount-pageRange ?
                                     <>
                                         {currentPage < pageCount-pageRange ? 
                                             <li className={`page-item `}>
