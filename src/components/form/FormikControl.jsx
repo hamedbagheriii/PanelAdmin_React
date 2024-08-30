@@ -6,6 +6,7 @@ import File from './formikComponent/File';
 import Switch from './formikComponent/Switch';
 import SelectChips from './formikComponent/SelectChips';
 import SearchableSelect from './formikComponent/SearchableSelect';
+import CkEditor from './formikComponent/CkEditor';
 
 const FormikControl = (props) => {
     switch (props.control) {
@@ -29,6 +30,9 @@ const FormikControl = (props) => {
 
         case 'searchableSelect':
             return <SearchableSelect {...props} />
+
+        case 'ckEditor':
+            return <CkEditor {...props} />
 
         default:
             return null;

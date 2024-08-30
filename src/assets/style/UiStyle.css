@@ -119,3 +119,15 @@
 
 
 /* ================ searchabldeSelect ================ */
+
+
+/* ================ ckEditorCompo ================ */
+.ckEditorCompo{
+    overflow-x: scroll !important;
+}
+@media(min-width:650px){
+    .ckEditorCompo{
+        overflow-x: auto !important;
+    }
+}
+/* ================ ckEditorCompo ================ */

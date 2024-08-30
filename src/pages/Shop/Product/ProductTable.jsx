@@ -77,6 +77,11 @@ const ProductTable = () => {
             element : (rowData)=> rowData.categories.length ?
             rowData.categories[0].title : null ,
         },
+        {
+            field : null ,
+            title : 'توضیحات',
+            element : (rowData)=> <span dangerouslySetInnerHTML={{__html:rowData.descriptions}}></span> ,
+        },
         {field : 'title' , title : 'عنوان'},
         {field : 'price' , title : 'قیمت'},
         {field : 'stock' , title : 'موجودی'},

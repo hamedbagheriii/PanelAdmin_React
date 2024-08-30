@@ -11,6 +11,7 @@ import PersonalError from '../../../components/form/personalComponenet/personalE
 import { getBrandsService } from '../../../services/shop/brand/brand';
 import { getColorsService } from '../../../services/shop/color/colors';
 import { getGuarantiesService } from '../../../services/shop/Guaranties/guaranties';
+import CkEditor from '../../../components/form/formikComponent/CkEditor';
 
 
 const AddProduct = () => {
@@ -271,11 +272,11 @@ const AddProduct = () => {
                                             selectedToEdit={selectedGuarantees}
                                             />
 
-                                            <FormikControl 
-                                            control='textarea'
+                                            <FormikControl
+                                            control='ckEditor'
                                             label='توضیحات'
                                             type='text'
-                                            placeholder='توضیحات . . .'
+                                            placeholder='فقط از حروف و اعداد استفاده شود . . .'
                                             name='descriptions'
                                             />
 
