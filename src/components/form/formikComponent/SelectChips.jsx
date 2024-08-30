@@ -60,7 +60,7 @@ const SelectChips = ({options , name , label , firstItem , chipsName='دسته' 
                                     ))
                                 }
                             </Field>
-                            <span className="input-group-text w_6rem justify-content-center">{label}</span>
+                            <span className="input-group-text w_7rem text_wrap justify-content-center">{label}</span>
                         </div>
                     </div>
                     

@@ -115,6 +115,14 @@ body{
     width: 6rem !important;
 }
 
+.w_7rem{
+    width: 7rem !important;
+}
+
+.text_wrap{
+    text-wrap: wrap !important;
+}
+
 .w_8rem{
     width: 8rem !important;
 }

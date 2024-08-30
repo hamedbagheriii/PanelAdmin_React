@@ -17,7 +17,7 @@ const File = ({name, label, className, placeholder , formik}) => {
                     placeholder={placeholder}
                     onChange={(e)=>form.setFieldValue(name, e.target.files[0])}
                   />
-                  <span className="input-group-text w_6rem justify-content-center"> {label} </span>
+                  <span className="input-group-text w_7rem text_wrap justify-content-center"> {label} </span>
                 </div>
               </div>
             );

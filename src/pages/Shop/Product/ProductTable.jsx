@@ -98,7 +98,7 @@ const ProductTable = () => {
         setSearchField={setSearchField} tableData={tableData} setCurrentPage={setCurrentPage}
         currentPage={currentPage} pageCount={pageCount} searchField={searchField }>
             {/* --- Modal add Product --- */}
-            <AddBtnLink pach={'/Product/Add-Product'} />
+            <AddBtnLink pach={'/Product/Add-Product'}  />
         </PaginatedDataTable>
     );
 }

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import PageContainer from '../../../components/PageContainer';
 import { ErrorMessage, Form, Formik } from 'formik';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import SpinnerLoad from '../../../UI/All/SpinnerLoad';
 import { initialValues, onSubmit, validationSchema } from './core';
 import FormikControl from '../../../components/form/FormikControl';
@@ -116,7 +116,6 @@ const AddProduct = () => {
         getAllBrands();
         getAllColors();
         getAllGuaranties();
-        setIsLoading(true);
     }, []);
 
 
@@ -127,9 +126,9 @@ const AddProduct = () => {
             {!isLoading ?
                     <Formik
                     initialValues={initialValues}
-                    onSubmit={onSubmit}
+                    onSubmit={(values , submitProps)=>onSubmit(values , submitProps , navigate)}
                     validationSchema={validationSchema}
-                    validateOnMount
+                    validateOnMount={true}
                     >
                         {(formik)=>{
                             return (
@@ -144,6 +143,7 @@ const AddProduct = () => {
                                                 label='دسته والد'
                                                 firstItem='دسته والد را انتخاب کنید . . .'
                                                 handleOnChange={handleSetMainCategories}
+                                                required={true}
                                                 />
                                             </div>  
 
@@ -154,6 +154,7 @@ const AddProduct = () => {
                                             formik={formik}
                                             name={'category_ids'}
                                             firstItem='دسته اصلی را انتخاب کنید . . .'
+                                            required={true}
                                             />
 
                                             <div className='col-6 ms-auto'>
@@ -166,6 +167,7 @@ const AddProduct = () => {
                                             type='text'
                                             placeholder='عنوان محصول'
                                             name='title'
+                                            required={true}
                                             />
 
                                             <FormikControl 
@@ -174,6 +176,16 @@ const AddProduct = () => {
                                             type='text'
                                             placeholder='فقط از عداد استفاده کنید (تومان)'
                                             name='price'
+                                            required={true}
+                                            />
+
+                                            <FormikControl 
+                                            control='input'
+                                            label='موجودی'
+                                            type='number'
+                                            placeholder="فقط عدد"
+                                            name='stock'
+                                            required={true}
                                             />
 
                                             <FormikControl 
@@ -191,7 +203,6 @@ const AddProduct = () => {
                                             name='brand_id'
                                             firstItem='برند مورد نظر را انتخاب کنید . . .'
                                             />
-
 
                                             <FormikControl 
                                             control='searchableSelect'
@@ -259,14 +270,6 @@ const AddProduct = () => {
                                             placeholder="با - از هم جدا شوند"
                                             name='keywords'
                                             />
-                                            
-                                            <FormikControl 
-                                            control='input'
-                                            label='موجودی'
-                                            type='number'
-                                            placeholder="فقط عدد"
-                                            name='stock'
-                                            />
  
                                             <FormikControl 
                                             control='input'
@@ -275,13 +278,7 @@ const AddProduct = () => {
                                             placeholder="فقط عدد"
                                             name='discount'
                                             />
-                                            
-                                            <div className="col-12 row justify-content-center pb-3">
-                                                <div className="form-check form-switch col-6 text-white">
-                                                    <input className="form-check-input pointer" type="checkbox" id="flexSwitchCheckDefault" />
-                                                    <label className="form-check-label pointer" htmlFor="flexSwitchCheckDefault">وضعیت فعال</label>
-                                                </div>
-                                            </div>  
+                                             
                                         </div>
                                     </div>
             
@@ -289,7 +286,7 @@ const AddProduct = () => {
                                         <button type="button" className="btn btn-danger modal-btn w-25"
                                         onClick={()=>navigate(-1)} data-bs-dismiss="modal">بازگشت</button>
                                         <button type='submit' className="btn btn-primary modal-btn w-25" 
-                                       >
+                                        disabled={formik.isSubmitting || !formik.dirty}>
                                             {formik.isSubmitting ?
                                                 <SpinnerLoad colorClass={'text-white'} inline={true} isSmall />
                                             : 'ذخیره'}

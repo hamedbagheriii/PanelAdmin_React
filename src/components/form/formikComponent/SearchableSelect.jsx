@@ -4,7 +4,7 @@ import { Field } from 'formik';
 import SpinnerLoad from '../../../UI/All/SpinnerLoad';
 
 const SearchableSelect = ({options , name , label , firstItem , chipsName='دسته' ,
-    className , formik , resultType='string'}) => {
+    className , formik , resultType='string' , required=false}) => {
 
     const [selectedArray , setSelectedArray] = useState([]);
     const [copyOptions , setCopyOptions] = useState('waiting');
@@ -58,6 +58,7 @@ const SearchableSelect = ({options , name , label , firstItem , chipsName='دس�
 
     // this is for remove active for click in body
     useEffect(() => {
+        setSelectedArray([]);
         document.body.addEventListener('click',()=>{
             setIsActive(false)
         })
@@ -76,16 +77,19 @@ const SearchableSelect = ({options , name , label , firstItem , chipsName='دس�
                             <div className="col-12 ">
                                 <div className={`col-12 mb-2 ${className}`} style={{position:'relative'}}>
                                     <div className="input-group mb-2 dir_ltr" >
-                                        {/* select */}
-                                        <div className={`form-control select_search pointer ${isActive ? 'border-primary' : ''}`}
-                                        onClick={(e)=>{
-                                            e.stopPropagation();
-                                            setIsActive(!isActive)}
-                                        }>
-                                            <span className='pointer'>{firstItem}</span>
-                                        </div>
-                                        {/* select */}
-                                        <span className="input-group-text w_6rem justify-content-center">{label}</span>
+                                        {required ?
+                                            <span className="input-group-text text-danger w_1rem h-100 text_wrap justify-content-center">اجباری</span>
+                                        : null }
+                                        {/* ========= select ========= */}
+                                            <div className={`form-control select_search pointer ${isActive ? 'border-primary' : ''}`}
+                                            onClick={(e)=>{
+                                                e.stopPropagation();
+                                                setIsActive(!isActive)}
+                                            }>
+                                                <span className='pointer'>{firstItem}</span>
+                                            </div>
+                                        {/* ========= select ========= */}
+                                        <span className="input-group-text w_7rem text_wrap justify-content-center">{label}</span>
                                     </div>
                                     <div className={`bg-dark text-white w-100 select_search_content
                                     ${isActive ? 'd-flex' : 'd-none'}`} onClick={(e)=>e.stopPropagation()}>
