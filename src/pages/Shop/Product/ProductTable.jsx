@@ -5,6 +5,7 @@ import { deleteProductService, getProductsService } from '../../../services/shop
 import { Alert } from '../../../utils/alert';
 import { Confirm } from '../../../utils/confirm';
 import AddBtnLink from '../../../UI/All/AddBtnLink';
+import { useNavigate } from 'react-router-dom';
 
 const ProductTable = () => {
     const [tableData , setTableData] = useState([]);
@@ -13,6 +14,7 @@ const ProductTable = () => {
     const [countOnPage , setCountOnPage] = useState(4);
     const [pageCount , setPageCount] = useState(1);
     const [searchField , setSearchField] = useState('');
+    const navigate = useNavigate();
 
 
 
@@ -82,7 +84,7 @@ const ProductTable = () => {
             field : null ,
             title : 'عملیات',
             element : (rowData)=> <ProductAction rowData={rowData}
-            handleDeleteProduct={handleDeleteProduct}/>
+            handleDeleteProduct={handleDeleteProduct} navigate={navigate}/>
         },
     ]
 
@@ -92,6 +94,7 @@ const ProductTable = () => {
         searchField : 'title'
     }
     // This is for inital props <<<<=
+
 
     return (
         <PaginatedDataTable dataInfo={dataInfo} searchParams={searchParams} isLoading={isLoading}

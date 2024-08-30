@@ -15,12 +15,19 @@ import { getGuarantiesService } from '../../../services/shop/Guaranties/guaranti
 
 const AddProduct = () => {
     const navigate = useNavigate();
+    const location = useLocation();
+    const productToEdit = location.state?.productToEdit;
     const [parentCategories , setParentCategories] = useState([]);
     const [mainCategories , setMainCategories] = useState(null);
     const [isLoading , setIsLoading] = useState(true);
     const [brands , setBrands] = useState([]);
     const [colors , setColors] = useState([]);
     const [guaranties , setGuaranties] = useState([]);
+    const [reinitalValues , setReinitalValues] = useState(null);
+
+    const [selectedCategories , setSelectedCategories] = useState([]);
+    const [selectedColors , setSelectedColors] = useState([]);
+    const [selectedGuarantees , setSelectedGuarantees] = useState([]);
 
     // get all categories 
     const getAllParentCategories = async ()=>{
@@ -110,7 +117,21 @@ const AddProduct = () => {
             setIsLoading(false);
         }
     }
-    
+
+    // this is for set data in selectChips box then productToEdit 
+    const setInitalSelectedValues = ()=>{
+        setSelectedCategories(productToEdit.categories.map(d=> ({id : d.id , value : d.title})))
+        setSelectedColors(productToEdit.colors.map(d=> ({id : d.id , value : d.title})))
+        setSelectedGuarantees(productToEdit.guarantees.map(d=> ({id : d.id , value : d.title})))
+        setMainCategories([]);
+    }
+
+
+
+
+
+
+    // this is for calling get all data funcations
     useEffect(() => {
         getAllParentCategories();
         getAllBrands();
@@ -118,17 +139,40 @@ const AddProduct = () => {
         getAllGuaranties();
     }, []);
 
+    // this is for set data then change productToEdit 
+    useEffect(() => {
+        if (productToEdit) {
+            for (const key in productToEdit) {
+                if(productToEdit[key] == null) productToEdit[key] = ''
+            }
+            setReinitalValues({
+                ...productToEdit ,
+                category_ids : productToEdit.categories.map(c=>c.id).join('-') ,
+                color_ids : productToEdit.colors.map(c=>c.id).join('-') ,
+                guarantee_ids : productToEdit.guarantees.map(c=>c.id).join('-') ,
+                image : null
+            });
+
+            setInitalSelectedValues();
+        }
+        else {
+            setReinitalValues(null);
+        }
+    }, [productToEdit]);
+
 
     return (
         <>
-            <PageContainer title={'افزودن محصول جدید'} />
+            <PageContainer title={productToEdit ? `ویرایش محصول ${productToEdit.title}` : 'افزودن محصول جدید'} />
             <hr  className='w-75 mx-auto bg-white pt-1 rounded-3'/>
             {!isLoading ?
                     <Formik
-                    initialValues={initialValues}
-                    onSubmit={(values , submitProps)=>onSubmit(values , submitProps , navigate)}
+                    initialValues={reinitalValues || initialValues}
+                    onSubmit={(values , submitProps)=>onSubmit(values , submitProps , navigate , productToEdit
+                    , setReinitalValues )}
                     validationSchema={validationSchema}
                     validateOnMount={true}
+                    enableReinitialize
                     >
                         {(formik)=>{
                             return (
@@ -155,6 +199,7 @@ const AddProduct = () => {
                                             name={'category_ids'}
                                             firstItem='دسته اصلی را انتخاب کنید . . .'
                                             required={true}
+                                            selectedToEdit={selectedCategories}
                                             />
 
                                             <div className='col-6 ms-auto'>
@@ -212,6 +257,7 @@ const AddProduct = () => {
                                             name={'color_ids'}
                                             firstItem='رنگ مورد نظر را انتخاب کنید . . .'
                                             chipsName='رنگ'
+                                            selectedToEdit={selectedColors}
                                             />
 
                                             <FormikControl 
@@ -222,6 +268,7 @@ const AddProduct = () => {
                                             name={'guarantee_ids'}
                                             firstItem='گارانتی مورد نظر را انتخاب کنید . . .'
                                             chipsName='گارانتی'
+                                            selectedToEdit={selectedGuarantees}
                                             />
 
                                             <FormikControl 
@@ -247,13 +294,15 @@ const AddProduct = () => {
                                             placeholder='توضیحات . . .'
                                             name='cart_descriptions'
                                             />
-
-                                            <FormikControl 
-                                            control='file'
-                                            name='image'
-                                            label='تصویر'
-                                            formik={formik}
-                                            />
+ 
+                                           {!productToEdit ?
+                                                <FormikControl 
+                                                control='file'
+                                                name='image'
+                                                label='تصویر'
+                                                formik={formik}
+                                                />
+                                            : null }
 
                                             <FormikControl 
                                             control='input'

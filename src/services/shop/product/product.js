@@ -11,6 +11,9 @@ export const createNewProductService = (data)=>{
     'multipart/form-data' );
 }
 
+export const editProductService = (id,data)=>{
+    return httpService(`/admin/products/${id}` , 'put' , data );
+}
 
 export const deleteProductService = (productID)=>{
     return httpService(`/admin/products/${productID}` , 'delete');

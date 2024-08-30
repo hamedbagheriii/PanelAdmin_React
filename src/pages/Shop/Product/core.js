@@ -1,7 +1,7 @@
 import React from 'react';
 import * as Yup from 'yup';
 import { Alert } from "../../../utils/alert";
-import { createNewProductService } from '../../../services/shop/product/product';
+import { createNewProductService, editProductService } from '../../../services/shop/product/product';
 
 // ========== initial formik props ==========
 export const initialValues = {
@@ -22,13 +22,11 @@ export const initialValues = {
   discount: "",
 }
 
-export const onSubmit = async (values , submitProps , navigate )=>{
+export const onSubmit = async (values , submitProps , navigate , productToEdit , setReinitalValues)=>{
     const handleShowAlert = (title)=>{
         setTimeout(() => {
             Alert(` محصول ${values.title} 
             با موفقیت ${title} شد .` , '' , 'success');
-            // setGuarantiesToEdit(null);
-            // setReinitalValues(null);
             submitProps.resetForm();
             navigate(-1);
           }, 0 );
@@ -36,21 +34,23 @@ export const onSubmit = async (values , submitProps , navigate )=>{
         
 
     try {
-        // if (guarantiesToEdit) {
-        //     const res = await editGuaranteeService(guarantiesToEdit.id,values);
-        //     if(res.status == 200){
-        //       handleShowAlert('ویرایش')
-        //     }
-        // }
-        // else {
+        if (productToEdit) {
+            const res = await editProductService(productToEdit.id,values);
+            if(res.status == 200){
+              handleShowAlert('ویرایش')
+              productToEdit = null;
+              setReinitalValues(null);
+            }
+        }
+        else {
             const res = await createNewProductService(values);
             if(res.status == 201){
               handleShowAlert('ایجاد');
             }
-        // }
+        }
     } catch (error) {
-        // setGuarantiesToEdit(null);
-        // setReinitalValues(null);
+        productToEdit = null;
+        setReinitalValues(null);
         submitProps.resetForm();
     }
     console.log(values);

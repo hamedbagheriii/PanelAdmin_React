@@ -1,15 +1,15 @@
 import React from 'react';
 
-// ! ایدی وارد نشده !!!!!!!!!!!!!!!!
 
-const ProductAction = ({rowData , handleDeleteProduct}) => {
+const ProductAction = ({rowData , handleDeleteProduct , navigate}) => {
     return (
         <>
             <i className="fas fa-edit text-warning mx-1 hoverable_text pointer has_tooltip"
-            title="ویرایش محصول" data-bs-toggle="modal" data-bs-placement="top" data-bs-target="#"
+            title="ویرایش محصول"  data-bs-placement="top"
+            onClick={()=>navigate('/Product/Add-Product' , {state : {productToEdit : rowData}})}
             ></i>
-            <i className="fas fa-edit text-warning mx-1 hoverable_text pointer has_tooltip"
-            title="ویرایش محصول" data-bs-toggle="modal" data-bs-placement="top" data-bs-target="#"
+            <i className="fas fa-receipt text-info mx-1 hoverable_text pointer has_tooltip"
+            title="ثبت ویژگی"  data-bs-placement="top" 
             ></i>
             <i className="fas fa-times text-danger mx-1 hoverable_text pointer has_tooltip"
              title="حذف محصول" data-bs-toggle="tooltip" data-bs-placement="top"

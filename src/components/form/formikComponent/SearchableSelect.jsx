@@ -4,7 +4,7 @@ import { Field } from 'formik';
 import SpinnerLoad from '../../../UI/All/SpinnerLoad';
 
 const SearchableSelect = ({options , name , label , firstItem , chipsName='دسته' ,
-    className , formik , resultType='string' , required=false}) => {
+    className , formik , resultType='string' , required=false , selectedToEdit=null}) => {
 
     const [selectedArray , setSelectedArray] = useState([]);
     const [copyOptions , setCopyOptions] = useState('waiting');
@@ -58,11 +58,15 @@ const SearchableSelect = ({options , name , label , firstItem , chipsName='دس�
 
     // this is for remove active for click in body
     useEffect(() => {
-        setSelectedArray([]);
         document.body.addEventListener('click',()=>{
             setIsActive(false)
         })
     }, []);
+
+
+    useEffect(() => {
+        setSelectedArray(selectedToEdit);
+    }, [selectedToEdit]);
 
     return (
         <Field>
