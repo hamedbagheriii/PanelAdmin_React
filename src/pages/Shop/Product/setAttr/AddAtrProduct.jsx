@@ -8,8 +8,9 @@ import { getCategoriesAtrrsService } from '../../../../services/shop/categororie
 import LoadingAlert from '../../../../UI/All/LoadingAlert';
 import PrevPageBTN from '../../../../UI/All/PrevPageBTN';
 import * as Yup from 'yup';
-import { onSubmit } from './core';
+import { initializingData, onSubmit } from './core';
 import PersonalError from '../../../../components/form/personalComponenet/personalError';
+
 
 
 const AddAtrrProduct = () => {
@@ -19,34 +20,17 @@ const AddAtrrProduct = () => {
     const [attrs , setAttrs] = useState();
     const [isLoading , setIsLoading] = useState(true);
     const [initialValues , setInitialValues] = useState(null);
+    const [editToAttr , setEditToAttr] = useState(null);
     const [validationSchema , setVlidationSchema] = useState(null);
 
     const handleGetCategoriesAttr = async ()=>{
-        let attrVar = [] ; 
-        let initals = {} ; 
-        let rules = {} ; 
-        Promise.all (
-            productData.categories.map(async (cat)=>{
-                const res = await getCategoriesAtrrsService(cat.id)
-                if (res.status == 200 ) {
-                    attrVar = [...attrVar , {groupTitle : cat.title , data : res.data.data}] ;
-                    if (res.data.data.length > 0) {
-                        for (const d of res.data.data) {
-                            initals = {...initals , [d.id]:''}
-                            rules = {...rules , [d.id]:Yup.string().matches(/^[\u0600-\u06FF\sa-zA-Z0-9@!%-.$?&]+$/,
-                            "فقط از حروف و اعداد استفاده شود ."),}
-                        }
-                    }
-                }
-            })
-        ).then(()=>{
-            setAttrs(attrVar);
-            setInitialValues(initals);
-            setVlidationSchema(Object.keys(rules).length > 0 ? Yup.object(rules) : null);
-            setTimeout(() => {
-                setIsLoading(false)
-            }, 500);
-        })
+        const {attrsVar , initals , rules} = await initializingData(productData , setEditToAttr);
+        setAttrs(attrsVar);
+        setInitialValues(initals);
+        setVlidationSchema(Object.keys(rules).length > 0 ? Yup.object(rules) : null);
+        setTimeout(() => {
+            setIsLoading(false)
+        }, 500);
     }
 
     
@@ -67,7 +51,8 @@ const AddAtrrProduct = () => {
                 <Formik
                 initialValues={initialValues}
                 validationSchema={validationSchema}
-                onSubmit={(values,submitProps)=>onSubmit(values,submitProps,productData.id,productData.title,navigate)}
+                onSubmit={(values,submitProps)=>onSubmit(values,submitProps,productData.id,productData.title,
+                navigate, editToAttr , setEditToAttr)}
                 validateOnMount
                 >
                     {(formik)=>{
