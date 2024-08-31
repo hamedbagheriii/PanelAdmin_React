@@ -1,13 +1,16 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import '../../../../assets/style/UiStyle.css'
 import PageContainer from '../../../../components/PageContainer';
-import { Form, Formik } from 'formik';
+import { ErrorMessage, FastField, Field, Form, Formik } from 'formik';
 import SpinnerLoad from '../../../../UI/All/SpinnerLoad';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { getCategoriesAtrrsService } from '../../../../services/shop/categorories/categoryAttr';
 import LoadingAlert from '../../../../UI/All/LoadingAlert';
-import SubmitBTN from '../../../../components/form/SubmitBTN';
 import PrevPageBTN from '../../../../UI/All/PrevPageBTN';
+import * as Yup from 'yup';
+import { onSubmit } from './core';
+import PersonalError from '../../../../components/form/personalComponenet/personalError';
+
 
 const AddAtrrProduct = () => {
     const location = useLocation();
@@ -15,44 +18,60 @@ const AddAtrrProduct = () => {
     const {productData} = location.state;
     const [attrs , setAttrs] = useState();
     const [isLoading , setIsLoading] = useState(true);
+    const [initialValues , setInitialValues] = useState(null);
+    const [validationSchema , setVlidationSchema] = useState(null);
 
     const handleGetCategoriesAttr = async ()=>{
-        // در زمانی که میخوایم چند رکوست پشت هم به سرور بزنیم بهتره از promise.all استفاده کنیم
+        let attrVar = [] ; 
+        let initals = {} ; 
+        let rules = {} ; 
         Promise.all (
             productData.categories.map(async (cat)=>{
                 const res = await getCategoriesAtrrsService(cat.id)
                 if (res.status == 200 ) {
-                    setAttrs(oldData=>{
-                        return oldData
-                        ? [...oldData , {groupTitle : cat.title , data : res.data.data}]
-                        : [{groupTitle : cat.title , data : res.data.data}]
-                    })
-                    setIsLoading(false)
+                    attrVar = [...attrVar , {groupTitle : cat.title , data : res.data.data}] ;
+                    if (res.data.data.length > 0) {
+                        for (const d of res.data.data) {
+                            initals = {...initals , [d.id]:''}
+                            rules = {...rules , [d.id]:Yup.string().matches(/^[\u0600-\u06FF\sa-zA-Z0-9@!%-.$?&]+$/,
+                            "فقط از حروف و اعداد استفاده شود ."),}
+                        }
+                    }
                 }
             })
-        )
+        ).then(()=>{
+            setAttrs(attrVar);
+            setInitialValues(initals);
+            setVlidationSchema(Object.keys(rules).length > 0 ? Yup.object(rules) : null);
+            setTimeout(() => {
+                setIsLoading(false)
+            }, 500);
+        })
     }
 
-    const getData = useMemo(
-        ()=> {
-            if (!attrs) {
-                handleGetCategoriesAttr()
-            }
-        } ,
-        [productData.categories]
-    )
     
+    useEffect(() => {
+        handleGetCategoriesAttr();
+    }, []);
+
+
 
     return (
-        <Formik>
-             {(formik)=>{
-                 return (
-                     <div className='w-100 h-75'>
-                        <PageContainer title={`افزودن ویژگی به محصول ${productData.title}`} />
-                        <hr className='w-100 bg-white pt-1 mx-auto  rounded-3' />
-                        {isLoading ?
-                            <LoadingAlert/>
-                        :
+
+        <div className='w-100 h-75'>
+            <PageContainer title={`افزودن ویژگی به محصول ${productData.title}`} />
+            <hr className='w-100 bg-white pt-1 mx-auto  rounded-3' />
+            {isLoading ?
+                <LoadingAlert/>
+            : initialValues && validationSchema ?
+                <Formik
+                initialValues={initialValues}
+                validationSchema={validationSchema}
+                onSubmit={(values,submitProps)=>onSubmit(values,submitProps,productData.id,productData.title,navigate)}
+                validateOnMount
+                >
+                    {(formik)=>{
+                        return (
                             <Form className="container modal_maxWitdh input_dark">
                                 {   
                                     attrs ?
@@ -68,9 +87,10 @@ const AddAtrrProduct = () => {
                                                             <div key={attrData.id} className="col-12">
                                                                 <div className="input-group my-3 dir_ltr">
                                                                     <span className="input-group-text w_6rem justify-content-center">{attrData.unit}</span>
-                                                                    <input type="text" className="form-control" placeholder="" />
+                                                                    <Field type="text" className="form-control" placeholder="" name={attrData.id} />
                                                                     <span className="input-group-text w_8rem justify-content-center">{attrData.title}</span>
                                                                 </div>
+                                                                <ErrorMessage name={attrData.id} component={PersonalError} />
                                                             </div>  
                                                         ))
                                                     ) : (
@@ -94,12 +114,21 @@ const AddAtrrProduct = () => {
                                     </button>
                                 </div>
                             </Form>    
-                        }
-                        <PrevPageBTN />
-                    </div>
-                 )
-             }}
-        </Formik>
+                        )
+                    }}
+                </Formik> 
+            : (
+                <LoadingAlert title={`ویژگی در دسته بندی ${attrs[0].groupTitle} پیدا نشد .`} bgColor='warning' spinner={false} >
+                    <hr />
+                    <span className='w-100 text-center my-2 d-block mx-auto'>برای 
+                        <Link style={{textDecoration:'none'}} to={`/Category`}> مشاهده و افزودن</Link> ویژگی به دسته بندی ،
+                        به بخش ویژگی های دسته بندی مورد نظر بروید .
+                    </span>
+                </LoadingAlert>
+            )}
+            <PrevPageBTN />
+        </div>
+
     );
 }
 

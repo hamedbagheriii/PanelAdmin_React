@@ -18,3 +18,14 @@ export const editProductService = (id,data)=>{
 export const deleteProductService = (productID)=>{
     return httpService(`/admin/products/${productID}` , 'delete');
 }
+
+
+// ---======== product attr ========---
+
+export const getProductAttrsService = (productId)=>{
+    return httpService(`/admin/products/${productId}/get_attr` , 'get');
+}
+
+export const createProductAttrService = (productId,data)=>{
+    return httpService(`/admin/products/${productId}/add_attr` , 'post' , data);
+}
