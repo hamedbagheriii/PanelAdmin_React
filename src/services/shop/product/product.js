@@ -22,10 +22,20 @@ export const deleteProductService = (productID)=>{
 
 // ---======== product attr ========---
 
-export const getProductAttrsService = (productId)=>{
-    return httpService(`/admin/products/${productId}/get_attr` , 'get');
-}
-
 export const createProductAttrService = (productId,data)=>{
     return httpService(`/admin/products/${productId}/add_attr` , 'post' , data);
+}
+
+// ---======== product image ========---
+export const getProductImageService = (productId)=>{
+    return httpService(`/admin/products/${productId}/add_image` , 'get');
+}
+
+export const addProductImageService = (productId,data)=>{
+    return httpService(`/admin/products/${productId}/add_image` , 'post' , data , null , 
+    'multipart/form-data' );
+}
+
+export const deleteProductImageService = (imageID)=>{
+    return httpService(`/admin/products/gallery/${imageID}` , 'delete');
 }

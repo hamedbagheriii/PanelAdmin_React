@@ -12,6 +12,10 @@ const ProductAction = ({rowData , handleDeleteProduct , navigate}) => {
             title="ثبت ویژگی"  data-bs-placement="top" 
             onClick={()=>navigate(`/Product/${rowData.id}/attributes` , {state : {productData : rowData}})}
             ></i>
+            <i className="fas fa-images text-success mx-1 hoverable_text pointer has_tooltip"
+             title="مدیریت گالری" data-bs-toggle="tooltip" data-bs-placement="top"
+             onClick={()=>navigate(`/Product/${rowData.id}/gallery` , {state : {productData : rowData}})}
+            ></i>
             <i className="fas fa-times text-danger mx-1 hoverable_text pointer has_tooltip"
              title="حذف محصول" data-bs-toggle="tooltip" data-bs-placement="top"
              onClick={()=>handleDeleteProduct(rowData)}

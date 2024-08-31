@@ -20,6 +20,7 @@ import CategoryOutlet from '../../../pages/Shop/Category/categoryOutlet.jsx';
 import AtrrCategory from '../../../pages/Shop/Category/attr/AtrrCategory.jsx';
 import AddProduct from '../../../pages/Shop/Product/AddProduct.jsx';
 import AddAtrrProduct from '../../../pages/Shop/Product/setAttr/AddAtrProduct.jsx';
+import Gallery from '../../../pages/Shop/Product/gallery/gallery.jsx';
 
 
 const IndexContent = () => {
@@ -47,6 +48,7 @@ const IndexContent = () => {
             <Route path='/Product' element={<Product/>} />
             <Route path='/Product/Add-Product' element={<AddProduct/>} />
             <Route path='/Product/:ProductID/attributes' element={<AddAtrrProduct/>}/>
+            <Route path='/Product/:ProductID/gallery' element={<Gallery/>}/>
 
             <Route path='/Brands' element={<Brands/>} />
 
