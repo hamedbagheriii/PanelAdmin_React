@@ -39,3 +39,7 @@ export const addProductImageService = (productId,data)=>{
 export const deleteProductImageService = (imageID)=>{
     return httpService(`/admin/products/gallery/${imageID}` , 'delete');
 }
+
+export const addMainProductImageService = (imageID)=>{
+    return httpService(`/admin/products/gallery/set_main/${imageID}` , 'get');
+}
