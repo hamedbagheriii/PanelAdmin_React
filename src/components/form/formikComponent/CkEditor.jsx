@@ -12,9 +12,8 @@ const CkEditor = ({name, label, className, placeholder}) => {
             {({form})=>{
                 return (
                     <div className='w-100 my-2 mb-3 me-3 me-md-0 p-0 col-12 '>
-                        <div className='w-100 d-flex mb-3 d-md-block p-0 ckEditorCompo'>
+                        <div className='w-100 d-flex bg-dark mb-3 d-md-block p-0 ckEditorCompo'>
                             <CKEditor
-
                                 editor={ ClassicEditor }
                                 data={form.values[name] || `<p>${label} : ${placeholder}</p>`}
                                 onReady={editor => {console.log('ready')}}
@@ -23,7 +22,7 @@ const CkEditor = ({name, label, className, placeholder}) => {
                                     form.setFieldValue(name , data)
                                 }}
                                 onBlur={(event , editor)=>{
-                                    form.setFieldTouched(name)
+                                    form.setFieldTouched(name);
                                 }}
                                 onFocus={(event , editor)=>
                                     editor.getData() == `<p>${label} : ${placeholder}</p>` ? editor.setData('') : null

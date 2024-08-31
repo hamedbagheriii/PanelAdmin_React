@@ -11,7 +11,6 @@ import PersonalError from '../../../components/form/personalComponenet/personalE
 import { getBrandsService } from '../../../services/shop/brand/brand';
 import { getColorsService } from '../../../services/shop/color/colors';
 import { getGuarantiesService } from '../../../services/shop/Guaranties/guaranties';
-import CkEditor from '../../../components/form/formikComponent/CkEditor';
 
 
 const AddProduct = () => {
@@ -151,7 +150,10 @@ const AddProduct = () => {
                 category_ids : productToEdit.categories.map(c=>c.id).join('-') ,
                 color_ids : productToEdit.colors.map(c=>c.id).join('-') ,
                 guarantee_ids : productToEdit.guarantees.map(c=>c.id).join('-') ,
-                image : null
+                image : null ,
+                categories : null ,
+                colors : null ,
+                guarantees : null
             });
 
             setInitalSelectedValues();
@@ -160,7 +162,6 @@ const AddProduct = () => {
             setReinitalValues(null);
         }
     }, [productToEdit]);
-
 
     return (
         <>

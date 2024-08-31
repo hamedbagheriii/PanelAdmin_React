@@ -1,12 +1,14 @@
 import React from 'react';
 import SpinnerLoad from './SpinnerLoad';
 
-const LoadingAlert = ({bgColor='primary' , isSmall=false}) => {
+const LoadingAlert = ({bgColor='primary' , isSmall=false , title=null , spinner=true}) => {
     return (
         <div className={`w-100 fs-6 fw-bold alert text-center alert-${bgColor}`} >
-            <SpinnerLoad isSmall={isSmall ? true : false} />
+            {spinner ? 
+                <SpinnerLoad isSmall={isSmall ? true : false} />
+            : null}
             <span className='fs-5 mt-1'>
-                لطفا کمی صبر کنید . . .
+                {title || 'لطفا کمی صبر کنید . . .'}
             </span>
         </div>
     );

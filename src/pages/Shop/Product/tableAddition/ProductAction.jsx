@@ -10,6 +10,7 @@ const ProductAction = ({rowData , handleDeleteProduct , navigate}) => {
             ></i>
             <i className="fas fa-receipt text-info mx-1 hoverable_text pointer has_tooltip"
             title="ثبت ویژگی"  data-bs-placement="top" 
+            onClick={()=>navigate(`/Product/${rowData.id}/attributes` , {state : {productData : rowData}})}
             ></i>
             <i className="fas fa-times text-danger mx-1 hoverable_text pointer has_tooltip"
              title="حذف محصول" data-bs-toggle="tooltip" data-bs-placement="top"

@@ -1,7 +1,6 @@
 import React from 'react';
 import ProductTable from './ProductTable';
 import PageContainer from '../../../components/PageContainer';
-import AddAtrrProduct from './AddAtrProduct';
 
 const Product = () => {
     return (
@@ -11,8 +10,6 @@ const Product = () => {
             
             {/* --- page table --- */}
             <ProductTable/>
-
-            <AddAtrrProduct/>
 
         </div>
     );

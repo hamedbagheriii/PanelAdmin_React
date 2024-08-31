@@ -74,13 +74,7 @@ const ProductTable = () => {
         {
             field : null ,
             title : 'گروه محصول',
-            element : (rowData)=> rowData.categories.length ?
-            rowData.categories[0].title : null ,
-        },
-        {
-            field : null ,
-            title : 'توضیحات',
-            element : (rowData)=> <span dangerouslySetInnerHTML={{__html:rowData.descriptions}}></span> ,
+            element : (rowData)=> rowData.categories[0]?.title ,
         },
         {field : 'title' , title : 'عنوان'},
         {field : 'price' , title : 'قیمت'},
