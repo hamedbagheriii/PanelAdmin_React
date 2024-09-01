@@ -18,7 +18,7 @@ const ShopSidebar = () => {
 
             <SidebarLi targetPatch={'/Colors'} text={'مدیریت رنگ ها'} id={'manage_color_section'} icon={'fas fa-palette'} />
             
-            <SidebarLi targetPatch={'/Discount'} text={'مدیریت تخفیف ها'} id={'manage_discount_section'} icon={'fas fa-percentage'} />
+            <SidebarLi targetPatch={'/Discounts'} text={'مدیریت تخفیف ها'} id={'manage_discount_section'} icon={'fas fa-percentage'} />
             
         </>
     );

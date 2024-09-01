@@ -107,8 +107,8 @@ const DiscountTable = () => {
         <PaginatedTable data={data} dataInfo={dataInfo} additionField={additionField}
          searchParams={searchParams} numOfPage={4} isLoading={isLoading}>
             {/* --- Modal add Duscount --- */}
-            <AddBtnLink id={`add_discount_modal`} pach={'/Discount/add-discount-code'} />
-            <Outlet />
+            <AddBtnLink id={`add_discount_modal`} pach={'/Discounts/add-discount-code'} />
+            <Outlet context={{handleGetDiscount}} />
         </PaginatedTable>
     );
 }

@@ -1,7 +1,9 @@
 import React from 'react';
 import * as Yup from 'yup';
 import { Alert } from "../../../utils/alert";
-import { createDiscountService } from '../../../services/shop/discounts/discount';
+import { createDiscountService, editDiscountService } from '../../../services/shop/discounts/discount';
+import { convertDataToFormData } from '../../../utils/convertDataToFormData';
+import { converFormDataToMiladi } from '../../../utils/convertDate';
 
 // ========== initial formik props ==========
 export const initialValues = {
@@ -13,25 +15,39 @@ export const initialValues = {
     product_ids : '' ,
 }
 
-export const onSubmit = async (values , submitProps , navigate )=>{
-    const handleShowAlert = (title)=>{
+export const onSubmit = async (values , submitProps , navigate , handleGetDiscount ,
+    discountToEdit , setDiscountToEdit , setReinitalValues)=>{
+    
+        const handleShowAlert = (title)=>{
         setTimeout(() => {
             Alert(` تخفیف ${values.title} 
             با موفقیت ${title} شد .` , '' , 'success');
             submitProps.resetForm();
-            navigate(-1)
+            setDiscountToEdit(null)
+            navigate('/Discounts')
+            handleGetDiscount()
         }, 0);
     }
 
 
     try {
-            const res = await createDiscountService(values);
+        const data = {...values ,
+        expire_at : converFormDataToMiladi(values.expire_at)}
+        if (discountToEdit) {
+            const res = await editDiscountService(discountToEdit.id,data);
+            if(res.status == 200){
+                handleShowAlert('ویرایش');
+            }
+        }
+        else {
+            const res = await createDiscountService(data);
             if(res.status == 201){
                 handleShowAlert('ایجاد');
             }
+        }
     } catch (error) {
-        // setBrandToEdit(null);
-        // setReinitalValues(null);
+        setDiscountToEdit(null)
+        setReinitalValues(null);
     }
     console.log(values);
 }
@@ -46,7 +62,7 @@ export const validationSchema = Yup.object().shape({
         /^[sa-zA-Z0-9@!%-.$?&]+$/,
         "فقط از حروف و اعداد استفاده شود ."
     ),
-    percent  : Yup.number().required('لطفا مقداری بنویسید .') ,
+    percent  : Yup.number().required('لطفا مقداری بنویسید .').min(1,'حداقل 1 درصد باید وارد شود .') ,
     expire_at : Yup.string().required('لطفا مقداری انتخاب کنید  .').matches(
         /^[\u0600-\u06FF\sa-zA-Z0-9@!%-/$?&]+$/,
         "فقط از حروف و اعداد استفاده شود ."

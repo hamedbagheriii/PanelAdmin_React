@@ -57,7 +57,7 @@ const IndexContent = () => {
 
             <Route path='/Colors' element={<Colors/>} />
 
-            <Route path='/Discount' element={<Discount/>} >
+            <Route path='/Discounts' element={<Discount/>} >
                 <Route path='add-discount-code' element={<AddDiscount/>}/>
             </Route>
 

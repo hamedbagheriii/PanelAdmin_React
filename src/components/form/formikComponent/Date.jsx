@@ -20,7 +20,7 @@ const months = [
     {id : 12 , value : 'اسفند'},
 ]
 
-const Date = ({formik,name,label,required,yearsLimit}) => {
+const Date = ({formik,name,label,required,yearsLimit,initialDate}) => {
     const [day , setDay] = useState();
     const [month , setMonth] = useState();
     const [year , setYear] = useState();
@@ -29,7 +29,7 @@ const Date = ({formik,name,label,required,yearsLimit}) => {
 
 
     useEffect(() => {
-        let now = jMoment()
+        let now = jMoment(initialDate)
 
         setDay(now.jDate());
 
@@ -53,8 +53,7 @@ const Date = ({formik,name,label,required,yearsLimit}) => {
     const handleSetInputDate =(e)=>{
         e.stopPropagation();
         // set value =>
-        const dateConvert = [year,month,day].join('-')
-        formik.setValues({...formik.values , [name] : dateConvert })
+        formik.setValues({...formik.values , [name] : `${day} / ${month} / ${year}` })
         setShowConfig(false);
     }
 
