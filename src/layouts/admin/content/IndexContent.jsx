@@ -21,6 +21,7 @@ import AtrrCategory from '../../../pages/Shop/Category/attr/AtrrCategory.jsx';
 import AddProduct from '../../../pages/Shop/Product/AddProduct.jsx';
 import AddAtrrProduct from '../../../pages/Shop/Product/setAttr/AddAtrProduct.jsx';
 import Gallery from '../../../pages/Shop/Product/gallery/gallery.jsx';
+import AddDiscount from '../../../pages/Shop/Discount/AddDiscount.jsx';
 
 
 const IndexContent = () => {
@@ -56,7 +57,9 @@ const IndexContent = () => {
 
             <Route path='/Colors' element={<Colors/>} />
 
-            <Route path='/Discount' element={<Discount/>} />
+            <Route path='/Discount' element={<Discount/>} >
+                <Route path='add-discount-code' element={<AddDiscount/>}/>
+            </Route>
 
 
 

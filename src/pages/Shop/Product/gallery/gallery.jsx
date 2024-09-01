@@ -19,7 +19,7 @@ const Gallery = () => {
         setGallery(productData.gallery)
         setIsLoading(false)
     }
-    console.log(productData);
+
     useEffect(() => {
         handleGetProductGallery();   
     }, []);
@@ -28,7 +28,7 @@ const Gallery = () => {
         try {
             const image = e;
 
-            if ((image.type == ('image/jpeg' || 'image/png' || 'image/png'))) setError('لطفا فایل با فرمت png یا jpg یا jpeg وارد کنید .')
+            if (!(image.type == ('image/jpeg' || 'image/png' || 'image/png'))) setError('لطفا فایل با فرمت png یا jpg یا jpeg وارد کنید .')
             if ((image.size > 512000 )) setError('لطفا فایل با فرمت png یا jpg یا jpeg وارد کنید .')
 
             if (!error) {
@@ -74,7 +74,7 @@ const Gallery = () => {
     }
 
     const handleSetMainImage = async (data,index)=>{
-        if (await Confirm(`آیا از تاییم عکس شماره ${index} به عنوان عکس اصلی اطمینان دارید ؟ `)) {
+        if (await Confirm(`آیا از تایین عکس شماره ${index} به عنوان عکس اصلی اطمینان دارید ؟ `)) {
             try {
                 const res = await addMainProductImageService(data.id)  
                 setIsLoading(true);
@@ -109,7 +109,7 @@ const Gallery = () => {
                 ) : gallery ? (
                     <div className='w-100 h-100 row gap-1 gap-3 mx-auto'>
                         {gallery.map((i,index)=>
-                            <div key={i.id+'-galley'} className='image_box  p-0 text-primary  col-12 col-md-4 mx-auto'>
+                            <div key={i.id+'-galley'} className='image_box  p-0 text-primary  col-12 col-md-4 col-lg-3 mx-auto'>
                                 <img src={apiPath+'/'+i.image} alt="" className='' />
                                 <span className={`circle_ID rounded-circle ${i.is_main == 1 ? 'bg-primary text-white' : ' bg-white'}`}>{index+1}</span>
                                 <div className='optins_box w-100 h-100'>
@@ -132,7 +132,7 @@ const Gallery = () => {
                                 </div>
                             </div>  
                         )}
-                        <div className='image_box bg-white text-primary pointer col-12 col-md-4 p-0 mx-auto'>
+                        <div className='image_box bg-white text-primary pointer col-12 col-md-4 col-lg-3 p-0 mx-auto'>
                                 <input type="File" name="" id="input_Gallery" className='bg-danger w-100 h-100'
                                 onChange={(e)=>handleAddImage(e.target.files[0])} />
                                 <i className='fa fa-plus p-3 border-dark border border-2 add_image rounded-circle'></i>

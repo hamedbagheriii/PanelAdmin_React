@@ -4,7 +4,6 @@ import PageContainer from '../../../../components/PageContainer';
 import { ErrorMessage, FastField, Field, Form, Formik } from 'formik';
 import SpinnerLoad from '../../../../UI/All/SpinnerLoad';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { getCategoriesAtrrsService } from '../../../../services/shop/categorories/categoryAttr';
 import LoadingAlert from '../../../../UI/All/LoadingAlert';
 import PrevPageBTN from '../../../../UI/All/PrevPageBTN';
 import * as Yup from 'yup';
