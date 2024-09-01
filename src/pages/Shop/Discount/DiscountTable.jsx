@@ -15,7 +15,6 @@ const DiscountTable = () => {
 
     const [data , setData] = useState([]);
     const [isLoading , setLoading] = useState(true);
-    const [brandToEdit , setBrandToEdit] = useState(null);
 
 
 

@@ -19,6 +19,9 @@ export const deleteProductService = (productID)=>{
     return httpService(`/admin/products/${productID}` , 'delete');
 }
 
+export const getAllProductsTitlesService = ()=>{
+    return httpService(`/admin/products/all_titles` , 'get');
+}
 
 // ---======== product attr ========---
 
@@ -43,3 +46,4 @@ export const deleteProductImageService = (imageID)=>{
 export const addMainProductImageService = (imageID)=>{
     return httpService(`/admin/products/gallery/set_main/${imageID}` , 'get');
 }
+

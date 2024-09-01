@@ -110,6 +110,8 @@
     top: 38px;
     width: 80% !important;
     left: 0;
+    max-height: 250px;
+    overflow-y: scroll;
 }
 .select_search_content ul li:hover:nth-child(1){
     border-radius: 7px 7px 0 0 ;
@@ -198,3 +200,68 @@
     border: 2px solid black;
 }
 /* ================ image_box ================ */
+
+
+/* ================ date picker ================ */
+.wrap-input100 {
+    position: relative;
+    width: 100%;
+    z-index: 1;
+    margin-bottom: 10px;
+  }
+  
+  .input100 {
+    font-size: 15px;
+    line-height: 1.5;
+    color: #666666;
+    display: block;
+    width: 100%;
+    background: #e6e6e6;
+    height: 50px;
+    border-radius: 25px;
+    padding: 0 68px 0 30px;
+  }
+
+.datePicker{
+    position: absolute;
+    top: 0;
+    height: 49px;
+    background: #e6e6e6;
+    border-radius: 5rem;
+    z-index: 1;
+  }
+  
+  .datePicker select{
+    border: unset !important;
+    background: transparent !important;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    width: 100%;
+    text-align: center;
+  }
+  
+  .datePicker select:focus-visible{
+    outline: unset !important;
+  }
+  
+  .pointer{
+    cursor: pointer !important;
+  }
+
+  .select_Data_content{
+    border-radius: 3px;
+    border: 2px solid rgb(146, 146, 146);
+    z-index: 1200 !important;
+    position: absolute;
+    top: 38px;
+    width: 75% !important;
+    max-height: 250px;
+    overflow-y: scroll;
+    left: 10px;
+    z-index: 2000 !important;
+}
+
+
+
+/* ================ date picker ================ */

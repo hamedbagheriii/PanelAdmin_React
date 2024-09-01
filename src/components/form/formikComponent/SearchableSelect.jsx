@@ -4,7 +4,8 @@ import { Field } from 'formik';
 import SpinnerLoad from '../../../UI/All/SpinnerLoad';
 
 const SearchableSelect = ({options , name , label , firstItem , chipsName='دسته' ,
-    className , formik , resultType='string' , required=false , selectedToEdit=null}) => {
+    className , formik , resultType='string' , required=false , selectedToEdit=null,
+    setSearchAPI=null}) => {
 
     const [selectedArray , setSelectedArray] = useState([]);
     const [copyOptions , setCopyOptions] = useState('waiting');
@@ -46,6 +47,8 @@ const SearchableSelect = ({options , name , label , firstItem , chipsName='دس�
     const handleSetSearch = (target)=>{
         clearTimeout(interval);
         interval = setTimeout(() => {
+            if(setSearchAPI) 
+            return setSearchAPI
             setCopyOptions(options.filter(d=>d.value.includes(target)))
         }, 500);
     }
@@ -65,7 +68,9 @@ const SearchableSelect = ({options , name , label , firstItem , chipsName='دس�
 
 
     useEffect(() => {
-        setSelectedArray(selectedToEdit);
+        if (selectedToEdit) {
+            setSelectedArray(selectedToEdit);
+        }
     }, [selectedToEdit]);
 
     return (

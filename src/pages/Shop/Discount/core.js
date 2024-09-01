@@ -8,37 +8,27 @@ export const initialValues = {
     title : '' ,
     code : '' ,
     percent : 1 ,
-    expir_at : '' ,
+    expire_at : '' ,
     for_all : true ,
     product_ids : '' ,
 }
 
-export const onSubmit = async (values , submitProps , handleGetBrands )=>{
+export const onSubmit = async (values , submitProps , navigate )=>{
     const handleShowAlert = (title)=>{
         setTimeout(() => {
             Alert(` تخفیف ${values.title} 
             با موفقیت ${title} شد .` , '' , 'success');
-            // setBrandToEdit(null);
-            // setReinitalValues(null);
             submitProps.resetForm();
-            handleGetBrands();
+            navigate(-1)
         }, 0);
     }
 
 
     try {
-        // if (brandToEdit) {
-        //     const res = await editBrandsService(brandToEdit,values);
-        //     if(res.status == 200){
-        //         handleShowAlert('ویرایش')
-        //     }
-        // }
-        // else {
             const res = await createDiscountService(values);
             if(res.status == 201){
                 handleShowAlert('ایجاد');
             }
-        // }
     } catch (error) {
         // setBrandToEdit(null);
         // setReinitalValues(null);
@@ -46,24 +36,26 @@ export const onSubmit = async (values , submitProps , handleGetBrands )=>{
     console.log(values);
 }
 
-export const validationSchema = Yup.object({
+// shape : برای استفاده از when
+export const validationSchema = Yup.object().shape({
     title : Yup.string().required('لطفا مقداری بنویسید .').matches(
         /^[\u0600-\u06FF\sa-zA-Z0-9@!%$?&]+$/,
         "فقط از حروف و اعداد استفاده شود ."
     ),
     code : Yup.string().required('لطفا مقداری بنویسید .').matches(
-        /^[\u0600-\u06FF\sa-zA-Z0-9@!%$?&]+$/,
+        /^[sa-zA-Z0-9@!%-.$?&]+$/,
         "فقط از حروف و اعداد استفاده شود ."
     ),
-    percent  : Yup.number().required('لطفا مقداری بنویسید .').matches(
-        /^[0-9@!%$?&]+$/,
-        "فقط از اعداد استفاده شود ."
-    ),
-    expire_at : Yup.string().required('لطفا مقداری بنویسید .').matches(
-        /^[\u0600-\u06FF\sa-zA-Z0-9@!%$?&]+$/,
+    percent  : Yup.number().required('لطفا مقداری بنویسید .') ,
+    expire_at : Yup.string().required('لطفا مقداری انتخاب کنید  .').matches(
+        /^[\u0600-\u06FF\sa-zA-Z0-9@!%-/$?&]+$/,
         "فقط از حروف و اعداد استفاده شود ."
     ),
-    for_all : Yup.boolean().required('لطفا مقداری انتخاب کنید . .') ,
-    product_ids : Yup.string().required('لطفا مقداری بنویسید .')
+    for_all : Yup.boolean() ,
+    product_ids : Yup.string().when('for_all',{
+        is : false ,
+        then :()=> Yup.string().required('لطفا مقداری بنویسید .').matches(
+            /^[0-9\s-]+$/  , 'فقط از اعداد و خط تیره استفاده شود .')
+    })
 })
 // ========== initial formik props ==========
