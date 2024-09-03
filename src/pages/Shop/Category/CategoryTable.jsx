@@ -61,30 +61,36 @@ const CategoryTable = () => {
         {field : 'id' , title : '#'},
         {field : 'title' , title : 'عنوان'},
         {field : 'parent_id' , title : 'والد'},
-    ]
-    
-    const additionField = [
-        // تبدیل تاریخ میلادی به شمسی
-        {   
-            field : 'created_at' ,
-            title : 'تاریخ ثبت' ,
-            element : (itemId ,rowData)=> (
-                <td>
-                    {convertDate(rowData.created_at)}
-                </td>
-            )
-        } ,
         {
-            field : 'is_active' ,
-            title : 'وضعیت' ,
-            element : (itemId ,rowData)=> <IsActive rowData={rowData} />
-        } ,
+            field : null ,
+            title : 'تاریخ ثبت',
+            element : (rowData)=>{
+                return (
+                    <>
+                        {convertDate(rowData.created_at)}
+                    </>
+                )
+            }
+        },
         {
-            field : 'Operation' ,
-            title : 'عملیات' ,
-            element : (itemId , rowData)=> <Actions rowData={rowData}
-            handleDeleteCategory={handleDeleteCategory} />
-        } ,
+            field : null ,
+            title : 'وضعیت',
+            element : (rowData)=>{
+                return(
+                    <IsActive rowData={rowData} />
+                )
+            }
+        },
+        {
+            field : null ,
+            title : 'عملیات',
+            element : (rowData)=>{
+                return(
+                    <Actions rowData={rowData}
+                    handleDeleteCategory={handleDeleteCategory} />
+                )
+            }
+        },
     ]
 
     const searchParams = {
@@ -96,8 +102,8 @@ const CategoryTable = () => {
     
     return (
         <>
-            <PaginatedTable data={data} dataInfo={dataInfo} additionField={additionField}
-             searchParams={searchParams} numOfPage={4} isLoading={isLoading}>
+            <PaginatedTable data={data} dataInfo={dataInfo} searchParams={searchParams}
+            numOfPage={4} isLoading={isLoading}>
                 {/* --- Modal add Category --- */}
                 <AddCategory  />
             </PaginatedTable>

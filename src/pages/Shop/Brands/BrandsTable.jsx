@@ -63,21 +63,23 @@ const BrandsTable = () => {
         {field : 'original_name' , title : 'عنوان'},
         {field : 'persian_name' , title : 'عنوان فارسی'},
         {field : 'descriptions' , title : 'توضیحات'},
-    ]
-
-    const additionField = [
         {
-            field : 'logo' ,
+            field : null ,
             title : 'لوگو' ,
-            element : (itemId , rowData)=> <BrandLogo rowData={rowData} />
-        } ,
-        {
-            field : 'Operation' ,
-            title : 'عملیات' ,
-            element : (itemId , rowData)=> <Actions rowData={rowData}
-            handleDeleteBrand={handleDeleteBrand} setBrandToEdit={setBrandToEdit} />
-        } ,
+            element : (rowData)=>{
+                return <BrandLogo rowData={rowData} />
+            },
         
+        },
+        {
+            field : null ,
+            title : 'عملیات',
+            element : (rowData)=>{
+                return <Actions rowData={rowData}
+                handleDeleteBrand={handleDeleteBrand} setBrandToEdit={setBrandToEdit} />
+            },
+        
+        },
     ]
 
     const searchParams = {
@@ -90,8 +92,8 @@ const BrandsTable = () => {
 
 
     return (
-        <PaginatedTable data={data} dataInfo={dataInfo} additionField={additionField}
-        searchParams={searchParams} numOfPage={4} isLoading={isLoading}>
+        <PaginatedTable data={data} dataInfo={dataInfo} searchParams={searchParams}
+        numOfPage={4} isLoading={isLoading}>
             {/* --- Modal add Brand --- */}
             <AddBrand handleGetBrands={handleGetBrands} setBrandToEdit={setBrandToEdit} 
             brandToEdit={brandToEdit} />

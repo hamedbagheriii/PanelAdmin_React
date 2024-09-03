@@ -57,19 +57,6 @@ const ColorsTable = () => {
 
 
 
-    const additionField = [
-        {
-            field : 'color' ,
-            title : 'رنگ' ,
-            element : (itemId , rowData)=> <ShowColor rowData={rowData} />
-        } ,
-        {
-            field : 'Operation' ,
-            title : 'عملیات' ,
-            element : (itemId , rowData)=> <Actions rowData={rowData}
-            handleDeleteColor={handleDeleteColor} setColorToEdit={setColorToEdit} />
-        } 
-    ]
 
     const searchParams = {
         title : 'جستجو' ,
@@ -81,6 +68,21 @@ const ColorsTable = () => {
         {field : 'id' , title : '#'},
         {field : 'title' , title : 'نام رنگ'},
         {field : 'code' , title : 'کد رنگ'},
+        {   
+            field : null ,
+            title : 'رنگ',
+            element : (rowData)=>{
+                return <ShowColor rowData={rowData} />
+            } ,
+        },
+        {   
+            field : null ,
+            title : 'عملیات',
+            element : (rowData)=>{
+                return <Actions rowData={rowData}
+                handleDeleteColor={handleDeleteColor} setColorToEdit={setColorToEdit} />
+            } ,
+        }
     ]
     
     const targetSearch = [
@@ -93,8 +95,8 @@ const ColorsTable = () => {
 
     return (
         <>
-            <PaginatedTable data={data} dataInfo={dataInfo} additionField={additionField}
-             searchParams={searchParams} numOfPage={4} targetSearch={targetSearch} isLoading={isLoading}>
+            <PaginatedTable data={data} dataInfo={dataInfo} searchParams={searchParams} numOfPage={4}
+            targetSearch={targetSearch} isLoading={isLoading}>
                 {/* --- Modal add Color --- */}
                 <AddColor setColorToEdit={setColorToEdit} handleGetColors={handleGetColors}
                 colorToEdit={colorToEdit} />

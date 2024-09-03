@@ -69,28 +69,25 @@ const DiscountTable = () => {
         {field : 'title' , title : 'عنوان'},
         {field : 'code' , title : 'کد'},
         {field : 'percent' , title : 'درصد تخفیف'},
-    ]
-
-    const additionField = [
         {
             title : 'تاریخ انقضا' ,
-            field : 'expire_at' ,
-            element : (itemId,rowData)=> <td>{convertDate(rowData.expire_at)}</td>
+            field : null ,
+            element : (rowData)=> <>{convertDate(rowData.expire_at)}</>
         },
         {
             title : 'وضعیت' ,
-            field : 'is_active' ,
-            element : (itemId,rowData)=> <IsActive rowData={rowData} />
+            field : null ,
+            element : (rowData)=> <IsActive rowData={rowData} />
         },
         {
             title : 'مربوط به' ,
-            field : 'for_all' ,
-            element : (itemId,rowData)=> <ForAll rowData={rowData} />
+            field : null ,
+            element : (rowData)=> <ForAll rowData={rowData} />
         },
         {
             title : 'عملیات' ,
-            field : 'operation' ,
-            element : (itemId,rowData)=> <Actions rowData={rowData} 
+            field : null ,
+            element : (rowData)=> <Actions rowData={rowData} 
             handleDeleteDiscount={handleDeleteDiscount} />
         } 
     ]
@@ -104,8 +101,8 @@ const DiscountTable = () => {
 
 
     return (
-        <PaginatedTable data={data} dataInfo={dataInfo} additionField={additionField}
-         searchParams={searchParams} numOfPage={4} isLoading={isLoading}>
+        <PaginatedTable data={data} dataInfo={dataInfo} searchParams={searchParams}
+        numOfPage={4} isLoading={isLoading}>
             {/* --- Modal add Duscount --- */}
             <AddBtnLink id={`add_discount_modal`} pach={'/Discounts/add-discount-code'} />
             <Outlet context={{handleGetDiscount}} />

@@ -61,17 +61,17 @@ const GuarantiesTable = () => {
         {field : 'descriptions' , title : 'توضیحات'},
         {field : 'length' , title : 'مدت گارانتی'},
         {field : 'length_unit' , title : 'واحد زمانی'},
-    ]
+        {   
+            field : null ,
+            title : 'عملیات',
+            element : (rowData)=>{
+                return <GuarantiesActions rowData={rowData} 
+                handleDeleteGuarantie={handleDeleteGuarantie} 
+                setGuarantiesToEdit={setGuarantiesToEdit} />
+            } ,
+        }
+    ]   
     
-    const additionField = [
-        {
-            field : 'Operation' ,
-            title : 'عملیات' ,
-            element : (itemId , rowData)=> <GuarantiesActions rowData={rowData} 
-            handleDeleteGuarantie={handleDeleteGuarantie} setGuarantiesToEdit={setGuarantiesToEdit} />
-        } ,
-    ]
-
     const searchParams = {
         title : 'جستجو' ,
         placeholder : 'قسمتی از عنوان را وارد کنید .' ,
@@ -80,8 +80,8 @@ const GuarantiesTable = () => {
     // This is for inital props <<<<=
 
     return (
-        <PaginatedTable data={data} dataInfo={dataInfo} additionField={additionField}
-        searchParams={searchParams} numOfPage={4} isLoading={isLoading}>
+        <PaginatedTable data={data} dataInfo={dataInfo} searchParams={searchParams}
+        numOfPage={4} isLoading={isLoading}>
             {/* --- Modal add Guarantie --- */}
             <AddGuarantie handleGetGuaranties={handleGetGuaranties} 
             guarantiesToEdit={guarantiesToEdit}

@@ -100,20 +100,21 @@ const AtrrCategory = () => {
         {field : 'id' , title : '#'},
         {field : 'title' , title : 'عنوان ویژگی'},
         {field : 'unit' , title : 'واحد'},
-    ]
-
-    const additionField = [
         {
-            title : 'نمایش در فیلتر' ,
-            field : 'in_filter' ,
-            element : (itemId , rowData)=> <ShowInFilter rowData={rowData} />
-        } ,
+            field : null ,
+            title : 'نمایش در فیلتر',
+            element : (rowData)=>{
+                return <ShowInFilter rowData={rowData} />
+            }
+        },
         {
+            field : null ,
             title : 'عملیات' ,
-            field : 'operation' ,
-            element : (itemId , rowData)=> <AtrrAction rowData={rowData} attrToEdit={attrToEdit}
-            setAttrToEdit={setAttrToEdit} handleDeleteCategoryAttr={handleDeleteCategoryAttr} />
-        }
+            element : (rowData)=>{
+                return <AtrrAction rowData={rowData} attrToEdit={attrToEdit}
+                setAttrToEdit={setAttrToEdit} handleDeleteCategoryAttr={handleDeleteCategoryAttr} />
+            }
+        },
     ]
     
     const searchParams = {
@@ -151,8 +152,8 @@ const AtrrCategory = () => {
                         </span>
                     </h6>
                 </div>
-                <PaginatedTable data={data} dataInfo={dataInfo} additionField={additionField}
-                searchParams={searchParams} numOfPage={4} isLoading={isLoading}>
+                <PaginatedTable data={data} dataInfo={dataInfo} searchParams={searchParams}
+                numOfPage={4} isLoading={isLoading}>
                 
                 </PaginatedTable>
                 {/* ==== Table ==== */}

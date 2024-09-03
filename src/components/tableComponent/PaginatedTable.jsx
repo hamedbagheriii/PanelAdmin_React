@@ -95,12 +95,8 @@ const PaginatedTable = ({data , dataInfo , additionField ,
                         <table className="table table-responsive text-center table-hover font_08 table-dark table-bordered">
                             <thead className="table-dark">
                                 <tr className='fs-6 text-primary'>
-                                    {dataInfo.map(i=>(
-                                        <th key={i.field}>{i.title}</th>
-                                    ))}
-                                    {/* --- فیلد های اختصاصی / dedicatedField --- */}
-                                    {additionField.map(i=>(
-                                        <th key={i.field}>{i.title}</th>
+                                    {dataInfo.map((i,index)=>(
+                                        <th key={`tableHead_${index}`}>{i.title}</th>
                                     ))}
                                 </tr>
                             </thead>
@@ -108,12 +104,12 @@ const PaginatedTable = ({data , dataInfo , additionField ,
                                 <tbody>
                                     {tableData.map(d=>(
                                         <tr key={d.id}> 
-                                            {dataInfo.map(i=>(
-                                                <td className='dir_ltr' key={`${i.field}_${d.id}`}>{d[i.field]}</td>
-                                            ))}
-                                            {/* --- فیلد های اختصاصی / dedicatedField --- */}
-                                            {additionField.map(i=>(
-                                                <Fragment key={i.field}>{i.element(d.id,d)}</Fragment>
+                                            {dataInfo.map((i,index)=>(
+                                                i.field ? (
+                                                    <td className='dir_ltr' key={`${i.field}_${d.id}`}>{d[i.field]}</td>
+                                                ) : (
+                                                    <td className='dir_ltr' key={`NoField_${d.id}`}>{i.element(d)}</td>
+                                                )
                                             ))}
                                         </tr>
                                     ))}
