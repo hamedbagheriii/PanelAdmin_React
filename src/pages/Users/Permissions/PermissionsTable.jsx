@@ -1,56 +1,63 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PaginatedTable from '../../../components/tableComponent/PaginatedTable';
+import { getAllPermissionsService } from '../../../services/Users/permission/permissions';
 
 const PermissionsTable = () => {
-    const data = [
-        {
-            id : 1 ,
-            title : 'سطح عادی' ,
-            dec : 'توضیحاتی در مورد این نقش که چیست و کلیات آن کدام است' ,
-        } ,
-        {
-            id : 2 ,
-            title : 'سطح ادمین' ,
-            dec : 'توضیحاتی در مورد این نقش که چیست و کلیات آن کدام است' ,
-        } ,
-    ]
+    const [data , setData] = useState([]);
+    const [isLoading , setLoading] = useState(true);
 
+
+    // This is for get permissons
+    const handleGetPermissons = async ()=>{
+        try {
+            const res = await getAllPermissionsService();
+            if (res.status == 200) {
+                setData(res.data.data);
+            }
+        } catch (error) {
+            // set error in httpService
+        }
+        finally {
+            setTimeout(() => {
+                setLoading(false);
+            }, 500);
+        }
+    }
+
+    // This is for calling Get permissons function
+    useEffect(() => {
+        handleGetPermissons();
+        setLoading(true)
+    }, []);
+
+
+
+
+
+
+
+
+    // This is for inital props <<<<=
     const dataInfo = [
         {field : 'id' , title : '#'},
         {field : 'title' , title : 'عنوان'},
-        {field : 'dec' , title : 'توضیحات'},
+        {field : 'description' , title : 'توضیحات'},
+        {field : 'category' , title : 'عنوان دسته'},
     ]
 
-    const additionFieldElement = (itemId)=>{
-        return(
-            <>  
-                <td>
-                    <div className="form-check form-switch d-flex flex-column flex-md-row justify-content-around align-items-center w-100 p-0 h-100">
-                        <label className="form-check-label pointer" htmlFor={`flexSwitchCheckDefault-${itemId}`}>فعال</label>
-                        <input className="form-check-input pointer mx-1 mb-1" type="checkbox" id={`flexSwitchCheckDefault-${itemId}`} defaultChecked={true}/>
-                    </div> 
-                </td>
-            </>
-        )
-    }
-    
-    const additionField = [
-        {
-            title : 'وضعیت' ,
-            field : 'status' ,
-            element : (itemId)=> additionFieldElement(itemId)
-        }
-    ]
 
     const searchParams = {
         title : 'جستجو' ,
-        placeholder : 'قسمتی از نام نقش را وارد کنید .' ,
+        placeholder : 'قسمتی از عنوان مجوز را وارد کنید .' ,
         searchField : 'title'
     }
+    // This is for inital props <<<<=
+
+
 
     return (
-        <PaginatedTable data={data} dataInfo={dataInfo} additionField={additionField}
-         searchParams={searchParams} numOfPage={4}>
+        <PaginatedTable data={data} dataInfo={dataInfo} searchParams={searchParams}
+        numOfPage={10} isLoading={isLoading}>
         </PaginatedTable>
     );
 }

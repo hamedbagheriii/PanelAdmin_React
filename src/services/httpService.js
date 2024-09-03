@@ -18,7 +18,7 @@ axios.interceptors.response.use((res)=>{
     }
     return res;
 },(error)=>{
-    Alert( error.response.status ,'مشکلی از سمت سرور رخ داده است .' , 'error');
+    Alert( error.response.status , error.response.data?.message || 'مشکلی از سمت سرور رخ داده است .' , 'error');
     console.log(error);
     return (error)
 })
