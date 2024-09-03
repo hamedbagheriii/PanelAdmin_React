@@ -1,60 +1,63 @@
 import React from 'react';
 import ModalsContainer from '../../../components/ModalsContainer';
-import BtnModal from '../../../UI/pages/btnModal';
+import { useNavigate } from 'react-router-dom';
+import { Form, Formik } from 'formik';
+import SubmitBTN from '../../../components/form/SubmitBTN';
+import SpinnerLoad from '../../../UI/All/SpinnerLoad';
+import FormikControl from '../../../components/form/FormikControl';
 
 const AddRole = () => {
+    const navigate = useNavigate();
+
     return (
         <>
-            <BtnModal id={`add_role_modal`} />
-
             <ModalsContainer
+            className='show d-block animate__animated animate__fadeInDown animate__fast'
             id={'add_role_modal'}
-            fullscreen={false}
+            fullscreen={true}
             title={'افزودن نقش'}
+            closeFunction={()=>navigate(-1)}
             >
-                <div className="container">
-                    <div className="row justify-content-center">
-                        <div className="col-12">
-                            <div className="input-group my-3 dir_ltr">
-                                <input type="text" className="form-control" placeholder=""/>
-                                <span className="input-group-text w_8rem justify-content-center">عنوان نقش</span>
-                            </div>
-                        </div>
-                        <div className="col-12">
-                            <div className="input-group my-3 dir_ltr">
-                                <input type="text" className="form-control" placeholder=""/>
-                                <span className="input-group-text w_8rem justify-content-center">توضیحات نقش</span>
-                            </div>
-                        </div>                        
-                        <div className="col-12 my-1 mb-3">
-                            <div className="input-group my-2 dir_ltr">
-                                <input type="text" className="form-control" placeholder="قسمتی از مجوز مورد نظر را وارد کنید" list="permissionsList"/>
-                                <span className="input-group-text w_8rem justify-content-center">دسترسی ها</span>
-                                <datalist id="permissionsList">
-                                    <option value="مجوز شماره 1"/>
-                                    <option value="مجوز شماره 2"/>
-                                    <option value="مجوز شماره 3"/>
-                                </datalist>
-                            </div>
-                            <div className="col-12 col-md-6 col-lg-8">
-                                <span className="chips_elem">
-                                    <i className="fas fa-times text-danger"></i>
-                                    مجوز 1
-                                </span>
-                                <span className="chips_elem">
-                                    <i className="fas fa-times text-danger"></i>
-                                    مجوز 2
-                                </span>
-                            </div>
-                        </div> 
-                        <div className="col-12 my-2">
-                            <div className="form-check form-switch col-5 col-md-4">
-                                <input className="form-check-input pointer" type="checkbox" id="flexSwitchCheckDefault" defaultChecked={true} />
-                                <label className="form-check-label pointer" htmlFor="flexSwitchCheckDefault">وضعیت : فعال</label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <Formik>
+                    {(formik)=>{
+                        return (
+                            <Form className="container">
+                                <div className="row justify-content-center">
+                                    <FormikControl 
+                                     name='title'
+                                     type='text'
+                                     className=''
+                                     label='عنوان نقش'
+                                     control='input'
+                                     placeholder="فقط از حروف فارسی و لاتین استفاده کنید . ."
+                                    required={true}
+                                    />
+
+                                    <FormikControl 
+                                     name='title'
+                                     className=''
+                                     label='توضیحات'
+                                     control='textarea'
+                                     placeholder="فقط از حروف فارسی و لاتین استفاده کنید . ."
+                                     required={true}
+                                    />
+                       
+                                </div>
+
+                                <div className="modal-footer w-100 d-flex justify-content-around" >
+                                    <button type="button" className="btn btn-danger modal-btn w-25"
+                                    onClick={()=>navigate(-1)} data-bs-dismiss="modal">انصراف</button>
+                                    <button type='submit' className="btn btn-primary modal-btn w-25" 
+                                    disabled={formik.isSubmitting || (!formik.dirty)}>
+                                        {formik.isSubmitting ?
+                                            <SpinnerLoad colorClass={'text-white'} inline={true} isSmall />
+                                        : 'ذخیره'}
+                                    </button>
+                                </div>  
+                            </Form>
+                        )
+                    }}
+                </Formik>
             </ModalsContainer>
         </>
     );

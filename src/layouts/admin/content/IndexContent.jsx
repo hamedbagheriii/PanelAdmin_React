@@ -22,6 +22,7 @@ import AddProduct from '../../../pages/Shop/Product/AddProduct.jsx';
 import AddAtrrProduct from '../../../pages/Shop/Product/setAttr/AddAtrProduct.jsx';
 import Gallery from '../../../pages/Shop/Product/gallery/gallery.jsx';
 import AddDiscount from '../../../pages/Shop/Discount/AddDiscount.jsx';
+import AddRole from '../../../pages/Users/Roles/AddRole.jsx';
 
 
 const IndexContent = () => {
@@ -77,7 +78,9 @@ const IndexContent = () => {
             
             <Route path='/Users' element={<Users/>} />
 
-            <Route path='/Roles' element={<Roles/>} />
+            <Route path='/Roles' element={<Roles/>} >
+                <Route path='add-role' element={<AddRole />} />
+            </Route>
 
             <Route path='/Permissions' element={<Permissions/>} />
 

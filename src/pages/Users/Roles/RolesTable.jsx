@@ -1,59 +1,55 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PaginatedTable from '../../../components/tableComponent/PaginatedTable';
 import AddRole from './AddRole';
+import Actions from './tableAdditons/Actions';
+import { getAllRolesService } from '../../../services/Users/role/roles';
+import AddBtnLink from '../../../UI/All/AddBtnLink';
+import { Outlet } from 'react-router-dom';
 
 const RolesTable = () => {
-    const data = [
-        {
-            id : 1 ,
-            title : 'کاربر' ,
-            dec : 'توضیحاتی در مورد این نقش که چیست و کلیات آن کدام است' ,
-        } ,
-        {
-            id : 2 ,
-            title : 'کاربر ویژه' ,
-            dec : 'توضیحاتی در مورد این نقش که چیست و کلیات آن کدام است' ,
-        } ,
-    ]
+    const [data , setData] = useState([]);
+    const [isLoading , setLoading] = useState(true);
 
+
+    // This is for get permissons
+    const handleGetRoles = async ()=>{
+        try {
+            const res = await getAllRolesService();
+            if (res.status == 200) {
+                setData(res.data.data);
+            }
+        } catch (error) {
+            // set error in httpService
+        }
+        finally {
+            setTimeout(() => {
+                setLoading(false);
+            }, 500);
+        }
+    }
+
+    // This is for calling Get permissons function
+    useEffect(() => {
+        handleGetRoles();
+        setLoading(true)
+    }, []);
+
+
+
+
+
+    // This is for inital props <<<<=
     const dataInfo = [
         {field : 'id' , title : '#'},
         {field : 'title' , title : 'عنوان'},
-        {field : 'dec' , title : 'توضیحات'},
-    ]
-
-    const additionFieldElement = (itemId)=>{
-        return(
-            <>  
-                <td>
-                    <div className="form-check form-switch d-flex flex-column flex-md-row justify-content-around align-items-center w-100 p-0 h-100">
-                        <label className="form-check-label pointer" htmlFor={`flexSwitchCheckDefault-${itemId}`}>فعال</label>
-                        <input className="form-check-input pointer mx-1 mb-1" type="checkbox" id={`flexSwitchCheckDefault-${itemId}`} defaultChecked={true}/>
-                    </div> 
-                </td>
-                <td>
-                    <i className="fas fa-edit text-warning mx-1 hoverable_text pointer has_tooltip"
-                    title="ویرایش نقش" data-bs-toggle="modal" data-bs-placement="top" 
-                    data-bs-target="#add_role_modal"></i>
-                    <i className="fas fa-times text-danger mx-1 hoverable_text pointer has_tooltip"
-                    title="حذف نقش" data-bs-toggle="tooltip" data-bs-placement="top"></i>
-
-                </td>
-            </>
-        )
-    }
-    
-    const additionField = [
+        {field : 'description' , title : 'توضیحات'},
         {
-            title : 'وضعیت' ,
-            field : 'status' ,
-            element : (itemId)=> additionFieldElement(itemId)
-        } ,
-        {
-            title : 'عملیات' ,
-            field : 'operation' ,
-            element : ()=>{}
-        }
+            field : null ,
+            title : 'عملیات',
+            element : (rowData)=>{
+                return  <Actions rowData={rowData} />
+            }
+        },
     ]
 
     const searchParams = {
@@ -61,12 +57,15 @@ const RolesTable = () => {
         placeholder : 'قسمتی از نام نقش را وارد کنید .' ,
         searchField : 'title'
     }
+    // This is for inital props <<<<=
+
 
     return (
-        <PaginatedTable data={data} dataInfo={dataInfo} additionField={additionField}
-         searchParams={searchParams} numOfPage={4}>
+        <PaginatedTable data={data} dataInfo={dataInfo} 
+         searchParams={searchParams} numOfPage={4} isLoading={isLoading}> 
             {/* --- Modal add Role --- */}
-            <AddRole/>
+            <AddBtnLink pach={'/Roles/add-role'}  />
+            <Outlet/>
         </PaginatedTable>
     );
 }
