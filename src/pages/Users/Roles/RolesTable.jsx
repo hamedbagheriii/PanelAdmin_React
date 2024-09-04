@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import PaginatedTable from '../../../components/tableComponent/PaginatedTable';
-import AddRole from './AddRole';
 import Actions from './tableAdditons/Actions';
-import { getAllRolesService } from '../../../services/Users/role/roles';
+import { deleteRoleService, getAllRolesService } from '../../../services/Users/role/roles';
 import AddBtnLink from '../../../UI/All/AddBtnLink';
 import { Outlet } from 'react-router-dom';
+import { Alert } from '../../../utils/alert';
+import { Confirm } from '../../../utils/confirm';
 
 const RolesTable = () => {
     const [data , setData] = useState([]);
@@ -34,6 +35,22 @@ const RolesTable = () => {
         setLoading(true)
     }, []);
 
+    // This is for delete Role
+    const handleDeleteRole = async (rowData)=>{
+        if (await Confirm(`آیا از حذف نقش ${rowData.title}
+        اطمینان دارید ؟`)) {
+            try {
+                const res = await deleteRoleService(rowData.id);
+                if (res.status == 200) {
+                    Alert('عملیات با موفقیت انجام شد .' ,
+                    `نقش ${rowData.title} با موفقیت حذف شد .` , 'success');
+                    handleGetRoles();
+                }
+            } catch (error) {
+                // set error in httpService
+            }
+        }
+    }
 
 
 
@@ -47,7 +64,8 @@ const RolesTable = () => {
             field : null ,
             title : 'عملیات',
             element : (rowData)=>{
-                return  <Actions rowData={rowData} />
+                return  <Actions rowData={rowData}
+                handleDeleteRole={handleDeleteRole}/>
             }
         },
     ]

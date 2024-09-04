@@ -108,7 +108,7 @@ const PaginatedTable = ({data , dataInfo , additionField ,
                                                 i.field ? (
                                                     <td className='dir_ltr' key={`${i.field}_${d.id}`}>{d[i.field]}</td>
                                                 ) : (
-                                                    <td className='dir_ltr' key={`NoField_${d.id}`}>{i.element(d)}</td>
+                                                    <td className='dir_ltr' key={`NoField_${d.id}_${index}`}>{i.element(d)}</td>
                                                 )
                                             ))}
                                         </tr>
