@@ -102,7 +102,8 @@ const AddAtrrProduct = () => {
                     }}
                 </Formik> 
             : (
-                <LoadingAlert title={`ویژگی در دسته بندی ${attrs[0].groupTitle} پیدا نشد .`} bgColor='warning' spinner={false} >
+                <LoadingAlert title={`ویژگی در دسته بندی ${attrs[0].groupTitle} پیدا نشد .`}
+                bgColor='warning' spinner={false} >
                     <hr />
                     <span className='w-100 text-center my-2 d-block mx-auto'>برای 
                         <Link style={{textDecoration:'none'}} to={`/Category`}> مشاهده و افزودن</Link> ویژگی به دسته بندی ،

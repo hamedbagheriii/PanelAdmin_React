@@ -11,6 +11,7 @@ import PersonalError from '../../../components/form/personalComponenet/personalE
 import { getBrandsService } from '../../../services/shop/brand/brand';
 import { getColorsService } from '../../../services/shop/color/colors';
 import { getGuarantiesService } from '../../../services/shop/Guaranties/guaranties';
+import SubmitBTN from '../../../components/form/SubmitBTN';
 
 
 const AddProduct = () => {
@@ -332,17 +333,9 @@ const AddProduct = () => {
                                              
                                         </div>
                                     </div>
-            
-                                    <div className="modal-footer mt-3 pt-4 w-100 d-flex justify-content-around" >
-                                        <button type="button" className="btn btn-danger modal-btn w-25"
-                                        onClick={()=>navigate(-1)} data-bs-dismiss="modal">بازگشت</button>
-                                        <button type='submit' className="btn btn-primary modal-btn w-25" 
-                                        disabled={formik.isSubmitting || !formik.dirty}>
-                                            {formik.isSubmitting ?
-                                                <SpinnerLoad colorClass={'text-white'} inline={true} isSmall />
-                                            : 'ذخیره'}
-                                        </button>
-                                    </div>
+
+                                    <hr className='w-100 pt-1 mt-4 bg-white' />
+                                    <SubmitBTN formik={formik} isValid={false} isModal={false}/>
                                 </Form>
                             )
                         }}

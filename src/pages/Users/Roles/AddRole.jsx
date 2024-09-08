@@ -7,6 +7,7 @@ import FormikControl from '../../../components/form/FormikControl';
 import { getAllPermissionsService } from '../../../services/Users/permission/permissions';
 import { initialValues, onSubmit, validationSchema } from './core';
 import { getOneRoleService } from '../../../services/Users/role/roles';
+import SubmitBTN from '../../../components/form/SubmitBTN';
 
 
 
@@ -124,16 +125,7 @@ const AddRole = () => {
                                     )  : null}
                                         
                                     <hr className='w-100 pt-1 mt-4' />
-                                    <div className=" w-100 d-flex justify-content-around" >
-                                        <button type="button" className="btn btn-danger modal-btn w-25"
-                                        onClick={()=>navigate(-1)} data-bs-dismiss="modal">انصراف</button>
-                                        <button type='submit' className="btn btn-primary modal-btn w-25" 
-                                        disabled={formik.isSubmitting || (!formik.dirty)}>
-                                            {formik.isSubmitting ?
-                                                <SpinnerLoad colorClass={'text-white'} inline={true} isSmall />
-                                            : 'ذخیره'}
-                                        </button>
-                                    </div>  
+                                    <SubmitBTN formik={formik} isValid={false} isModal={false}/>
                                 </div>
 
                             </Form>

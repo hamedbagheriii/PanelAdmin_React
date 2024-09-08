@@ -1,166 +1,121 @@
-import React from 'react';
-import PaginatedTable from '../../../components/tableComponent/PaginatedTable';
-import AddUser from './AddUser';
+import React, { useEffect, useState } from 'react';
+import PaginatedDataTable from '../../../components/tableComponent/paginatedDataTable';
+import { Alert } from '../../../utils/alert';
+import { Confirm } from '../../../utils/confirm';
+import AddBtnLink from '../../../UI/All/AddBtnLink';
+import { useNavigate } from 'react-router-dom';
+import UserAction from './tableAddition/userActions';
+import { deleteUserService, getAllUsersService } from '../../../services/Users/user/users';
+
 
 const UsersTable = () => {
-    const data = [
-        {
-            id : 1 ,
-            fullName : 'حامد باقری' ,
-            phone : '09014061131' ,
-            email : 'mahdicmptr213@gmail.com' ,
-            role : 'کاربر' ,
-            dateOfRegister : '1403/5/25' ,
-        } ,
-        {
-            id : 2 ,
-            fullName : 'حامد باقری' ,
-            phone : '09014061131' ,
-            email : 'mahdicmptr213@gmail.com' ,
-            role : 'کاربر' ,
-            dateOfRegister : '1403/5/25' ,
-        } ,
-        {
-            id : 3,
-            fullName : 'حامد باقری' ,
-            phone : '09014061131' ,
-            email : 'mahdicmptr213@gmail.com' ,
-            role : 'کاربر' ,
-            dateOfRegister : '1403/5/25' ,
-        } ,
-        {
-            id : 4 ,
-            fullName : 'حامد باقری' ,
-            phone : '09014061131' ,
-            email : 'mahdicmptr213@gmail.com' ,
-            role : 'کاربر' ,
-            dateOfRegister : '1403/5/25' ,
-        } ,
-        {
-            id : 5 ,
-            fullName : 'حامد باقری' ,
-            phone : '09014061131' ,
-            email : 'mahdicmptr213@gmail.com' ,
-            role : 'کاربر' ,
-            dateOfRegister : '1403/5/25' ,
-        } ,
-        {
-            id :6 ,
-            fullName : 'حامد باقری' ,
-            phone : '09014061131' ,
-            email : 'mahdicmptr213@gmail.com' ,
-            role : 'کاربر' ,
-            dateOfRegister : '1403/5/25' ,
-        } ,
-        {
-            id : 7 ,
-            fullName : 'حامد باقری' ,
-            phone : '09014061131' ,
-            email : 'mahdicmptr213@gmail.com' ,
-            role : 'کاربر' ,
-            dateOfRegister : '1403/5/25' ,
-        } ,
-        {
-            id : 8 ,
-            fullName : 'علی باقری' ,
-            phone : '09014061131' ,
-            email : 'mahdicmptr213@gmail.com' ,
-            role : 'کاربر' ,
-            dateOfRegister : '1403/5/25' ,
-        } ,
-        {
-            id : 9 ,
-            fullName : 'علی باقری' ,
-            phone : '09014061131' ,
-            email : 'mahdicmptr213@gmail.com' ,
-            role : 'کاربر' ,
-            dateOfRegister : '1403/5/25' ,
-        } ,
-        {
-            id : 10 ,
-            fullName : 'رضا باقری' ,
-            phone : '09014061131' ,
-            email : 'mahdicmptr213@gmail.com' ,
-            role : 'کاربر' ,
-            dateOfRegister : '1403/5/25' ,
-        } ,
-        {
-            id : 12 ,
-            fullName : 'حامد باقری' ,
-            phone : '09014061131' ,
-            email : 'mahdicmptr213@gmail.com' ,
-            role : 'کاربر' ,
-            dateOfRegister : '1403/5/25' ,
-        } ,
-        {
-            id : 13 ,
-            fullName : 'حامد باقری' ,
-            phone : '09014061131' ,
-            email : 'mahdicmptr213@gmail.com' ,
-            role : 'کاربر' ,
-            dateOfRegister : '1403/5/25' ,
-        } ,
-        {
-            id : 14 ,
-            fullName : 'حامد باقری' ,
-            phone : '09014061131' ,
-            email : 'mahdicmptr213@gmail.com' ,
-            role : 'کاربر' ,
-            dateOfRegister : '1403/5/25' ,
-        } ,
-        {
-            id : 15 ,
-            fullName : 'حامد باقری' ,
-            phone : '09014061131' ,
-            email : 'mahdicmptr213@gmail.com' ,
-            role : 'کاربر' ,
-            dateOfRegister : '1403/5/25' ,
-        } ,
-    ]
+    const [tableData , setTableData] = useState([]);
+    const [isLoading , setLoading] = useState(true);
+    const [currentPage , setCurrentPage] = useState(1);
+    const [countOnPage , setCountOnPage] = useState(8);
+    const [pageCount , setPageCount] = useState(1);
+    const [searchField , setSearchField] = useState('');
+    const navigate = useNavigate();
 
+
+
+
+    // This is for get Users
+    const handleGetUsers = async ()=>{
+        try {
+            const res = await getAllUsersService(currentPage,countOnPage,searchField);
+            if (res.status == 200) {
+                setTableData(res.data.data.data);
+                setPageCount(res.data.data.last_page);
+            }
+        } catch (error) {
+            // set error in httpService
+        }
+        finally{
+            setLoading(false);
+        }
+    }
+
+    // This is for delete Users
+    const handleDeleteUsers = async (rowData)=>{
+        if (await Confirm(`آیا از حذف کاربر ${rowData.user_name || 'با شماره موبایل  '+rowData.phone}
+        اطمینان دارید ؟`)) {
+            try {
+                const res = await deleteUserService(rowData.id);
+                if (res.status == 200) {
+                    Alert('عملیات با موفقیت انجام شد .' ,
+                    `کاربر ${rowData.user_name ||'با شماره موبایل  '+ rowData.phone} با موفقیت حذف شد .` , 'success');
+                    handleGetUsers();
+                }
+            } catch (error) {
+                // set error in httpService
+            }
+        }
+    }
+
+    // This is for calling Get Users function
+    useEffect(() => {
+        handleGetUsers();
+        setLoading(true);
+    }, []);
+
+    // This is for calling Get Users function when edit currentPage or searchField
+    useEffect(() => {
+        handleGetUsers();
+        setLoading(true);
+    }, [currentPage , searchField]);
+
+
+
+
+
+    // This is for inital props <<<<=
     const dataInfo = [
         {field : 'id' , title : '#'},
-        {field : 'fullName' , title : 'نام و نام خانوادگی'},
-        {field : 'phone' , title : 'موبایل'},
-        {field : 'email' , title : 'ایمیل'},
-        {field : 'role' , title : 'نقش'},
-        {field : 'dateOfRegister' , title : 'تاریخ ثبت نام'},
-    ]
-
-    const additionFieldElement = (itemId)=>{
-        return(
-            <>  
-                <td>
-                    <i className="fas fa-edit text-warning mx-1 hoverable_text pointer has_tooltip"
-                    title="جزئیات و ویرایش کاربر" data-bs-toggle="modal" data-bs-placement="top"
-                    data-bs-target="#add_user_modal"></i>
-                    <i className="fas fa-times text-danger mx-1 hoverable_text pointer has_tooltip" 
-                    title="حذف کاربر" data-bs-toggle="tooltip" data-bs-placement="top"></i>
-                </td>
-            </>
-        )
-    }
-    
-    const additionField = [
         {
-            title : 'عملیات' ,
-            field : 'operation' ,
-            element : (itemId)=> additionFieldElement(itemId)
-        }
+            field : '' ,
+            title : 'نام کاربری',
+            element : (rowData)=> `${rowData.user_name || '--'}`
+        },
+        {
+            field : '' ,
+            title : 'نام و نام خانوادگی',
+            element : (rowData)=> `${rowData.first_name || ''} ${rowData.last_name || '--'}`
+        },
+        {field : 'phone' , title : 'شماره موبایل'},
+        {
+            field : '' ,
+            title : 'ایمیل',
+            element : (rowData)=> `${rowData.email || '--'}`
+        },
+        {
+            field : '' ,
+            title : 'جنسیت',
+            element : (rowData)=> rowData.gender == 1 ? 'آقا' : 'خانم'
+        },
+        {
+            field : '' ,
+            title : 'عملیات',
+            element : (rowData)=> <UserAction rowData={rowData}
+            handleDeleteUsers={handleDeleteUsers} navigate={navigate} />
+        },
     ]
 
     const searchParams = {
         title : 'جستجو' ,
-        placeholder : 'قسمتی از نام و نام خانوادگی را وارد کنید .' ,
-        searchField : 'fullName'
+        placeholder : 'قسمتی از شماره موبایل را وارد کنید .' ,
+        searchField : 'phone'
     }
+    // This is for inital props <<<<=
+
 
     return (
-        <PaginatedTable data={data} dataInfo={dataInfo} additionField={additionField}
-         searchParams={searchParams} numOfPage={4}>
-            {/* --- Modal add User --- */}
-            <AddUser/>
-        </PaginatedTable>
+        <PaginatedDataTable dataInfo={dataInfo} searchParams={searchParams} isLoading={isLoading}
+        setSearchField={setSearchField} tableData={tableData} setCurrentPage={setCurrentPage}
+        currentPage={currentPage} pageCount={pageCount} searchField={searchField }>
+            {/* --- Modal add Users --- */}
+            <AddBtnLink pach={'/Users/add-user'}  />
+        </PaginatedDataTable>
     );
 }
 
