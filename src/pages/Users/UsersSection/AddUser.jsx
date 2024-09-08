@@ -1,17 +1,23 @@
 import React, { useEffect, useState } from 'react';
 import ModalsContainer from '../../../components/ModalsContainer';
-import { useNavigate, useOutletContext } from 'react-router-dom';
+import { useLocation, useNavigate, useOutletContext } from 'react-router-dom';
 import { ErrorMessage, Form, Formik } from 'formik';
 import SubmitBTN from '../../../components/form/SubmitBTN';
 import FormikControl from '../../../components/form/FormikControl';
 import PersonalError from '../../../components/form/personalComponenet/personalError';
 import { getAllRolesService } from '../../../services/Users/role/roles';
 import { initialValues, onSubmit, validationSchema } from './core';
+import { getOneUserService } from '../../../services/Users/user/users';
+import { convertDate } from '../../../utils/convertDate';
 
 const AddUser = () => {
     const navigate = useNavigate();
+    const locaion = useLocation()
     const [mainRoles , setMainRoles] = useState([]);
     const {handleGetUsers} = useOutletContext()
+    const userID = locaion.state?.userID
+    const [reinitalValues , setReinitalValues] = useState(null);
+    const [editRoles , setEdutRoles] = useState([]);
 
 
 
@@ -29,6 +35,29 @@ const AddUser = () => {
         }
     }
 
+    const handleSetToEdit = async ()=>{
+        try {
+            const res = await getOneUserService(userID);
+            if (res.status == 200) {
+                setReinitalValues({
+                roles_id : res.data.data.roles?.map(s=> s.id) || [] ,
+                birth_date : res.data.data.birth_date ? convertDate(res.data.data.birth_date) : '',
+                user_name: res.data.data.user_name || '',
+                first_name: res.data.data.first_name || '',
+                last_name: res.data.data.last_name || '',
+                phone: res.data.data.phone || '',
+                national_code: res.data.data.national_code || '',
+                email: res.data.data.email || '',
+                password: '',
+                gender: res.data.data.gender || 1,
+                });
+                setEdutRoles(res.data.data.roles?.map(s=>{return {id : s.id , value : s.title}}));
+            }
+        }
+        catch (error) {
+            // set error in httpService
+        }
+    }
 
 
 
@@ -39,6 +68,14 @@ const AddUser = () => {
         handleGetRoles();
     }, []);
 
+    // This is for calling get Roles function
+    useEffect(() => {
+        if (userID) {
+           handleSetToEdit()
+        }
+    }, [userID]);
+
+    
     // initalProps
     const gender = [
         {id : 0 , value : 'خانم'},
@@ -55,12 +92,15 @@ const AddUser = () => {
         closeFunction={()=>navigate(-1)}
         >
             <Formik 
-            initialValues={initialValues}
-            onSubmit={(values,submitProps)=>onSubmit(values , submitProps , navigate , handleGetUsers)}
+            initialValues={reinitalValues || initialValues}
+            onSubmit={(values,submitProps)=>onSubmit(values , submitProps , navigate , handleGetUsers
+            , setReinitalValues , userID)}
             validationSchema={validationSchema}
             validateOnMount
+            enableReinitialize
             >
                 {(formik)=>{
+                    console.log(formik);
                     return (
                         <Form className="container">
                             <div className="row justify-content-center">
@@ -71,7 +111,7 @@ const AddUser = () => {
                                 type='text'
                                 placeholder="فقط از حروف استفاده شود ."
                                 name='user_name'
-                                required={true}
+                                required={userID ? false : true}
                                 />
                           
                                 <FormikControl 
@@ -80,7 +120,7 @@ const AddUser = () => {
                                 type='text'
                                 placeholder="فقط از حروف استفاده شود ."
                                 name='first_name'
-                                required={true}
+                                required={userID ? false : true}
                                 />
                                 
                                 <FormikControl 
@@ -89,7 +129,7 @@ const AddUser = () => {
                                 type='text'
                                 placeholder="فقط از حروف استفاده شود ."
                                 name='last_name'
-                                required={true}
+                                required={userID ? false : true}
                                 />      
 
                                 <FormikControl 
@@ -98,7 +138,7 @@ const AddUser = () => {
                                 type='number'
                                 placeholder="فقط از عدد استفاده شود ."
                                 name='national_code'
-                                required={true}
+                                required={userID ? false : true}
                                 />   
 
                                 <FormikControl 
@@ -107,7 +147,7 @@ const AddUser = () => {
                                 type='number'
                                 placeholder="فقط از عدد استفاده شود ."
                                 name='phone'
-                                required={true}
+                                required={userID ? false : true}
                                 />   
 
                                 <FormikControl 
@@ -116,7 +156,7 @@ const AddUser = () => {
                                 type='text'
                                 placeholder="فقط فرمت ایمیل (email@yourhost.com) استفاده شود ."
                                 name='email'
-                                required={true}
+                                required={userID ? false : true}
                                 />
 
                                 <FormikControl 
@@ -125,14 +165,14 @@ const AddUser = () => {
                                 type='text'
                                 placeholder="حداقل 6 کاراکتر بنویسید ."
                                 name='password'
-                                required={true}
+                                required={userID ? false : true}
                                 />
 
                                 <FormikControl 
                                  control='date'
                                  name='birth_date'
                                  label='تاریخ تولد'
-                                 required={true}
+                                 required={userID ? false : true}
                                  formik={formik}
                                  initialDate={undefined}
                                 />
@@ -147,7 +187,7 @@ const AddUser = () => {
                                 name='gender'
                                 label='جنسیت'
                                 firstItem='جنسیت را انتخاب کنید . . .'
-                                required={true}
+                                required={userID ? false : true}
                                 />
 
                                 <div className='w-100' style={{height:350}}>
@@ -158,14 +198,15 @@ const AddUser = () => {
                                     formik={formik}
                                     name={'roles_id'}
                                     firstItem=' نقش ها را انتخاب کنید . . .'
-                                    required={true}
+                                    required={userID ? false : true}
                                     resultType={'array'}
+                                    selectedToEdit={editRoles}
                                     />
                                 </div>
 
                             </div>
 
-                            <SubmitBTN formik={formik} closeModal={true}  />
+                            <SubmitBTN formik={formik} closeModal={true} isValid={false} />
                         </Form>
                     )
                 }}

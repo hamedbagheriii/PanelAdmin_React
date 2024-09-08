@@ -82,6 +82,11 @@ const UsersTable = () => {
             title : 'نام و نام خانوادگی',
             element : (rowData)=> `${rowData.first_name || ''} ${rowData.last_name || '--'}`
         },
+        {
+            field : '' ,
+            title : 'نقش ها',
+            element : (rowData)=> `${rowData.roles[0]?.title || '--'}`
+        },
         {field : 'phone' , title : 'شماره موبایل'},
         {
             field : '' ,
