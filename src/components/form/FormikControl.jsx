@@ -8,6 +8,7 @@ import SelectChips from './formikComponent/SelectChips';
 import SearchableSelect from './formikComponent/SearchableSelect';
 import CkEditor from './formikComponent/CkEditor';
 import Date from './formikComponent/Date';
+import Checkbox from './formikComponent/checkbox';
 
 const FormikControl = (props) => {
     switch (props.control) {
@@ -37,6 +38,9 @@ const FormikControl = (props) => {
 
         case 'date':
             return <Date {...props} />
+
+        case 'checkbox':
+            return <Checkbox {...props} />
         default:
             return null;
     }

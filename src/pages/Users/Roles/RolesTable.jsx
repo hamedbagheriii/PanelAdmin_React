@@ -83,7 +83,7 @@ const RolesTable = () => {
          searchParams={searchParams} numOfPage={4} isLoading={isLoading}> 
             {/* --- Modal add Role --- */}
             <AddBtnLink pach={'/Roles/add-role'}  />
-            <Outlet/>
+            <Outlet context={{handleGetRoles}}/>
         </PaginatedTable>
     );
 }

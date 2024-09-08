@@ -45,7 +45,7 @@ const AddDiscount = () => {
 
         let idsArr = formik.values.product_ids.split('-').filter(id=>id);
         let selectedProductArr = idsArr.map(id=>allProducts.filter(p=>p.id == id)[0]).filter(product=>product);
-        
+
         return(
             <FormikControl 
             control='searchableSelect'

@@ -12,6 +12,9 @@ const SearchableSelect = ({options , name , label , firstItem , chipsName='دس�
     const [isActive , setIsActive] = useState(false);
     const searchINP = useRef();
 
+
+
+    
     // this is for set selected handleSelectItem
     const handleSelectItem = (value , formik)=>{
         setIsActive(false);
@@ -28,7 +31,6 @@ const SearchableSelect = ({options , name , label , firstItem , chipsName='دس�
                 formik.setFieldValue(name , nameValue)
         }
     }
-
 
 
     // this is for delede selected itme
@@ -53,6 +55,11 @@ const SearchableSelect = ({options , name , label , firstItem , chipsName='دس�
         }, 500);
     }
 
+
+
+
+
+
     useEffect(() => {
         setCopyOptions(options);
         setIsActive(false);
@@ -72,6 +79,10 @@ const SearchableSelect = ({options , name , label , firstItem , chipsName='دس�
             setSelectedArray(selectedToEdit);
         }
     }, [selectedToEdit]);
+
+
+
+
 
     return (
         <Field>
@@ -127,9 +138,9 @@ const SearchableSelect = ({options , name , label , firstItem , chipsName='دس�
                                     <div className="col-12 mt-3 mb-2 d-flex flex-wrap gap-2">
                                         {selectedArray.map(item=>(
                                             <span key={item.id} className="chips_elem bg-primary text-white text-center">
-                                                <i className="fas fa-times ms-2 text-danger"
+                                                <i className="fas fa-times ms-2 text-danger deleteChips" 
                                                 onClick={()=>handleDeleteSelected(item.id , form)}></i>
-                                                {chipsName} {item.value}
+                                                <span>{chipsName} {item.value}</span>
                                             </span>
                                         ))}
                                     </div>
