@@ -23,6 +23,7 @@ import AddAtrrProduct from '../../../pages/Shop/Product/setAttr/AddAtrProduct.js
 import Gallery from '../../../pages/Shop/Product/gallery/gallery.jsx';
 import AddDiscount from '../../../pages/Shop/Discount/AddDiscount.jsx';
 import AddRole from '../../../pages/Users/Roles/AddRole.jsx';
+import AddUser from '../../../pages/Users/UsersSection/AddUser.jsx';
 
 
 const IndexContent = () => {
@@ -76,7 +77,9 @@ const IndexContent = () => {
 
             {/* ====== Users ===== */}
             
-            <Route path='/Users' element={<Users/>} />
+            <Route path='/Users' element={<Users/>} >
+                <Route path='add-user' element={<AddUser/>} />
+            </Route>
 
             <Route path='/Roles' element={<Roles/>} >
                 <Route path='add-role' element={<AddRole />} />

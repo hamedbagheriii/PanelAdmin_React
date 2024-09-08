@@ -135,7 +135,7 @@ const SearchableSelect = ({options , name , label , firstItem , chipsName='دس�
                                 </div>
                                         
                                 {selectedArray.length ?
-                                    <div className="col-12 mt-3 mb-2 d-flex flex-wrap gap-2">
+                                    <div className="col-12 mt-3 mb-2 d-flex flex-wrap gap-2" >
                                         {selectedArray.map(item=>(
                                             <span key={item.id} className="chips_elem bg-primary text-white text-center">
                                                 <i className="fas fa-times ms-2 text-danger deleteChips" 

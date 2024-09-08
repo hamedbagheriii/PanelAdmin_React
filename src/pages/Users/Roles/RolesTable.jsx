@@ -12,7 +12,7 @@ const RolesTable = () => {
     const [isLoading , setLoading] = useState(true);
 
 
-    // This is for get permissons
+    // This is for get Roles
     const handleGetRoles = async ()=>{
         try {
             const res = await getAllRolesService();
@@ -29,7 +29,7 @@ const RolesTable = () => {
         }
     }
 
-    // This is for calling Get permissons function
+    // This is for calling Get Roles function
     useEffect(() => {
         handleGetRoles();
         setLoading(true)

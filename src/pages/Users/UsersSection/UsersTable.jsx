@@ -3,7 +3,7 @@ import PaginatedDataTable from '../../../components/tableComponent/paginatedData
 import { Alert } from '../../../utils/alert';
 import { Confirm } from '../../../utils/confirm';
 import AddBtnLink from '../../../UI/All/AddBtnLink';
-import { useNavigate } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 import UserAction from './tableAddition/userActions';
 import { deleteUserService, getAllUsersService } from '../../../services/Users/user/users';
 
@@ -115,6 +115,7 @@ const UsersTable = () => {
         currentPage={currentPage} pageCount={pageCount} searchField={searchField }>
             {/* --- Modal add Users --- */}
             <AddBtnLink pach={'/Users/add-user'}  />
+            <Outlet context={{handleGetUsers}} />
         </PaginatedDataTable>
     );
 }

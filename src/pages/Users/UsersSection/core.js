@@ -1,0 +1,88 @@
+import React from 'react';
+import * as Yup from 'yup';
+import { Alert } from "../../../utils/alert";
+import { createNewUserService } from '../../../services/Users/user/users';
+import { converFormDataToMiladi } from '../../../utils/convertDate';
+
+// ========== initial formik props ==========
+export const initialValues = {
+  user_name: "",
+  first_name: "",
+  last_name: "",
+  phone: "",
+  national_code: "",
+  email: "",
+  password: "",
+  birth_date: "",
+  gender: 0,
+  roles_id: [],
+}
+
+export const onSubmit = async (values , submitProps , navigate , handleGetUsers
+  )=>{
+    const handleShowAlert = (title)=>{
+        setTimeout(() => {
+            Alert(` کاربر ${values.user_name} 
+            با موفقیت ${title} شد .` , '' , 'success');
+            submitProps.resetForm();
+            handleGetUsers()
+            navigate(-1);
+          }, 0 );
+        }
+        
+
+    try {
+        // if (productToEdit) {
+        //     const res = await editProductService(productToEdit.id,values);
+        //     if(res.status == 200){
+        //       handleShowAlert('ویرایش')
+        //       productToEdit = null;
+        //       setReinitalValues(null);
+        //     }
+        // }
+        // else {
+            const data = {
+              ...values ,
+              birth_date : converFormDataToMiladi(values.birth_date),
+              phone : ('0'+values.phone),
+            }
+            const res = await createNewUserService(data);
+            if(res.status == 201){
+              handleShowAlert('ایجاد');
+            }
+        // }
+    } catch (error) {
+        // productToEdit = null;
+        // setReinitalValues(null);
+        submitProps.resetForm();
+    }
+    console.log(values);
+}
+
+export const validationSchema = Yup.object({
+  user_name: Yup.string()
+    .required("لطفا این قسمت را پر کنید .")
+    .matches(/^[\u0600-\u06FF\sa-zA-Z0-9@!%-.$?&]+$/, ". فقط از حروف و اعداد استفاده شود"),
+  first_name: Yup.string()
+    .required("لطفا این قسمت را پر کنید .")
+    .matches(/^[\u0600-\u06FF\sa-zA-Z]+$/, ". فقط از حروف استفاده شود"),
+  last_name: Yup.string()
+    .required("لطفا این قسمت را پر کنید .")
+    .matches(/^[\u0600-\u06FF\sa-zA-Z]+$/, ". فقط از حروف استفاده شود"),
+  phone: Yup.number().required("لطفا این قسمت را پر کنید"),
+  national_code: Yup.number()
+    .required("لطفا این قسمت را پر کنید ."),
+  email: Yup.string()
+    .required("لطفا این قسمت را پر کنید .")
+    .matches(/^[\u0600-\u06FF\sa-zA-Z0-9@!%-.$?&]+$/, ". فقط از حروف و اعداد استفاده شود").email('لطفا قالب فرمت را رعایت کنید .'),
+  password: Yup.string()
+    .required("لطفا این قسمت را پر کنید .")
+    .matches(/^[\u0600-\u06FF\sa-zA-Z0-9@!%-.$?&]+$/, ". فقط از حروف و اعداد استفاده شود")
+    .min(8,'لطفا حداقل 8 کاراکتر بنویسید .'),
+  birth_date: Yup.string()
+    .required("لطفا این قسمت را پر کنید ."),
+  gender: Yup.number()
+    .required("لطفا این قسمت را پر کنید ."),
+  roles_id: Yup.array().required('لطفا مقداری انتخاب کنید .')
+});
+// ========== initial formik props ==========
