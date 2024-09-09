@@ -6,22 +6,25 @@ import  './assets/style/bootstrap.min.css';
 import  './assets/fontawesome/css/all.css';
 import  './assets/style/style.css';
 import Logout from './pages/auth/Logout/Logout';
+import { Provider } from 'react-redux';
+import store from './redux/store/store';
 
 
 const App = ()=>{
     const location = useLocation();
     
     return (
-        <div className={` App  d-flex align-items-center justify-content-center`}>
-            {location.pathname.includes('/auth') ?(
-                <AuthLayout/>
-            ) : location.pathname.includes('/Logout') ? (
-                <Logout/>
-            ) : 
+        <Provider store={store}>
+            <div className={` App  d-flex align-items-center justify-content-center`}>
+                {location.pathname.includes('/auth') ?(
+                    <AuthLayout/>
+                ) : location.pathname.includes('/Logout') ? (
+                    <Logout/>
+                ) : 
                 <AdminLayout/>
             }
-
-        </div>
+            </div>
+        </Provider>
     ) 
 }
 

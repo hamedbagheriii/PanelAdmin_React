@@ -6,12 +6,16 @@ import AdminContextContainer from '../../context/adminLayoutContext';
 import axios from 'axios';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { useInLogin } from '../../hook/authHook';
+import { useDispatch, useSelector } from 'react-redux';
+import { getRolesActionRedux } from '../../redux/roles/rolesActions';
 
 
 const AdminLayout = () => {
 
     const {isLogin , loading , isAdmin} = useInLogin();
+    const {roles  , error} = useSelector((state)=>state.rolesReducer)
 
+    console.log(roles);
 
     return (
         <AdminContextContainer>

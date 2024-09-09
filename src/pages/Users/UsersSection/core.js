@@ -35,10 +35,10 @@ export const onSubmit = async (values , submitProps , navigate , handleGetUsers
     try {
         const data = {
           ...values ,
-          birth_date : converFormDataToMiladi(values.birth_date),
+          birth_date : converFormDataToMiladi(values.birth_date,'jYYYY/jD/jM'),
           phone : ('0'+values.phone),
         }
-        console.log(data);
+        console.log(values);
         if (userID) {
             const res = await editUserService(userID,data);
             if(res.status == 200){
@@ -78,8 +78,7 @@ export const validationSchema = Yup.object({
     .required("لطفا این قسمت را پر کنید .")
     .matches(/^[\u0600-\u06FF\sa-zA-Z0-9@!%-.$?&]+$/, ". فقط از حروف و اعداد استفاده شود")
     .min(8,'لطفا حداقل 8 کاراکتر بنویسید .'),
-  birth_date: Yup.string()
-    .required("لطفا این قسمت را پر کنید ."),
+  birth_date: Yup.string(),
   gender: Yup.number()
     .required("لطفا این قسمت را پر کنید ."),
   roles_id: Yup.array().min(1,'لطفا مقداری انتخاب کنید .')

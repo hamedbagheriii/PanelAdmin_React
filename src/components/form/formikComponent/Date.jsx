@@ -53,7 +53,7 @@ const Date = ({formik,name,label,required,yearsLimit,initialDate}) => {
     const handleSetInputDate =(e)=>{
         e.stopPropagation();
         // set value =>
-        formik.setValues({...formik.values , [name] : `${day} / ${month} / ${year}` })
+        formik.setValues({...formik.values , [name] : `${year}/${month}/${day}` })
         setShowConfig(false);
     }
 

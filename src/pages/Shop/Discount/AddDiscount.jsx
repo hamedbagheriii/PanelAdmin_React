@@ -73,7 +73,7 @@ const AddDiscount = () => {
                 title : discountData.title || '' ,
                 code : discountData.code || '' ,
                 percent : discountData.percent || '' ,
-                expire_at : convertDate(discountData.expire_at,'jD / jM / jYYYY') || '' ,
+                expire_at : convertDate(discountData.expire_at) || '' ,
                 for_all : discountData.for_all ? true : false  ,
                 product_ids : productIDS ,
             })

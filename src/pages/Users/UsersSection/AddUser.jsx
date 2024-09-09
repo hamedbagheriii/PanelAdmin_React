@@ -111,7 +111,7 @@ const AddUser = () => {
                                 type='text'
                                 placeholder="فقط از حروف استفاده شود ."
                                 name='user_name'
-                                required={userID ? false : true}
+                                required={true}
                                 />
                           
                                 <FormikControl 
@@ -120,7 +120,7 @@ const AddUser = () => {
                                 type='text'
                                 placeholder="فقط از حروف استفاده شود ."
                                 name='first_name'
-                                required={userID ? false : true}
+                                required={true}
                                 />
                                 
                                 <FormikControl 
@@ -129,7 +129,7 @@ const AddUser = () => {
                                 type='text'
                                 placeholder="فقط از حروف استفاده شود ."
                                 name='last_name'
-                                required={userID ? false : true}
+                                required={true}
                                 />      
 
                                 <FormikControl 
@@ -138,7 +138,7 @@ const AddUser = () => {
                                 type='number'
                                 placeholder="فقط از عدد استفاده شود ."
                                 name='national_code'
-                                required={userID ? false : true}
+                                required={true}
                                 />   
 
                                 <FormikControl 
@@ -147,7 +147,7 @@ const AddUser = () => {
                                 type='number'
                                 placeholder="فقط از عدد استفاده شود ."
                                 name='phone'
-                                required={userID ? false : true}
+                                required={true}
                                 />   
 
                                 <FormikControl 
@@ -156,7 +156,7 @@ const AddUser = () => {
                                 type='text'
                                 placeholder="فقط فرمت ایمیل (email@yourhost.com) استفاده شود ."
                                 name='email'
-                                required={userID ? false : true}
+                                required={true}
                                 />
 
                                 <FormikControl 
@@ -165,14 +165,14 @@ const AddUser = () => {
                                 type='text'
                                 placeholder="حداقل 6 کاراکتر بنویسید ."
                                 name='password'
-                                required={userID ? false : true}
+                                required={true}
                                 />
 
                                 <FormikControl 
                                  control='date'
                                  name='birth_date'
                                  label='تاریخ تولد'
-                                 required={userID ? false : true}
+                                 required={true}
                                  formik={formik}
                                  initialDate={undefined}
                                 />
@@ -187,7 +187,7 @@ const AddUser = () => {
                                 name='gender'
                                 label='جنسیت'
                                 firstItem='جنسیت را انتخاب کنید . . .'
-                                required={userID ? false : true}
+                                required={true}
                                 />
 
                                 <div className='w-100' style={{height:350}}>
@@ -198,7 +198,7 @@ const AddUser = () => {
                                     formik={formik}
                                     name={'roles_id'}
                                     firstItem=' نقش ها را انتخاب کنید . . .'
-                                    required={userID ? false : true}
+                                    required={true}
                                     resultType={'array'}
                                     selectedToEdit={editRoles}
                                     />
