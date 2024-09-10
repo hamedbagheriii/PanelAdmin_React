@@ -1,10 +1,10 @@
 import { configureStore, createReducer } from "@reduxjs/toolkit";
-import rolesReducer from "../roles/rolesReducer";
+import userReducer from "../user/userReducer";
 
 
 const store = configureStore({
     reducer : {
-        rolesReducer : rolesReducer ,
+        userReducer
     },
 })
 

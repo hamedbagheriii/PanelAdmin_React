@@ -162,10 +162,11 @@ const AddUser = () => {
                                 <FormikControl 
                                 control='input'
                                 label='رمز عبور'
-                                type='text'
+                                type='password'
                                 placeholder="حداقل 6 کاراکتر بنویسید ."
                                 name='password'
                                 required={true}
+                                password={true}
                                 />
 
                                 <FormikControl 

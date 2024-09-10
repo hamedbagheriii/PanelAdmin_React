@@ -1,21 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import IndexNavbar from './navbar/IndexNavbar';
 import IndexSidebar from './sidebar/IndexSidebar';
 import IndexContent from './content/IndexContent';
 import AdminContextContainer from '../../context/adminLayoutContext';
-import axios from 'axios';
-import { Link, Navigate, useNavigate } from 'react-router-dom';
+import { Link, Navigate} from 'react-router-dom';
 import { useInLogin } from '../../hook/authHook';
-import { useDispatch, useSelector } from 'react-redux';
-import { getRolesActionRedux } from '../../redux/roles/rolesActions';
+import { useSelector } from 'react-redux';
 
 
 const AdminLayout = () => {
 
     const {isLogin , loading , isAdmin} = useInLogin();
-    const {roles  , error} = useSelector((state)=>state.rolesReducer)
 
-    console.log(roles);
 
     return (
         <AdminContextContainer>

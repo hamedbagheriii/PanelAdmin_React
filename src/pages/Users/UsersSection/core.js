@@ -35,7 +35,7 @@ export const onSubmit = async (values , submitProps , navigate , handleGetUsers
     try {
         const data = {
           ...values ,
-          birth_date : converFormDataToMiladi(values.birth_date,'jYYYY/jD/jM'),
+          birth_date : converFormDataToMiladi(values.birth_date,'jYYYY/jM/jD'),
           phone : ('0'+values.phone),
         }
         console.log(values);

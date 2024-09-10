@@ -1,10 +1,10 @@
-import { getUserService } from "../../services/auth";
-import { RECEIVE_ROLES_RESPONSE, SEND_ROLES_REQUEST } from "./rolesType"
+
+import { RECEIVE_USER_RESPONSE } from "./userType"
 
 
-export const receiveRolesResponse = (data)=>{
+export const receiveUserResponse = (data)=>{
     return {
-        type : RECEIVE_ROLES_RESPONSE,
+        type : RECEIVE_USER_RESPONSE,
         payLoad : data
     }
 };

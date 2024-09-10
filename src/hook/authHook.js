@@ -2,7 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { getUserService } from "../services/auth";
 import { useDispatch } from "react-redux";
-import { receiveRolesResponse } from "../redux/roles/rolesActions";
+import { receiveUserResponse } from "../redux/user/userActions";
  
 
 export const useInLogin = ()=>{
@@ -24,7 +24,7 @@ export const useInLogin = ()=>{
             const res = await getUserService();
             handleSetLoad((res.status == 200 ? true : false ) , false ,
             (res.data.roles[0] ? true : false) , 2000)
-            dispatch(receiveRolesResponse(res.data.roles));
+            dispatch(receiveUserResponse(res.data));
         } catch (error) {
             localStorage.removeItem('loginToken');
             handleSetLoad(false,false,false,0);

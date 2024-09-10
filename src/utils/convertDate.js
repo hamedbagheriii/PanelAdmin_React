@@ -6,7 +6,7 @@ export const convertDate = (date,format='jYYYY/jMM/jDD')=>{
 }
 
 
-export const converFormDataToMiladi = (date,format='jYYYY/jD/jM')=>{
+export const converFormDataToMiladi = (date,format='jYYYY/jM/jD')=>{
     // قرمتی که داریم رو به فرمتی که میخوایم تبدیل میکنیم
     return (jMoment(date , format).format('YYYY-M-D'))
 }

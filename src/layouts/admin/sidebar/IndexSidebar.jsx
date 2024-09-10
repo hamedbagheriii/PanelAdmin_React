@@ -7,16 +7,21 @@ import ShopSidebar from './ShopSidebar';
 import UsersSidebar from './UsersSidebar';
 import CommunicationSidebar from './CommunicationSidebar';
 import avatarIMG from '../../../assets/img/hamedb.jpg'
+import { useSelector } from 'react-redux';
 
 const IndexSidebar = () => {
-    const {showSlidebar , showSlidebarSM} = useContext(adminContext)
+    const {showSlidebar , showSlidebarSM} = useContext(adminContext);
+    const {user  , error} = useSelector((state)=>state.userReducer)
+
+    console.log(user);
     return (
         <section id="sidebar_section" className={` ${showSlidebarSM ? 'activeSM' : null}`}>
             <div className={`mini_sidebar pb-4  collapsedd bg-dark h-100 ${showSlidebar ?  'expanded' : null}`}>
                 <ul className="p-0 m-0 mx-auto">
 
-                        <Avatar userName={'قاسم بساکی'} 
-                        img={avatarIMG} />
+                        <Avatar userName={`${user.first_name || ''} ${user.last_name || user.user_name
+                        || user.phone}`} 
+                        img={user.image || avatarIMG} />
 
                     {/* <!-- ================ Dashbord ================= --> */}
                     

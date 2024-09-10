@@ -1,9 +1,11 @@
 import React from 'react';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { Confirm } from '../../../utils/confirm';
+import { useSelector } from 'react-redux';
 
 const LeftContent = () => {
     const navigate = useNavigate();
+    const {user  , error} = useSelector((state)=>state.userReducer)
 
     const handleLogout = async ()=> {
         const res = await Confirm("آیا میخواهید از حساب خارج شوید ؟");
@@ -16,7 +18,9 @@ const LeftContent = () => {
         <div className="left_content d-flex flex-row-reverse">
             <i className="fas fa-grip-vertical fa-2x me-3 pointer" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false"></i>
             <ul className="dropdown-menu mini_menu " aria-labelledby="dropdownMenuButton1">
-                <li className="my-2"><span className="dropdown-item d-block text-center">قاسم بساکی</span></li>
+                <li className="my-2"><span className="dropdown-item d-block text-center">
+                {`${user.first_name || ''} ${user.last_name || user.user_name
+                || user.phone}`} </span></li>
                 <Link to={'/'} className="my-2 d-flex justify-content-center dropdown-item py-0 align-items-center px-2">
                     <i className="fas fa-tachometer-alt"></i>
                     <span className="dropdown-item w-100 d-flex justify-content-start" href="#">داشبورد</span>

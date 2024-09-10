@@ -24,12 +24,23 @@ import Gallery from '../../../pages/Shop/Product/gallery/gallery.jsx';
 import AddDiscount from '../../../pages/Shop/Discount/AddDiscount.jsx';
 import AddRole from '../../../pages/Users/Roles/AddRole.jsx';
 import AddUser from '../../../pages/Users/UsersSection/AddUser.jsx';
+import { useSelector } from 'react-redux';
 
 
 const IndexContent = () => {
     const {showSlidebar , showSlidebarSM} = useContext(adminContext)
-    
-  
+    const {user} = useSelector((state)=>state.userReducer)
+    const roles = user.roles;
+
+    let permissions = [];
+    for (const role of roles) {
+        permissions = [...permissions , ...role.permissions]
+    }  
+
+    const handleChackPermission = (permission)=>{
+        return permissions.findIndex(p=>p.title.includes(permission)) !== -1
+    }
+
 
     
     return (
@@ -38,17 +49,23 @@ const IndexContent = () => {
             
            <Routes>
             
-             <Route path='/Dashboard' element={<Dashboard/>} />
+            <Route path='/Dashboard' element={<Dashboard/>} />
 
             {/* ====== SHOP ===== */}
+            {handleChackPermission('read_categories') ? (
+                <Route path='/Category' element={<Category/>} >
+                    <Route path=':categoryID' element={<CategoryOutlet/>}/>
+                </Route>
+            ) : null }
 
-            <Route path='/Category' element={<Category/>} >
-                <Route path=':categoryID' element={<CategoryOutlet/>}/>
-            </Route>
-            <Route path='/Category/:categoryID/attributes' element={<AtrrCategory/>}/>
+            {handleChackPermission('read_category_attrs') ? (
+                <Route path='/Category/:categoryID/attributes' element={<AtrrCategory/>}/>
+            ) : null }
 
-
-            <Route path='/Product' element={<Product/>} />
+            {handleChackPermission('read_products') ? (
+                <Route path='/Product' element={<Product/>} />
+            ) : null }
+            
             <Route path='/Product/Add-Product' element={<AddProduct/>} />
             <Route path='/Product/:ProductID/attributes' element={<AddAtrrProduct/>}/>
             <Route path='/Product/:ProductID/gallery' element={<Gallery/>}/>
