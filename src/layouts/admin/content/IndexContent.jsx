@@ -33,7 +33,10 @@ const IndexContent = () => {
     const {showSlidebar , showSlidebarSM} = useContext(adminContext)
 
     // چون این روت فرزند داره از این روش شرطیش میکنیم 
-    const hatCategoryPermission = useHasPermission('read_Categories')
+    const hasCategoryPermission = useHasPermission('read_Categories');
+    const hasDiscountPermission = useHasPermission('read_discounts');
+    const hasUserPermission = useHasPermission('read_users');
+    const hasRolePermission = useHasPermission('read_roles');
 
 
     return (
@@ -46,7 +49,7 @@ const IndexContent = () => {
 
             {/* ====== SHOP ===== */}
         
-            {hatCategoryPermission ? (
+            {hasCategoryPermission ? (
                 <Route path='/Category' element={<Category/>} >
                     <Route path=':categoryID' element={<CategoryOutlet/>}/>
                 </Route>
@@ -58,43 +61,61 @@ const IndexContent = () => {
 
             <Route path='/Product' element={<PermComponent
             component={<Product/>} permTitle={'read_products'} />} />
-            <Route path='/Product/Add-Product' element={<AddProduct/>} />
-            <Route path='/Product/:ProductID/attributes' element={<AddAtrrProduct/>}/>
-            <Route path='/Product/:ProductID/gallery' element={<Gallery/>}/>
+            <Route path='/Product/Add-Product' element={<PermComponent
+            component={<AddProduct/>} permTitle={'create_product'}/>} />
+            <Route path='/Product/:ProductID/attributes' element={<PermComponent
+            component={<AddAtrrProduct/>} permTitle={'create_product_attr'}/>}/>
+            <Route path='/Product/:ProductID/gallery' element={<PermComponent
+            component={<Gallery/>} permTitle={'create_product_image'}/>}/>
 
-            <Route path='/Brands' element={<Brands/>} />
+            <Route path='/Brands' element={<PermComponent
+            component={<Brands/>} permTitle={'read_brands'}/>} />
 
-            <Route path='/Guaranties' element={<Guaranties/>} />
+            <Route path='/Guaranties' element={<PermComponent
+            component={<Guaranties/>} permTitle={'read_guarantees'}/>} />
 
-            <Route path='/Colors' element={<Colors/>} />
-
-            <Route path='/Discounts' element={<Discount/>} >
-                <Route path='add-discount-code' element={<AddDiscount/>}/>
-            </Route>
+            <Route path='/Colors' element={<PermComponent
+            component={<Colors/>} permTitle={'read_colors'}/>} />
+            
+            {hasDiscountPermission ? (
+                <Route path='/Discounts' element={<Discount/>} >
+                    <Route path='add-discount-code' element={<AddDiscount/>}/>
+                </Route>
+            ) : null}
 
 
 
             {/* ====== Cart ===== */}
 
-            <Route path='/Carts' element={<Carts/>} />
+            <Route path='/Carts' element={<PermComponent
+            component={<Carts/>} permTitle={'read_carts'}/>} />
 
-            <Route path='/Orders' element={<Orders/>} />
+            <Route path='/Orders' element={<PermComponent
+            component={<Orders/>} permTitle={'read_orders'}/>} />
 
-            <Route path='/Deliverys' element={<Deliverys/>} />
+            <Route path='/Deliverys' element={<PermComponent
+            component={<Deliverys/>} permTitle={'read_deliveries'}/>} />
 
 
 
             {/* ====== Users ===== */}
             
-            <Route path='/Users' element={<Users/>} >
-                <Route path='add-user' element={<AddUser/>} />
-            </Route>
+            {hasUserPermission ? (
+                <Route path='/Users' element={<Users/>} >
+                    <Route path='add-user' element={<PermComponent
+                    component={<AddUser/>} permTitle={'create_user'}/>} />
+                </Route>
+            ) : null}
 
-            <Route path='/Roles' element={<Roles/>} >
-                <Route path='add-role' element={<AddRole />} />
-            </Route>
+            {hasRolePermission ? (
+                <Route path='/Roles' element={<Roles/>} >
+                    <Route path='add-role' element={<PermComponent
+                    component={<AddRole/>} permTitle={'create_role'} />} />
+                </Route>
+            ) : null}
 
-            <Route path='/Permissions' element={<Permissions/>} />
+            <Route path='/Permissions' element={<PermComponent
+            component={<Permissions/>} permTitle={'read_permissions'}/>} />
 
 
 
