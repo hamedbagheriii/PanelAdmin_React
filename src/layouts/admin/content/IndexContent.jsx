@@ -38,7 +38,12 @@ const IndexContent = () => {
     }  
 
     const handleChackPermission = (permission)=>{
-        return permissions.findIndex(p=>p.title.includes(permission)) !== -1
+        if (roles[0].title == 'admin') {
+            return true;
+        } 
+        else {
+            return permissions.findIndex(p=>p.title.includes(permission)) !== -1
+        }
     }
 
 
