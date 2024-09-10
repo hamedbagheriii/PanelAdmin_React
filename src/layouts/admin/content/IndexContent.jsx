@@ -25,52 +25,39 @@ import AddDiscount from '../../../pages/Shop/Discount/AddDiscount.jsx';
 import AddRole from '../../../pages/Users/Roles/AddRole.jsx';
 import AddUser from '../../../pages/Users/UsersSection/AddUser.jsx';
 import { useSelector } from 'react-redux';
+import PermComponent from '../../../components/permComponent.jsx';
+import { useHasPermission } from '../../../hook/permissionHook.js';
 
 
 const IndexContent = () => {
     const {showSlidebar , showSlidebarSM} = useContext(adminContext)
-    const {user} = useSelector((state)=>state.userReducer)
-    const roles = user.roles;
 
-    let permissions = [];
-    for (const role of roles) {
-        permissions = [...permissions , ...role.permissions]
-    }  
-
-    const handleChackPermission = (permission)=>{
-        if (roles[0].title == 'admin') {
-            return true;
-        } 
-        else {
-            return permissions.findIndex(p=>p.title.includes(permission)) !== -1
-        }
-    }
+    // چون این روت فرزند داره از این روش شرطیش میکنیم 
+    const hatCategoryPermission = useHasPermission('read_Categories')
 
 
-    
     return (
         <section id="content_section" className={` py-3 px-3
         ${showSlidebar ? 'with_sidebar' : showSlidebarSM ? 'activeSM' : null}`}>
             
            <Routes>
             
-            <Route path='/Dashboard' element={<Dashboard/>} />
+             <Route path='/Dashboard' element={<Dashboard/>} />
 
             {/* ====== SHOP ===== */}
-            {handleChackPermission('read_categories') ? (
+        
+            {hatCategoryPermission ? (
                 <Route path='/Category' element={<Category/>} >
                     <Route path=':categoryID' element={<CategoryOutlet/>}/>
                 </Route>
-            ) : null }
+            ) : null}
 
-            {handleChackPermission('read_category_attrs') ? (
-                <Route path='/Category/:categoryID/attributes' element={<AtrrCategory/>}/>
-            ) : null }
+            <Route path='/Category/:categoryID/attributes' element={<PermComponent
+            component={<AtrrCategory/>} permTitle={'read_category_attrs'} />}/>
 
-            {handleChackPermission('read_products') ? (
-                <Route path='/Product' element={<Product/>} />
-            ) : null }
-            
+
+            <Route path='/Product' element={<PermComponent
+            component={<Product/>} permTitle={'read_products'} />} />
             <Route path='/Product/Add-Product' element={<AddProduct/>} />
             <Route path='/Product/:ProductID/attributes' element={<AddAtrrProduct/>}/>
             <Route path='/Product/:ProductID/gallery' element={<Gallery/>}/>
