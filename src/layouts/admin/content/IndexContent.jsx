@@ -33,7 +33,7 @@ const IndexContent = () => {
     const {showSlidebar , showSlidebarSM} = useContext(adminContext)
 
     // چون این روت فرزند داره از این روش شرطیش میکنیم 
-    const hasCategoryPermission = useHasPermission('read_Categories');
+    const hasCategoryPermission = useHasPermission('read_categories');
     const hasDiscountPermission = useHasPermission('read_discounts');
     const hasUserPermission = useHasPermission('read_users');
     const hasRolePermission = useHasPermission('read_roles');

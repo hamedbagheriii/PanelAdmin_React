@@ -8,12 +8,32 @@ import UsersSidebar from './UsersSidebar';
 import CommunicationSidebar from './CommunicationSidebar';
 import avatarIMG from '../../../assets/img/hamedb.jpg'
 import { useSelector } from 'react-redux';
+import PermComponent from '../../../components/permComponent';
+import { useHasPermission } from '../../../hook/permissionHook';
 
 const IndexSidebar = () => {
     const {showSlidebar , showSlidebarSM} = useContext(adminContext);
     const {user  , error} = useSelector((state)=>state.userReducer)
 
-    console.log(user);
+    const hasShopPerm = useHasPermission([
+        'read_categories',
+        'read_products',
+        'read_brands',
+        'read_guarantees',
+        'read_colors',
+        'read_discounts'
+    ])
+    const hasOrderPerm = useHasPermission([
+        'read_carts',
+        'read_orders',
+        'read_deliveries'
+    ])
+    const hasUserPerm = useHasPermission([
+        'read_users',
+        'read_roles',
+        'read_permissions'
+    ])
+
     return (
         <section id="sidebar_section" className={` ${showSlidebarSM ? 'activeSM' : null}`}>
             <div className={`mini_sidebar pb-4  collapsedd bg-dark h-100 ${showSlidebar ?  'expanded' : null}`}>
@@ -29,15 +49,21 @@ const IndexSidebar = () => {
 
                     {/* <!-- ================ Shop ================= --> */}
                     
-                        <ShopSidebar/>
+                        {hasShopPerm && (
+                            <ShopSidebar/>
+                        )}
 
                     {/* <!-- ================ Orders ================= --> */}
 
-                        <OrdersSidebar/>
-
+                        {hasOrderPerm && (
+                            <OrdersSidebar/>
+                        )}
+                        
                     {/* <!-- ================ Users ================= --> */}
 
-                        <UsersSidebar/>
+                        {hasUserPerm && (
+                            <UsersSidebar/>
+                        )}
 
                     {/* <!-- ================ Communication ================= --> */}
                     

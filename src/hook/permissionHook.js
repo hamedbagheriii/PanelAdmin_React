@@ -11,11 +11,16 @@ export const useHasPermission = (permissionTitle)=>{
         permissions = [...permissions , ...role.permissions]
     }  
 
-    if (roles[0].title == 'admin') {
+    if (roles.findIndex(r=>r.title == 'admin') !== -1) {
         return true;
     } 
-    else {
-        return permissions.findIndex(p=>p.title.includes(permissionTitle)) !== -1
+    else if (typeof(permissionTitle) === 'object') {
+        for (const ptitle of permissionTitle) {
+            if (permissions.findIndex(p=>p.title.includes(ptitle)) !== -1 ) return true
+        }
+        return false;
     }
-
+    else{
+        return permissions.findIndex(p=>p.title.includes(permissionTitle)) !== -1 ;
+    }
 }
