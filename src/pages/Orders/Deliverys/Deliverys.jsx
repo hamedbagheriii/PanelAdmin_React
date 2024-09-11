@@ -10,7 +10,6 @@ const Deliverys = () => {
             
             {/* --- page table --- */}
             <DeliverysTable/>
-
         </div>
     );
 }
