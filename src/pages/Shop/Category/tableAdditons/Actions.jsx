@@ -12,7 +12,7 @@ const Actions = ({rowData , handleDeleteCategory}) => {
         <div className='d-flex justify-content-center pt-1'>
             {!params.categoryID ? (
                 <ActionIcon 
-                action={navigate(`/Category/${rowData.id}` , {state: {parentData : rowData}} )}
+                action={()=>navigate(`/Category/${rowData.id}` , {state: {parentData : rowData}} )}
                 icon={'fas fa-project-diagram text-info'}
                 ptitle={''}
                 title={'زیرمجموعه'}
@@ -21,7 +21,7 @@ const Actions = ({rowData , handleDeleteCategory}) => {
                 null
             )}
             <ActionIcon 
-            action={setEditId(rowData.id)}
+            action={()=>setEditId(rowData.id)}
             icon={'fas fa-edit text-warning'}
             ptitle={'update_category'}
             title={'ویرایش دسته'}
@@ -30,14 +30,14 @@ const Actions = ({rowData , handleDeleteCategory}) => {
             />
             {params.categoryID ? (
                 <ActionIcon 
-                action={navigate(`/Category/${rowData.id}/attributes` , {state: {categoryData : rowData}} )}
+                action={()=>navigate(`/Category/${rowData.id}/attributes` , {state: {categoryData : rowData}} )}
                 icon={'fas fa-receipt text-success '}
                 ptitle={'read_category_attrs'}
                 title="افزودن ویژگی"
                 />
             ) : null}
                 <ActionIcon 
-                action={handleDeleteCategory(rowData)}
+                action={()=>handleDeleteCategory(rowData)}
                 icon={'fas fa-times text-danger'}
                 ptitle={'delete_category'}
                 title="حذف دسته"

@@ -5,7 +5,7 @@ const GuarantiesActions = ({rowData , setGuarantiesToEdit , handleDeleteGuaranti
     return (
         <>
             <ActionIcon 
-            action={setGuarantiesToEdit(rowData)}
+            action={()=>setGuarantiesToEdit(rowData)}
             icon={'fas fa-edit text-warning'}
             ptitle={'update_guarantee'}
             title={"ویرایش گارانتی"}
@@ -13,7 +13,7 @@ const GuarantiesActions = ({rowData , setGuarantiesToEdit , handleDeleteGuaranti
             toggle='modal'
             />
             <ActionIcon 
-            action={handleDeleteGuarantie(rowData)}
+            action={()=>handleDeleteGuarantie(rowData)}
             icon={'fas fa-times text-danger'}
             ptitle={'delete_guarantee'}
             title={"حذف گارانتی"}

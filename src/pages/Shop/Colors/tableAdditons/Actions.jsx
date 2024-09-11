@@ -5,7 +5,7 @@ const Actions = ({rowData , handleDeleteColor , setColorToEdit}) => {
     return (
         <>
             <ActionIcon 
-            action={setColorToEdit(rowData)}
+            action={()=>setColorToEdit(rowData)}
             icon={'fas fa-edit text-warning'}
             ptitle={'update_color'}
             title={"ویرایش رنگ"}
@@ -13,7 +13,7 @@ const Actions = ({rowData , handleDeleteColor , setColorToEdit}) => {
             toggle='modal'
             />
             <ActionIcon 
-            action={handleDeleteColor(rowData)}
+            action={()=>handleDeleteColor(rowData)}
             icon={'fas fa-times text-danger'}
             ptitle={'delete_color'}
             title={"حذف رنگ"}

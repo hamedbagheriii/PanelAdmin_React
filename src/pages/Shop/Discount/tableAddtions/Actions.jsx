@@ -8,13 +8,13 @@ const Actions = ({rowData , handleDeleteDiscount}) => {
     return (
         <>  
             <ActionIcon 
-            action={navigate('/Discounts/add-discount-code' , {state : {discountData : rowData}})}
+            action={()=>navigate('/Discounts/add-discount-code' , {state : {discountData : rowData}})}
             icon={'fas fa-edit text-warning'}
             ptitle={'update_discount'}
             title={"ویرایش کد"}
             />
             <ActionIcon 
-            action={handleDeleteDiscount(rowData)}
+            action={()=>handleDeleteDiscount(rowData)}
             icon={'fas fa-times text-danger'}
             ptitle={'delete_discount'}
             title={"حذف کد"}

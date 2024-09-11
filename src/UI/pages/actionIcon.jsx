@@ -10,7 +10,7 @@ const ActionIcon = ({icon , title , ptitle , action , toggle='tooltip' , target}
         data-bs-placement="top"
         data-bs-toggle={toggle}
         data-bs-target={`#${target}`}
-        onClick={()=>action}>
+        onClick={action}>
         </i>
     );
 }

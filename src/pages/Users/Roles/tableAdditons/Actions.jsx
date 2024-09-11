@@ -1,5 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import ActionIcon from '../../../../UI/pages/actionIcon';
 
 const Actions = ({rowData , handleDeleteRole}) => {
     const navigate = useNavigate();
@@ -7,19 +8,19 @@ const Actions = ({rowData , handleDeleteRole}) => {
     return (
         <>  
             <ActionIcon 
-            action={navigate('/Roles/add-role' , {state : {roleToEdit : rowData.id , editType : 'role'}})}
+            action={()=>navigate('/Roles/add-role' , {state : {roleToEdit : rowData.id , editType : 'role'}})}
             icon={'fas fa-edit text-warning'}
             ptitle={'update_role'}
             title={"ویرایش نقش"}
             />
             <ActionIcon 
-            action={navigate('/Roles/add-role' , {state : {roleToEdit : rowData.id , editType : 'permission'}})}
+            action={()=>navigate('/Roles/add-role' , {state : {roleToEdit : rowData.id , editType : 'permission'}})}
             icon={'fas fa-fingerprint text-info'}
             ptitle={'update_role_permissions'}
             title={"ویرایش دسترسی ها"}
             />
             <ActionIcon 
-            action={handleDeleteRole(rowData)}
+            action={()=>handleDeleteRole(rowData)}
             icon={'fas fa-times text-danger'}
             ptitle={'update_role_permissions'}
             title={"حذف نقش"}

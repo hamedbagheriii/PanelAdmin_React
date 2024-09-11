@@ -8,13 +8,13 @@ const AtrrAction = ({rowData , attrToEdit , setAttrToEdit , handleDeleteCategory
             {!(attrToEdit == rowData.id )? (
                 <>
                     <ActionIcon 
-                    action={setAttrToEdit(rowData.id)}
+                    action={()=>setAttrToEdit(rowData.id)}
                     icon={'fas fa-edit text-warning'}
                     ptitle={'update_category_attr'}
                     title={"ویرایش دسته"}
                     />
                     <ActionIcon 
-                    action={handleDeleteCategoryAttr(rowData)}
+                    action={()=>handleDeleteCategoryAttr(rowData)}
                     icon={'fas fa-times text-danger'}
                     ptitle={'delete_category_attr'}
                     title={"حذف دسته"}
