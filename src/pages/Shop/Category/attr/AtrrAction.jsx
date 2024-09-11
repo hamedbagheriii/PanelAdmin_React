@@ -1,4 +1,5 @@
 import React from 'react';
+import ActionIcon from '../../../../UI/pages/actionIcon';
 
 const AtrrAction = ({rowData , attrToEdit , setAttrToEdit , handleDeleteCategoryAttr}) => {
     
@@ -6,12 +7,18 @@ const AtrrAction = ({rowData , attrToEdit , setAttrToEdit , handleDeleteCategory
         <div className={`d-flex justify-content-center`}>
             {!(attrToEdit == rowData.id )? (
                 <>
-                    <i className="fas fa-edit text-warning mx-1 hoverable_text pointer has_tooltip"
-                    title="ویرایش دسته" data-bs-toggle="tooltip" data-bs-placement="top"
-                    onClick={()=>setAttrToEdit(rowData.id)}></i>
-                    <i className="fas fa-times text-danger mx-1 hoverable_text pointer has_tooltip"
-                    title="حذف دسته" data-bs-toggle="tooltip" data-bs-placement="top"
-                    onClick={()=>handleDeleteCategoryAttr(rowData)}></i>
+                    <ActionIcon 
+                    action={setAttrToEdit(rowData.id)}
+                    icon={'fas fa-edit text-warning'}
+                    ptitle={'update_category_attr'}
+                    title={"ویرایش دسته"}
+                    />
+                    <ActionIcon 
+                    action={handleDeleteCategoryAttr(rowData)}
+                    icon={'fas fa-times text-danger'}
+                    ptitle={'delete_category_attr'}
+                    title={"حذف دسته"}
+                    />
                 </>
             ) : (
                 <span className='fw-bold text-danger bg-warning px-2 rounded-2 py-1'>انتخاب شده !</span>

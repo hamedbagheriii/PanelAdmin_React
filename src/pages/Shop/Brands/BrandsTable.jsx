@@ -6,11 +6,13 @@ import Actions from './tableAdditons/Actions';
 import { deleteBrandService, getBrandsService } from '../../../services/shop/brand/brand';
 import { Alert } from '../../../utils/alert';
 import { Confirm } from '../../../utils/confirm';
+import { useHasPermission } from '../../../hook/permissionHook';
 
 const BrandsTable = () => {
     const [data , setData] = useState([]);
     const [isLoading , setLoading] = useState(true);
     const [brandToEdit , setBrandToEdit] = useState(null);
+    const hasPermission = useHasPermission('create_brand')
 
 
 
@@ -95,8 +97,10 @@ const BrandsTable = () => {
         <PaginatedTable data={data} dataInfo={dataInfo} searchParams={searchParams}
         numOfPage={4} isLoading={isLoading}>
             {/* --- Modal add Brand --- */}
-            <AddBrand handleGetBrands={handleGetBrands} setBrandToEdit={setBrandToEdit} 
-            brandToEdit={brandToEdit} />
+            {hasPermission ? (
+               <AddBrand handleGetBrands={handleGetBrands} setBrandToEdit={setBrandToEdit} 
+                brandToEdit={brandToEdit} />
+            ) : null }
         </PaginatedTable>            
     );
 }

@@ -6,10 +6,12 @@ import AddBtnLink from '../../../UI/All/AddBtnLink';
 import { Outlet } from 'react-router-dom';
 import { Alert } from '../../../utils/alert';
 import { Confirm } from '../../../utils/confirm';
+import { useHasPermission } from '../../../hook/permissionHook';
 
 const RolesTable = () => {
     const [data , setData] = useState([]);
     const [isLoading , setLoading] = useState(true);
+    const hasPermission = useHasPermission('create_role')
 
 
     // This is for get Roles
@@ -82,8 +84,12 @@ const RolesTable = () => {
         <PaginatedTable data={data} dataInfo={dataInfo} 
          searchParams={searchParams} numOfPage={4} isLoading={isLoading}> 
             {/* --- Modal add Role --- */}
-            <AddBtnLink pach={'/Roles/add-role'}  />
-            <Outlet context={{handleGetRoles}}/>
+            {hasPermission ? (
+                <>
+                    <AddBtnLink pach={'/Roles/add-role'}  />
+                    <Outlet context={{handleGetRoles}}/>
+                </>
+            ) : null}
         </PaginatedTable>
     );
 }

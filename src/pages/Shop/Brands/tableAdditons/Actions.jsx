@@ -1,14 +1,23 @@
 import React from 'react';
+import ActionIcon from '../../../../UI/pages/actionIcon';
 
 const Actions = ({rowData , handleDeleteBrand , setBrandToEdit}) => {
     return (
         <>
-            <i className="fas fa-edit text-warning mx-1 hoverable_text pointer has_tooltip"
-            title="ویرایش برند" data-bs-toggle="modal" data-bs-placement="top" data-bs-target="#add_brand_modal"
-            onClick={()=>setBrandToEdit(rowData.id)}></i>
-            <i className="fas fa-times text-danger mx-1 hoverable_text pointer has_tooltip"
-            title="حذف برند" data-bs-toggle="tooltip" data-bs-placement="top"
-            onClick={()=>handleDeleteBrand(rowData)}></i>
+            <ActionIcon 
+            action={setBrandToEdit(rowData.id)}
+            icon={'fas fa-edit text-warning'}
+            ptitle={'update_brand'}
+            title={"ویرایش برند"}
+            toggle='modal'
+            target='add_brand_modal'
+            />
+            <ActionIcon 
+            action={handleDeleteBrand(rowData)}
+            icon={'fas fa-times text-danger'}
+            ptitle={'delete_brand'}
+            title={"حذف برند"}
+            />
         </>
     );
 }

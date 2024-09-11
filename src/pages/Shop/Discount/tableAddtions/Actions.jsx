@@ -1,17 +1,24 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import ActionIcon from '../../../../UI/pages/actionIcon';
 
 const Actions = ({rowData , handleDeleteDiscount}) => {
     const navigate = useNavigate();
 
     return (
         <>  
-            <i className="fas fa-edit text-warning mx-1 hoverable_text pointer has_tooltip"
-             title="ویرایش کد" data-bs-placement="top" 
-             onClick={()=>navigate('/Discounts/add-discount-code' , {state : {discountData : rowData}})}></i>
-            <i className="fas fa-times text-danger mx-1 hoverable_text pointer has_tooltip"
-             title="حذف کد" data-bs-toggle="tooltip" data-bs-placement="top"
-             onClick={()=>handleDeleteDiscount(rowData)}></i>
+            <ActionIcon 
+            action={navigate('/Discounts/add-discount-code' , {state : {discountData : rowData}})}
+            icon={'fas fa-edit text-warning'}
+            ptitle={'update_discount'}
+            title={"ویرایش کد"}
+            />
+            <ActionIcon 
+            action={handleDeleteDiscount(rowData)}
+            icon={'fas fa-times text-danger'}
+            ptitle={'delete_discount'}
+            title={"حذف کد"}
+            />
         </>
     );
 }

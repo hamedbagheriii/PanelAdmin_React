@@ -9,6 +9,7 @@ import { deleteCategoryAtrrService, getCategoriesAtrrsService, getOneCategoryAtr
 import { Confirm } from '../../../../utils/confirm';
 import { Alert } from '../../../../utils/alert';
 import AddAttrCategory from './AddAttrCategory';
+import { useHasPermission } from '../../../../hook/permissionHook';
 
 
 
@@ -19,6 +20,7 @@ const AtrrCategory = () => {
     const [isLoading , setLoading] = useState(true);
     const [isLoadingEdit , setIsLoadingEdit] = useState(false);
     const [attrToEdit , setAttrToEdit] = useState(null);
+    const hasPermission = useHasPermission('create_category_attr')
 
     // This is for get categories Attrs
     const handleGetCateogryAttrs = async ()=>{
@@ -135,10 +137,12 @@ const AtrrCategory = () => {
             <hr className='bg-white w-75 mx-auto mt-3'/>
             <div className="container text-white">
                 {/* ==== Add Attr ==== */}
-                <AddAttrCategory reinitalValues={reinitalValues} isLoadingEdit={isLoadingEdit}
-                location={location} attrToEdit={attrToEdit} 
-                handleGetCateogryAttrs={handleGetCateogryAttrs} setAttrToEdit={setAttrToEdit}
-                setReinitalValues={setReinitalValues} />
+                {hasPermission ? (
+                    <AddAttrCategory reinitalValues={reinitalValues} isLoadingEdit={isLoadingEdit}
+                    location={location} attrToEdit={attrToEdit} 
+                    handleGetCateogryAttrs={handleGetCateogryAttrs} setAttrToEdit={setAttrToEdit}
+                    setReinitalValues={setReinitalValues} />
+                ) : null}
                 {/* ==== Add Attr ==== */}
 
 

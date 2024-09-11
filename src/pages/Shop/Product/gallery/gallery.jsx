@@ -6,6 +6,7 @@ import { addMainProductImageService, addProductImageService, deleteProductImageS
 import LoadingAlert from '../../../../UI/All/LoadingAlert';
 import { Alert } from '../../../../utils/alert';
 import { Confirm } from '../../../../utils/confirm';
+import { useHasPermission } from '../../../../hook/permissionHook';
 
 const Gallery = () => {
     const location = useLocation();
@@ -14,6 +15,10 @@ const Gallery = () => {
     const [gallery , setGallery] = useState(null);
     const [error , setError] = useState(null);
     const [isLoading , setIsLoading] = useState(true);
+
+    const hasTitleImgPerm = useHasPermission('default_product_image');
+    const hasDeletePerm = useHasPermission('delete_product_image');
+
 
     const handleGetProductGallery = async ()=>{
         setGallery(productData.gallery)
@@ -120,10 +125,12 @@ const Gallery = () => {
                                                 <hr  className='w-75 mx-auto bg-dark pt-1 rounded-3'/>
                                             </>
                                         : null }
-                                        <i className="fas fa-times text-danger mx-2 fs-4 hoverable_text pointer has_tooltip"
-                                        title="حذف عکس" data-bs-toggle="tooltip" data-bs-placement="top"
-                                        onClick={()=>handleDeleteImage(i,index+1)} />
-                                        {!i.is_main == 1 ?
+                                        {hasDeletePerm ? (
+                                            <i className="fas fa-times text-danger mx-2 fs-4 hoverable_text pointer has_tooltip"
+                                            title="حذف عکس" data-bs-toggle="tooltip" data-bs-placement="top"
+                                            onClick={()=>handleDeleteImage(i,index+1)} />
+                                        ) : null }
+                                        {!i.is_main == 1 && hasTitleImgPerm ?
                                             <i className="fas fa-images text-success mx-2 fs-4 hoverable_text pointer has_tooltip"
                                             title="تایین عکس اصلی" data-bs-toggle="tooltip" data-bs-placement="top"
                                             onClick={()=>handleSetMainImage(i,index+1)}/> 

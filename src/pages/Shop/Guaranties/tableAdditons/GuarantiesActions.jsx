@@ -1,14 +1,23 @@
 import React from 'react';
+import ActionIcon from '../../../../UI/pages/actionIcon';
 
 const GuarantiesActions = ({rowData , setGuarantiesToEdit , handleDeleteGuarantie}) => {
     return (
         <>
-            <i className="fas fa-edit text-warning mx-1 hoverable_text pointer has_tooltip"
-            title="ویرایش گارانتی" data-bs-toggle="modal" data-bs-placement="top" data-bs-target="#add_guarantee_modal"
-            onClick={()=>setGuarantiesToEdit(rowData)}></i>
-            <i className="fas fa-times text-danger mx-1 hoverable_text pointer has_tooltip"
-             title="حذف گارانتی" data-bs-toggle="tooltip" data-bs-placement="top"
-             onClick={()=>handleDeleteGuarantie(rowData)}></i>
+            <ActionIcon 
+            action={setGuarantiesToEdit(rowData)}
+            icon={'fas fa-edit text-warning'}
+            ptitle={'update_guarantee'}
+            title={"ویرایش گارانتی"}
+            target={'add_guarantee_modal'}
+            toggle='modal'
+            />
+            <ActionIcon 
+            action={handleDeleteGuarantie(rowData)}
+            icon={'fas fa-times text-danger'}
+            ptitle={'delete_guarantee'}
+            title={"حذف گارانتی"}
+            />
         </>  
     );
 }

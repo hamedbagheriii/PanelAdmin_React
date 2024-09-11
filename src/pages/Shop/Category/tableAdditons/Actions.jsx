@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { categoryContext } from '../../../../context/categoryContext';
+import ActionIcon from '../../../../UI/pages/actionIcon';
 
 const Actions = ({rowData , handleDeleteCategory}) => {
     const navigate = useNavigate();
@@ -10,35 +11,37 @@ const Actions = ({rowData , handleDeleteCategory}) => {
     return (
         <div className='d-flex justify-content-center pt-1'>
             {!params.categoryID ? (
-                <i className="fas fa-project-diagram text-info mx-1 hoverable_text pointer has_tooltip"
-                title="زیرمجموعه"
-                data-bs-toggle="tooltip"
-                data-bs-placement="top"
-                onClick={()=>navigate(`/Category/${rowData.id}` , {state: {parentData : rowData}} )}>
-                </i>
+                <ActionIcon 
+                action={navigate(`/Category/${rowData.id}` , {state: {parentData : rowData}} )}
+                icon={'fas fa-project-diagram text-info'}
+                ptitle={''}
+                title={'زیرمجموعه'}
+                />
             ) : (
                 null
             )}
-            <i className="fas fa-edit text-warning mx-1 hoverable_text pointer has_tooltip"
-            title="ویرایش دسته"
-            data-bs-toggle="modal"
-            data-bs-target="#add_product_category_modal"
-            data-bs-placement="top"
-            onClick={()=>setEditId(rowData.id)}>
-            </i>
+            <ActionIcon 
+            action={setEditId(rowData.id)}
+            icon={'fas fa-edit text-warning'}
+            ptitle={'update_category'}
+            title={'ویرایش دسته'}
+            target='add_product_category_modal'
+            toggle='modal'
+            />
             {params.categoryID ? (
-                <i className="fas fa-receipt text-success mx-1 hoverable_text pointer has_tooltip"
+                <ActionIcon 
+                action={navigate(`/Category/${rowData.id}/attributes` , {state: {categoryData : rowData}} )}
+                icon={'fas fa-receipt text-success '}
+                ptitle={'read_category_attrs'}
                 title="افزودن ویژگی"
-                data-bs-placement="top"
-                onClick={()=>navigate(`/Category/${rowData.id}/attributes` , {state: {categoryData : rowData}} )}>
-                </i>
+                />
             ) : null}
-            <i className="fas fa-times text-danger mx-1 hoverable_text pointer has_tooltip"
-            title="حذف دسته"
-            data-bs-toggle="tooltip"
-            data-bs-placement="top"
-            onClick={()=>handleDeleteCategory(rowData)}>
-            </i>
+                <ActionIcon 
+                action={handleDeleteCategory(rowData)}
+                icon={'fas fa-times text-danger'}
+                ptitle={'delete_category'}
+                title="حذف دسته"
+                />
         </div>
     );
 }

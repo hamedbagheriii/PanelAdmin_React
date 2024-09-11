@@ -6,11 +6,13 @@ import { Alert } from '../../../utils/alert';
 import Actions from './tableAdditons/Actions';
 import { Confirm } from '../../../utils/confirm';
 import ShowColor from './tableAdditons/showColor';
+import { useHasPermission } from '../../../hook/permissionHook';
 
 const ColorsTable = () => {
     const [data , setData] = useState([]);
     const [isLoading , setLoading] = useState(true);
     const [colorToEdit , setColorToEdit] = useState(null);
+    const hasPermission = useHasPermission('create_color')
 
 
 
@@ -98,8 +100,10 @@ const ColorsTable = () => {
             <PaginatedTable data={data} dataInfo={dataInfo} searchParams={searchParams} numOfPage={4}
             targetSearch={targetSearch} isLoading={isLoading}>
                 {/* --- Modal add Color --- */}
-                <AddColor setColorToEdit={setColorToEdit} handleGetColors={handleGetColors}
-                colorToEdit={colorToEdit} />
+                {hasPermission ? (
+                    <AddColor setColorToEdit={setColorToEdit} handleGetColors={handleGetColors}
+                    colorToEdit={colorToEdit} />
+                ) : null}
             </PaginatedTable>
         </>
     );

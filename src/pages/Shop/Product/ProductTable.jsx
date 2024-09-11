@@ -6,6 +6,7 @@ import { Alert } from '../../../utils/alert';
 import { Confirm } from '../../../utils/confirm';
 import AddBtnLink from '../../../UI/All/AddBtnLink';
 import { useNavigate } from 'react-router-dom';
+import { useHasPermission } from '../../../hook/permissionHook';
 
 const ProductTable = () => {
     const [tableData , setTableData] = useState([]);
@@ -15,6 +16,7 @@ const ProductTable = () => {
     const [pageCount , setPageCount] = useState(1);
     const [searchField , setSearchField] = useState('');
     const navigate = useNavigate();
+    const hasPermission = useHasPermission('create_product')
 
 
 
@@ -100,7 +102,9 @@ const ProductTable = () => {
         setSearchField={setSearchField} tableData={tableData} setCurrentPage={setCurrentPage}
         currentPage={currentPage} pageCount={pageCount} searchField={searchField }>
             {/* --- Modal add Product --- */}
-            <AddBtnLink pach={'/Product/Add-Product'}  />
+            {hasPermission ? (
+                <AddBtnLink pach={'/Product/Add-Product'}  />
+            ) : null}
         </PaginatedDataTable>
     );
 }

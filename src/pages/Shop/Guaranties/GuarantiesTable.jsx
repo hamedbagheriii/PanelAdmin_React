@@ -5,11 +5,13 @@ import GuarantiesActions from './tableAdditons/GuarantiesActions';
 import { deleteGuaranteeService, getGuarantiesService } from '../../../services/shop/Guaranties/guaranties';
 import { Alert } from '../../../utils/alert';
 import { Confirm } from '../../../utils/confirm';
+import { useHasPermission } from '../../../hook/permissionHook';
 
 const GuarantiesTable = () => {
     const [data , setData] = useState([]);
     const [isLoading , setLoading] = useState(true);
     const [guarantiesToEdit , setGuarantiesToEdit] = useState(null);
+    const hasPermission = useHasPermission('create_guarantee')
 
 
 
@@ -83,9 +85,11 @@ const GuarantiesTable = () => {
         <PaginatedTable data={data} dataInfo={dataInfo} searchParams={searchParams}
         numOfPage={4} isLoading={isLoading}>
             {/* --- Modal add Guarantie --- */}
-            <AddGuarantie handleGetGuaranties={handleGetGuaranties} 
-            guarantiesToEdit={guarantiesToEdit}
-            setGuarantiesToEdit={setGuarantiesToEdit}/>
+            {hasPermission ? (
+                <AddGuarantie handleGetGuaranties={handleGetGuaranties} 
+                guarantiesToEdit={guarantiesToEdit}
+                setGuarantiesToEdit={setGuarantiesToEdit}/>
+            ) : null}
         </PaginatedTable>            
     );
 }

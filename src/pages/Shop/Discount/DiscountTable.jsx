@@ -10,11 +10,13 @@ import { Alert } from '../../../utils/alert';
 import AddBtnLink from '../../../UI/All/AddBtnLink';
 import { Outlet } from 'react-router-dom';
 import { convertDate } from '../../../utils/convertDate';
+import { useHasPermission } from '../../../hook/permissionHook';
 
 const DiscountTable = () => {
 
     const [data , setData] = useState([]);
     const [isLoading , setLoading] = useState(true);
+    const hasPermission = useHasPermission('create_discount')
 
 
 
@@ -104,8 +106,12 @@ const DiscountTable = () => {
         <PaginatedTable data={data} dataInfo={dataInfo} searchParams={searchParams}
         numOfPage={4} isLoading={isLoading}>
             {/* --- Modal add Duscount --- */}
-            <AddBtnLink id={`add_discount_modal`} pach={'/Discounts/add-discount-code'} />
-            <Outlet context={{handleGetDiscount}} />
+            {hasPermission ? (
+                <>
+                    <AddBtnLink id={`add_discount_modal`} pach={'/Discounts/add-discount-code'} />
+                    <Outlet context={{handleGetDiscount}} />
+                </>
+            ) : null}
         </PaginatedTable>
     );
 }

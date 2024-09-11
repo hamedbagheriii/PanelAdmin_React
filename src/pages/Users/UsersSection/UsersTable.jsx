@@ -6,6 +6,7 @@ import AddBtnLink from '../../../UI/All/AddBtnLink';
 import { Outlet, useNavigate } from 'react-router-dom';
 import UserAction from './tableAddition/userActions';
 import { deleteUserService, getAllUsersService } from '../../../services/Users/user/users';
+import { useHasPermission } from '../../../hook/permissionHook';
 
 
 const UsersTable = () => {
@@ -16,6 +17,7 @@ const UsersTable = () => {
     const [pageCount , setPageCount] = useState(1);
     const [searchField , setSearchField] = useState('');
     const navigate = useNavigate();
+    const hasPermission = useHasPermission('create_user')
 
 
 
@@ -119,8 +121,12 @@ const UsersTable = () => {
         setSearchField={setSearchField} tableData={tableData} setCurrentPage={setCurrentPage}
         currentPage={currentPage} pageCount={pageCount} searchField={searchField }>
             {/* --- Modal add Users --- */}
-            <AddBtnLink pach={'/Users/add-user'}  />
-            <Outlet context={{handleGetUsers}} />
+            {hasPermission ? (
+                <>
+                    <AddBtnLink pach={'/Users/add-user'}  />
+                    <Outlet context={{handleGetUsers}} />
+                </>
+            ) : null}
         </PaginatedDataTable>
     );
 }

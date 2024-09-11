@@ -8,12 +8,15 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { convertDate } from '../../../utils/convertDate';
 import { Confirm } from '../../../utils/confirm';
 import { Alert } from '../../../utils/alert';
+import { useHasPermission } from '../../../hook/permissionHook';
 
 const CategoryTable = () => {
     const params = useParams();
     const [data , setData] = useState([]);
     const [isLoading , setLoading] = useState(true);
     const navigate = useNavigate();
+    const hasPermission = useHasPermission('create_category')
+
 
     // get categories or get category
     const handleGetCategories = async ()=>{
@@ -105,7 +108,9 @@ const CategoryTable = () => {
             <PaginatedTable data={data} dataInfo={dataInfo} searchParams={searchParams}
             numOfPage={4} isLoading={isLoading}>
                 {/* --- Modal add Category --- */}
-                <AddCategory  />
+                {hasPermission ? (
+                    <AddCategory />
+                ) : null}
             </PaginatedTable>
         </>
     );
