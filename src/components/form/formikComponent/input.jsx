@@ -11,7 +11,7 @@ const Input = ({label , type , name , className , placeholder , inputLabel=true 
         <div className={`col-12 mb-2 ${className}`}>
             <div className={` ${inputLabel ? 'input-group' : null} mb-2 dir_ltr`}>
                 {required ?
-                    <span className="input-group-text text-danger w_1rem h-100 text_wrap justify-content-center">اجباری</span>
+                    <span className="input-group-text text-danger w_1rem  text_wrap justify-content-center">اجباری</span>
                 : null }
                 {password ?
                     <span className="input-group-text text-danger pointer w_1rem h-100

@@ -1,48 +1,88 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import ModalsContainer from '../../../components/ModalsContainer';
-import BtnModal from '../../../UI/pages/btnModal';
+import { useLocation, useNavigate, useOutletContext } from 'react-router-dom';
+import { Form, Formik } from 'formik';
+import { initialValues, onSubmit, validationSchema } from './core';
+import FormikControl from '../../../components/form/FormikControl';
+import SubmitBTN from '../../../components/form/SubmitBTN';
 
 const AddDelivery = () => {
+    const location = useLocation()
+    const navigate = useNavigate();
+    const deliveryData = location.state?.deliveryData
+    const [reinitalValues , setReinitalValues] = useState(null);
+    const {handleGetDeliveries} = useOutletContext()
+
+
+    useEffect(() => {
+        if (deliveryData) {
+            setReinitalValues(deliveryData)
+        }
+    }, [deliveryData]);
+
     return (
         <>
-            <BtnModal id={`add_delivery_modal`} />
-
             <ModalsContainer
             id={'add_delivery_modal'}
             fullscreen={true}
-            title={'افزودن روش ارسال'}
+            className='show d-block animate__animated animate__fadeInDown animate__fast'
+            title={deliveryData ? 'ویرایش روش ارسال' : 'افزودن روش ارسال'}
+            closeFunction={()=>navigate(-1)}
             >
-                <div className="container">
-                    <div className="row justify-content-center">
-                        <div className="col-12">
-                            <div className="input-group my-3 dir_ltr">
-                                <input type="text" className="form-control" placeholder="" />
-                                <span className="input-group-text w_8rem justify-content-center">عنوان</span>
-                            </div>
-                        </div>
-                        <div className="col-12">
-                            <div className="input-group my-3 dir_ltr">
-                                <input type="number" className="form-control" placeholder="تومان (فقط عدد)" />
-                                <span className="input-group-text w_8rem justify-content-center"> هزینه </span>
-                            </div>
-                        </div>
-                        <div className="col-12">
-                            <div className="input-group my-3 dir_ltr">
-                                <input type="text" className="form-control" placeholder="فقط عدد" />
-                                <span className="input-group-text w_8rem justify-content-center">مدت ارسال</span>
-                            </div>
-                        </div>                       
-                        <div className="col-12">
-                            <div className="input-group my-3 dir_ltr">
-                                <input type="text" className="form-control" placeholder="" />
-                                <span className="input-group-text w_8rem justify-content-center">واحد مدت ارسال</span>
-                            </div>
-                        </div>                       
-                        <div className="btn_box text-center col-12 col-md-6 col-lg-8 mt-4">
-                            <button className="btn btn-primary ">ذخیره</button>
-                        </div>
-                    </div>
-                </div>
+                <Formik
+                initialValues={reinitalValues|| initialValues}
+                onSubmit={(values,submitProps)=>onSubmit(values,submitProps,navigate,handleGetDeliveries,
+                reinitalValues , setReinitalValues)}
+                validationSchema={validationSchema}
+                validateOnMount
+                enableReinitialize
+                >
+                    {(formik)=>{
+                        return (
+                            <Form className="container">
+                                <div className="row justify-content-center">
+                                    <FormikControl 
+                                     name='title'
+                                     type='text'
+                                     label='عنوان'
+                                     control='input'
+                                     placeholder="فقط حروف و اعداد بنویسید ."
+                                     required={true}
+                                    />
+
+                                    <FormikControl 
+                                     name='amount'
+                                     type='text'
+                                     label='هزینه'
+                                     control='input'
+                                     placeholder="فقط عدد (تومان) بنویسید ."
+                                     required={true}
+                                    />
+
+                                    <FormikControl 
+                                     name='time'
+                                     type='number'
+                                     label='مدت ارسال'
+                                     control='input'
+                                     placeholder="فقط اعداد بنویسید ."
+                                     required={true}
+                                    />
+                      
+                                    <FormikControl 
+                                     name='time_unit'
+                                     type='text'
+                                     label='واحد مدت ارسال'
+                                     control='input'
+                                     placeholder="فقط حروف و اعداد بنویسید ."
+                                     required={true}
+                                    />
+
+                                    <SubmitBTN formik={formik} closeModal />                                   
+                                </div>
+                            </Form>
+                        )
+                    }}
+                </Formik>
             </ModalsContainer>
         </>
     );

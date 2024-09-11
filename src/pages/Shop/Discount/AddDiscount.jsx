@@ -3,7 +3,6 @@ import ModalsContainer from '../../../components/ModalsContainer';
 import { useLocation, useNavigate, useOutletContext } from 'react-router-dom';
 import { ErrorMessage, Form, Formik } from 'formik';
 import FormikControl from '../../../components/form/FormikControl';
-import SpinnerLoad from '../../../UI/All/SpinnerLoad';
 import { getAllProductsTitlesService } from '../../../services/shop/product/product';
 import { initialValues, onSubmit, validationSchema } from './core';
 import PersonalError from '../../../components/form/personalComponenet/personalError';

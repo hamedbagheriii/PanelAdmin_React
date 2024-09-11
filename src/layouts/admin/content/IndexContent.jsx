@@ -24,9 +24,9 @@ import Gallery from '../../../pages/Shop/Product/gallery/gallery.jsx';
 import AddDiscount from '../../../pages/Shop/Discount/AddDiscount.jsx';
 import AddRole from '../../../pages/Users/Roles/AddRole.jsx';
 import AddUser from '../../../pages/Users/UsersSection/AddUser.jsx';
-import { useSelector } from 'react-redux';
 import PermComponent from '../../../components/permComponent.jsx';
 import { useHasPermission } from '../../../hook/permissionHook.js';
+import AddDelivery from '../../../pages/Orders/Deliverys/AddDelivery.jsx';
 
 
 const IndexContent = () => {
@@ -37,6 +37,7 @@ const IndexContent = () => {
     const hasDiscountPermission = useHasPermission('read_discounts');
     const hasUserPermission = useHasPermission('read_users');
     const hasRolePermission = useHasPermission('read_roles');
+    const hasdeliveryPermission = useHasPermission('read_deliveries');
 
 
     return (
@@ -93,8 +94,12 @@ const IndexContent = () => {
             <Route path='/Orders' element={<PermComponent
             component={<Orders/>} permTitle={'read_orders'}/>} />
 
-            <Route path='/Deliverys' element={<PermComponent
-            component={<Deliverys/>} permTitle={'read_deliveries'}/>} />
+            {hasdeliveryPermission ? (
+                <Route path='/Deliverys' element={<Deliverys/>} >
+                    <Route path='add-delivery' element={<PermComponent component={<AddDelivery/>}
+                    permTitle={'create_delivery'}/>} />
+                </Route>
+            ) : null}
 
 
 

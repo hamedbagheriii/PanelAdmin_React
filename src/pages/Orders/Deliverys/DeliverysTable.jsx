@@ -1,66 +1,97 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PaginatedTable from '../../../components/tableComponent/PaginatedTable';
-import AddDelivery from './AddDelivery';
+import AddBtnLink from '../../../UI/All/AddBtnLink';
+import { Outlet } from 'react-router-dom';
+import { useHasPermission } from '../../../hook/permissionHook';
+import Actions from './tableAddtions/Actions';
+import { Confirm } from '../../../utils/confirm';
+import { Alert } from '../../../utils/alert';
+import { deleteDeliveryService, getAllDeliveriesService } from '../../../services/orders/delivereis/delivery';
 
 const DeliverysTable = () => {
-    const data = [
-        {
-            id : 1 ,
-            title : 'پست پیشتاز' ,
-            cost : '40,000 تومان' ,
-            shippingTime : '9' ,
-            timeUnit : 'روز کاری' ,
-        } ,
-        {
-            id :2 ,
-            title : 'تیپاکس' ,
-            cost : '60,000 تومان' ,
-            shippingTime : '4' ,
-            timeUnit : 'روز کاری' ,
-        } 
-    ]
+    const [data , setData] = useState([]);
+    const [isLoading , setLoading] = useState(true);
+    const hasPermission = useHasPermission('create_delivery')
 
+
+    // This is for get delivery
+    const handleGetDeliveries = async ()=>{
+        try {
+            const res = await getAllDeliveriesService();
+            if (res.status == 200) {
+                setData(res.data.data);
+            }
+        } catch (error) {
+            // set error in httpService
+        }
+        finally {
+            setTimeout(() => {
+                setLoading(false);
+            }, 500);
+        }
+    }
+
+
+    // This is for delete delivery
+    const handleDeleteDelivery = async (rowData)=>{
+        if (await Confirm(`آیا از حذف نحوه ارسال ${rowData.title}
+        اطمینان دارید ؟`)) {
+            try {
+                const res = await deleteDeliveryService(rowData.id);
+                if (res.status == 200) {
+                    Alert('عملیات با موفقیت انجام شد .',
+                    `نحوه ارسال ${rowData.title} با موفقیت حذف شد .` , 'success');
+                    handleGetDeliveries();
+                }
+            } catch (error) {
+                // set error in httpService
+            }
+        }
+    }
+
+
+    // This is for calling Get delivery function
+    useEffect(() => {
+        handleGetDeliveries();
+        setLoading(true)
+    }, []);
+
+
+
+
+    // This is for inital props <<<<=
     const dataInfo = [
         {field : 'id' , title : '#'},
         {field : 'title' , title : 'عنوان'},
-        {field : 'cost' , title : 'هزینه'},
-        {field : 'shippingTime' , title : 'زمان ارسال'},
-        {field : 'timeUnit' , title : 'واحد ارسال'},
-    ]
-
-    const additionFieldElement = (itemId)=>{
-        return(
-            <>  
-                <td>
-                    <i className="fas fa-edit text-warning mx-1 hoverable_text pointer has_tooltip"
-                     title="ویرایش" data-bs-toggle="modal" data-bs-placement="top"
-                    data-bs-target="#add_delivery_modal"></i>
-                    <i className="fas fa-times text-danger mx-1 hoverable_text pointer has_tooltip"
-                     title="حذف " data-bs-toggle="tooltip" data-bs-placement="top"></i>
-                </td>
-            </>
-        )
-    }
-    
-    const additionField = [
+        {field : 'amount' , title : 'هزینه'},
+        {field : 'time' , title : 'زمان ارسال'},
+        {field : 'time_unit' , title : 'واحد ارسال'},
         {
             title : 'عملیات' ,
-            field : 'operation' ,
-            element : (itemId)=> additionFieldElement(itemId)
-        }
+            field : null ,
+            element : (rowData)=> <Actions rowData={rowData} 
+            handleDeleteDelivery={handleDeleteDelivery} />
+        } 
     ]
+
 
     const searchParams = {
         title : 'جستجو' ,
         placeholder : 'قسمتی از عنوان را وارد کنید .' ,
         searchField : 'title'
     }
+    // This is for inital props <<<<=
 
     return (
-        <PaginatedTable data={data} dataInfo={dataInfo} additionField={additionField}
+        <PaginatedTable data={data} dataInfo={dataInfo} isLoading={isLoading}
          searchParams={searchParams} numOfPage={4}>
             {/* --- Modal add Delivery --- */}
-            <AddDelivery/>
+            {hasPermission ? (
+                <>
+                    <AddBtnLink pach={'/Deliverys/add-delivery'}  />
+                    <Outlet context={{handleGetDeliveries}} />
+                </>
+            ) : null}
         </PaginatedTable>
     );
 }
