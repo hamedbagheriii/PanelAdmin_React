@@ -11,6 +11,10 @@ export const createNewProductService = (data)=>{
     'multipart/form-data' );
 }
 
+export const getOneProductService = (id)=>{
+    return httpService(`/admin/products/${id}` , 'get');
+}
+
 export const editProductService = (id,data)=>{
     return httpService(`/admin/products/${id}` , 'put' , data );
 }

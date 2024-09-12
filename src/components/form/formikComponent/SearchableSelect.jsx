@@ -98,7 +98,7 @@ const SearchableSelect = ({options , name , label , firstItem , chipsName='دس�
                                 <div className={`col-12 mb-2 ${className}`} style={{position:'relative'}}>
                                     <div className="input-group mb-2 dir_ltr" >
                                         {required ?
-                                            <span className="input-group-text w_1rem text_wrap justify-content-center">اجباری</span>
+                                            <span className="input-group-text input_required w_1rem text_wrap justify-content-center">اجباری</span>
                                         : null }
                                         {/* ========= select ========= */}
                                             <div className={`form-control select_search  pointer ${isActive ? 'border-primary' : ''}`}

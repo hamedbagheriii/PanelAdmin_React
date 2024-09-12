@@ -102,7 +102,7 @@ const AddUser = () => {
                 {(formik)=>{
                     console.log(formik);
                     return (
-                        <Form className="container">
+                        <Form className="container modal_maxWidth">
                             <div className="row justify-content-center">
 
                                 <FormikControl 

@@ -7,7 +7,7 @@ const Select = ({label , name , className , options , firstItem , handleOnChange
         <div className={`col-12 mb-2 ${className}`}>
             <div className="input-group mb-2 dir_ltr" >
                 {required ?
-                    <span className="input-group-text text-danger w_1rem h-100 text_wrap justify-content-center">اجباری</span>
+                    <span className="input-group-text text-danger input_required w_1rem h-100 text_wrap justify-content-center">اجباری</span>
                 : null }
                 <Field >
                     {({form})=>{

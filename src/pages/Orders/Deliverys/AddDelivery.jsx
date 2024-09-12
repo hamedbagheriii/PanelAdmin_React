@@ -39,7 +39,7 @@ const AddDelivery = () => {
                 >
                     {(formik)=>{
                         return (
-                            <Form className="container">
+                            <Form className="container modal_maxWidth">
                                 <div className="row justify-content-center">
                                     <FormikControl 
                                      name='title'

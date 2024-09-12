@@ -14,7 +14,7 @@ const SubmitBTN = ({formik , setEditId=null , closeModal=false , isValid=true , 
     }
     
     return (
-        <div className={`w-100 d-flex justify-content-around bg-dark ${isModal ? 'modal-footer' : null}`} style={{zIndex:2000}}>
+        <div className={`w-100 d-flex justify-content-around  ${isModal ? 'modal-footer' : null}`} style={{zIndex:2000}}>
             <button type="button" className="btn btn-danger modal-btn w-25"
             onClick={()=>(setEditId ? handleSetEditId(200) : navigate(-1))} data-bs-dismiss="modal">انصراف</button>
             <button type='submit' className="btn btn-primary modal-btn w-25" 

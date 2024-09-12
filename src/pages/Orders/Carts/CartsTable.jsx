@@ -23,7 +23,6 @@ const CartTable = () => {
     const handleGetCarts = async ()=>{
         try {
             const res = await getAllCartsService(currentPage,countOnPage,searchField);
-            console.log(res);
             if (res.status == 200) {
                 setTableData(res.data.data.data);
                 setPageCount(res.data.data.last_page);
@@ -73,7 +72,7 @@ const CartTable = () => {
 
 
 
-    
+
 
     // This is for inital props <<<<=
     const dataInfo = [

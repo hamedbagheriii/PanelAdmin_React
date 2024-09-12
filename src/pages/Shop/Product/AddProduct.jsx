@@ -335,7 +335,7 @@ const AddProduct = () => {
                                     </div>
 
                                     <hr className='w-100 pt-1 mt-4 bg-white' />
-                                    <SubmitBTN formik={formik} isValid={false} isModal={false}/>
+                                    <SubmitBTN formik={formik}  isValid={false} isModal={false}/>
                                 </Form>
                             )
                         }}

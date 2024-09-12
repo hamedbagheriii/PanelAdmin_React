@@ -32,6 +32,10 @@
     z-index: 1040 !important;
 }
 
+.modal-body .input-group-text{
+    z-index: 1  !important;
+}
+
 .modal-body .form-control ,
 .input_dark .form-control{
     background: #212529 !important;
@@ -266,6 +270,54 @@
     z-index: 2000 !important;
 }
 
-
-
 /* ================ date picker ================ */
+
+
+
+/* ================ select search Input ================ */
+.select-search-container {
+    width: 100% !important;
+    background: #212529 !important;
+    height: 100%;
+}
+
+.select-search-input {
+    background: #212529 !important;
+    font-family: 'vazir' !important;
+    text-align: right !important;
+    height: 39px;
+    border: 1px solid;
+    color: #ffffffd0;
+    box-shadow: none !important;
+    width: 100% !important;
+    padding: 0;
+    padding-right: 15px;
+    margin: 0 !important;
+}
+
+.select-search-select  {
+    text-align: right !important;
+    font-family: 'vazir' !important;
+    background: #212529 !important;
+    padding: 0 0px 0 0 !important;
+    margin-top: -21px !important;
+    border: 1px solid;
+    padding: 10px 0px 0 15px !important;
+    overflow: auto;
+    max-height: 180px !important;
+}
+
+.select-search-select * {
+    text-align: right !important;
+    font-family: 'vazir' !important;
+    background: #212529 !important;
+    color: #ffffffd0;
+    padding: 0 0px 0 0 !important;
+    border-radius: 6px !important;
+    padding-right: 8px !important;
+}
+
+.select-search-select .select-search-option:hover {
+    background: #0D6EFD !important;
+}
+/* ================ select search Input ================ */
