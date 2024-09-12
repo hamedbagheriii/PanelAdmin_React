@@ -1,127 +1,126 @@
-import React from 'react';
-import PaginatedTable from '../../../components/tableComponent/PaginatedTable';
-import EditCart from './Add_EditCart';
+import React, { useEffect, useState } from 'react';
 import Add_EditCart from './Add_EditCart';
+import { useHasPermission } from '../../../hook/permissionHook';
+import Actions from './tableAddtions/Actions';
+import { deleteCartService, getAllCartsService } from '../../../services/orders/carts/cart';
+import { Confirm } from '../../../utils/confirm';
+import { Alert } from '../../../utils/alert';
+import PaginatedDataTable from '../../../components/tableComponent/paginatedDataTable';
+import { Outlet } from 'react-router-dom';
+import AddBtnLink from '../../../UI/All/AddBtnLink';
 
 const CartTable = () => {
-    const data = [
-        {
-            id : 1 ,
-            userID : '52' ,
-            userName : 'حامد باقری' ,
-            date : '1403/5/25' ,
-            totalAmount : '4,300,000' ,
-            status : '1' ,
-        } ,
-        {
-            id : 2 ,
-            userID : '812' ,
-            userName : 'حامد باقری' ,
-            date : '1403/5/25' ,
-            totalAmount : '4,300,000' ,
-            status : '1' ,
-        } ,
-        {
-            id : 3 ,
-            userID : '231' ,
-            userName : 'حامد باقری' ,
-            date : '1403/5/25' ,
-            totalAmount : '4,300,000' ,
-            status : '1' ,
-        } ,
-        {
-            id : 4 ,
-            userID : '77' ,
-            userName : 'حامد باقری' ,
-            date : '1403/5/25' ,
-            totalAmount : '4,300,000' ,
-            status : '1' ,
-        } ,
-        {
-            id : 5 ,
-            userID : '5457' ,
-            userName : 'حامد باقری' ,
-            date : '1403/5/25' ,
-            totalAmount : '4,300,000' ,
-            status : '1' ,
-        } ,
-        {
-            id : 6 ,
-            userID : '112' ,
-            userName : 'حامد باقری' ,
-            date : '1453/5/25' ,
-            totalAmount : '4,300,000' ,
-            status : '1' ,
-        } ,
-        {
-            id : 7 ,
-            userID : '31' ,
-            userName : 'حامد باقری' ,
-            date : '1423/5/25' ,
-            totalAmount : '4,300,000' ,
-            status : '1' ,
-        } ,
-        {
-            id : 8 ,
-            userID : '51' ,
-            userName : 'حامد باقری' ,
-            date : '1401/5/25' ,
-            totalAmount : '8,342,000' ,
-            status : '1' ,
-        } ,
-        {
-            id : 9 ,
-            userID : '90' ,
-            userName : 'حامد باقری' ,
-            date : '1403/5/25' ,
-            totalAmount : '1,300,000' ,
-            status : '1' ,
-        } ,
-    ]
+    const [tableData , setTableData] = useState([]);
+    const [isLoading , setLoading] = useState(true);
+    const [currentPage , setCurrentPage] = useState(1);
+    const [countOnPage , setCountOnPage] = useState(4);
+    const [pageCount , setPageCount] = useState(1);
+    const [searchField , setSearchField] = useState('');
+    const hasPermission = useHasPermission('create_cart')
 
+
+    // This is for get carts
+    const handleGetCarts = async ()=>{
+        try {
+            const res = await getAllCartsService(currentPage,countOnPage,searchField);
+            console.log(res);
+            if (res.status == 200) {
+                setTableData(res.data.data.data);
+                setPageCount(res.data.data.last_page);
+            }
+        } catch (error) {
+            // set error in httpService
+        }
+        finally {
+            setTimeout(() => {
+                setLoading(false);
+            }, 500);
+        }
+    }
+
+
+    // This is for delete carts
+    const handleDeleteCarts = async (rowData)=>{
+        if (await Confirm(`آیا از حذف سبد خرید ${rowData.id}
+        اطمینان دارید ؟`)) {
+            try {
+                const res = await deleteCartService(rowData.id);
+                if (res.status == 200) {
+                    Alert('عملیات با موفقیت انجام شد .',
+                    ` سبد خرید${rowData.id} با موفقیت حذف شد .` , 'success');
+                    handleGetCarts();
+                }
+            } catch (error) {
+                // set error in httpService
+            }
+        }
+    }
+
+
+
+
+    // This is for calling Get carts function
+    useEffect(() => {
+        handleGetCarts();
+        setLoading(true)
+    }, []);
+
+    // This is for calling Get products function when edit currentPage or searchField
+    useEffect(() => {
+        handleGetCarts();
+        setLoading(true);
+    }, [currentPage , searchField]);
+
+
+
+    
+
+    // This is for inital props <<<<=
     const dataInfo = [
         {field : 'id' , title : '#'},
-        {field : 'userID' , title : 'آی دی مشتری'},
-        {field : 'userName' , title : 'نام مشتری'},
-        {field : 'date' , title : 'تاریخ'},
-        {field : 'totalAmount' , title : 'مبلغ کل سبد'},
-        {field : 'status' , title : 'وضعیت'},
-    ]
-
-    const additionFieldElement = (itemId)=>{
-        return(
-            <>  
-                <td>
-                    <i className="fas fa-edit text-warning mx-1 hoverable_text pointer has_tooltip" 
-                    title="ویرایش و جزئیات سبد" data-bs-toggle="modal" data-bs-placement="top"
-                    data-bs-target="#edit_add_cart_modal"></i>
-                    <i className="fas fa-times text-danger mx-1 hoverable_text pointer has_tooltip" 
-                    title="حذف سبد" data-bs-toggle="tooltip" data-bs-placement="top"></i>
-
-                </td>
-            </>
-        )
-    }
-    
-    const additionField = [
+        {field : 'user_id' , title : 'آیدی کاربر'},
+        {
+            field : null ,
+            title : 'نام کاربر',
+            element : (rowData)=> (rowData.user.first_name + ' ' + rowData.user.last_name)
+            || (rowData.user.user_name) || ('-') ,
+        },
+        {
+            field : null ,
+            title : 'شماره موبایل',
+            element : (rowData)=> (rowData.user.phone) || ('-') ,
+        },
+        {
+            field : null ,
+            title : 'تعداد کالا',
+            element : (rowData)=> (rowData.items.length) || ('0') ,
+        },
         {
             title : 'عملیات' ,
-            field : 'operation' ,
-            element : (itemId)=> additionFieldElement(itemId)
-        }
+            field : null ,
+            element : (rowData)=> <Actions rowData={rowData} 
+            handleDeleteCarts={handleDeleteCarts} />
+        } 
     ]
 
     const searchParams = {
         title : 'جستجو' ,
-        placeholder : 'قسمتی از نام یا شماره سبد را وارد کنید .' ,
-        searchField : 'title'
+        placeholder : 'قسمتی از شماره موبایل را وارد کنید .' ,
+        searchField : 'phone'
     }
+    // This is for inital props <<<<=
 
     return (
-        <PaginatedTable data={data} dataInfo={dataInfo} additionField={additionField}
-         searchParams={searchParams} numOfPage={4}>
-            <Add_EditCart/>
-        </PaginatedTable>
+        <PaginatedDataTable dataInfo={dataInfo} searchParams={searchParams} isLoading={isLoading}
+        setSearchField={setSearchField} tableData={tableData} setCurrentPage={setCurrentPage}
+        currentPage={currentPage} pageCount={pageCount} searchField={searchField }>
+            {hasPermission ? (
+                <>
+                    <AddBtnLink pach={'/Carts/add-cart'}  />
+                    <Outlet context={{handleGetCarts}} />
+                </>
+            ) : null}
+        </PaginatedDataTable>
     );
 }
 

@@ -27,6 +27,7 @@ import AddUser from '../../../pages/Users/UsersSection/AddUser.jsx';
 import PermComponent from '../../../components/permComponent.jsx';
 import { useHasPermission } from '../../../hook/permissionHook.js';
 import AddDelivery from '../../../pages/Orders/Deliverys/AddDelivery.jsx';
+import Add_EditCart from '../../../pages/Orders/Carts/Add_EditCart.jsx';
 
 
 const IndexContent = () => {
@@ -37,7 +38,8 @@ const IndexContent = () => {
     const hasDiscountPermission = useHasPermission('read_discounts');
     const hasUserPermission = useHasPermission('read_users');
     const hasRolePermission = useHasPermission('read_roles');
-    const hasdeliveryPermission = useHasPermission('read_deliveries');
+    const hasDeliveryPermission = useHasPermission('read_deliveries');
+    const hasCartsPermission = useHasPermission('read_carts');
 
 
     return (
@@ -87,14 +89,17 @@ const IndexContent = () => {
 
 
             {/* ====== Cart ===== */}
-
-            <Route path='/Carts' element={<PermComponent
-            component={<Carts/>} permTitle={'read_carts'}/>} />
+            {hasCartsPermission ? (
+                <Route path='/Carts' element={<Carts/>} >
+                    <Route path='add-cart' element={<PermComponent component={<Add_EditCart/>}
+                    permTitle={'create_cart'} />} />
+                </Route>
+            ) : null }
 
             <Route path='/Orders' element={<PermComponent
             component={<Orders/>} permTitle={'read_orders'}/>} />
 
-            {hasdeliveryPermission ? (
+            {hasDeliveryPermission ? (
                 <Route path='/Deliverys' element={<Deliverys/>} >
                     <Route path='add-delivery' element={<PermComponent component={<AddDelivery/>}
                     permTitle={'create_delivery'}/>} />
