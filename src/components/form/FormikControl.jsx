@@ -9,6 +9,7 @@ import SearchableSelect from './formikComponent/SearchableSelect';
 import CkEditor from './formikComponent/CkEditor';
 import Date from './formikComponent/Date';
 import Checkbox from './formikComponent/checkbox';
+import SelectSearch1 from './formikComponent/SelectSearch';
 
 const FormikControl = (props) => {
     switch (props.control) {
@@ -41,6 +42,9 @@ const FormikControl = (props) => {
 
         case 'checkbox':
             return <Checkbox {...props} />
+
+        case 'selectSearch':
+            return <SelectSearch1 {...props} />
         default:
             return null;
     }
