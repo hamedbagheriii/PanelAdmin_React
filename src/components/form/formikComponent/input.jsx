@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import PersonalError from '../personalComponenet/personalError';
 
 const Input = ({label , type , name , className , placeholder , inputLabel=true , required=false
-    , password=false}) => {
+    , password=false , disabled=null}) => {
     const [showPassword , setShowPassword] = useState(false);
         
 
@@ -21,7 +21,7 @@ const Input = ({label , type , name , className , placeholder , inputLabel=true 
                         </span>
                     </span>
                 : null }
-                <Field name={name} type={showPassword ? 'text' : type} className='form-control' id={name+`-id`} placeholder={placeholder} />
+                <Field name={name} disabled={disabled} type={showPassword ? 'text' : type} className='form-control' id={name+`-id`} placeholder={placeholder} />
                 {inputLabel ? 
                     <span className="input-group-text w_7rem h-100 text_wrap justify-content-center">{label}</span>
                 : null}

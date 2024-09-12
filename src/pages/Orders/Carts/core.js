@@ -10,8 +10,23 @@ export const initialValues = {
     count : 1 ,
 }
 
-export const onSubmit = async (values , submitProps , handleGetCarts)=>{
-    
+export const onSubmit = async (values , submitProps , handleGetCarts , setSelectedProducts
+    , setSelectedProductsInfo , currentProducts)=>{
+    // ارایه ارسالی به سرور پر میشود
+    setSelectedProducts(old=>[...old , values])
+    submitProps.resetForm();
+    submitProps.setFieldValue('user_id',values.user_id);
+    // ارایه برای نشان دادن پر میشود
+    setSelectedProductsInfo(old=>[...old , {
+        id : currentProducts.id+Math.ceil(Math.random()),
+        productName:currentProducts.title,
+        price:currentProducts.price,
+        gaurantee:values.guarantee_id > 0 ? currentProducts.gaurantees
+        .filter(g=>g.id == values.guarantee_id)[0].title : null,
+        color:values.color_id > 0 ? currentProducts.colors
+        .filter(c=>c.id == values.color_id)[0].title : null,
+        count : values.count
+    }])
 
     console.log(values);
 }

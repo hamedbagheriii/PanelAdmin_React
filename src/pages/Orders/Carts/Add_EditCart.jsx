@@ -8,8 +8,15 @@ import FormikControl from '../../../components/form/FormikControl';
 import SelectSearch from 'react-select-search';
 import 'react-select-search/style.css'
 import PersonalError from '../../../components/form/personalComponenet/personalError';
+import PaginatedTable from '../../../components/tableComponent/PaginatedTable';
+import { numberWithCommas } from '../../../utils/numberWithCommas';
+import SpinnerLoad from '../../../UI/All/SpinnerLoad';
+import { createNewCartService } from '../../../services/orders/carts/cart';
+import { Alert } from '../../../utils/alert';
+import { Confirm } from '../../../utils/confirm';
 
 const Add_EditCart = () => {
+    const [isLoading , setLoading] = useState(true);
     const navigate = useNavigate();
     const {handleGetCarts} = useOutletContext()
     const location = useLocation()
@@ -18,7 +25,7 @@ const Add_EditCart = () => {
     const [currentProducts , setCurrentProducts] = useState(null); // محصول انتخاب شده
     const [colors , setColors] = useState([]);
     const [guarantees , setGuarantees] = useState([]);
-    const [selectedProducts , setSelectedProducts] = useState([]);
+    const [selectedProducts , setSelectedProducts] = useState([]); // ارایه محصولات انتخاب شده
     const [selectedProductsInfo , setSelectedProductsInfo] = useState([]);
     const [reinitalValues , setReinitalValues] = useState(null);
 
@@ -29,12 +36,14 @@ const Add_EditCart = () => {
             const res = await getAllProductsTitlesService();
             if (res.status == 200) {
                 setAllProducts(res.data.data.map(p=>{return {name : p.title , value : p.id}}))
+                setLoading(false)
             }            
         }
         catch (error) {
         }
     }
 
+    // get one product
     const handleChangeSelectedProduct = async (e , formik)=>{
         formik.setFieldValue('product_id', e)
         try {
@@ -51,6 +60,34 @@ const Add_EditCart = () => {
         }
     }
 
+    // this is for post data
+    const handleConfirmAddCart = async (formik)=>{
+        const res = await createNewCartService({
+            user_id : formik.values.user_id ,
+            products : selectedProducts
+        })
+        if (res.status == 201) {
+            Alert('عملیات با موفقیت انجام شد .',
+            `سبد خرید با موفقیت ایجاد شد .`,
+            'success')
+            handleGetCarts();
+            navigate(-1);
+        }
+    }
+
+    const handleDeleteProduct = async (product)=>{
+        if (await Confirm(`آیا از حذف محصول ${product.productName} اطمینان دارید ؟`)) {
+            // با استفاده از ایندکس حذف میکنیم چون ایدی ها برابر نیستند اما ایندکس ها برابر هستند .
+            const index = selectedProductsInfo.findIndex(p=>p.id == product.id)
+            setSelectedProducts(old=>old.splice(index,1))
+            setSelectedProductsInfo(old=> old.filter(o=>o.id !== product.id))
+            Alert('عملیات با موفقیت انجام شد .',
+            `محصول ${product.productName} با موفقیت حذف شد .`,
+            'success')
+        }
+    }
+
+
 
 
 
@@ -58,14 +95,41 @@ const Add_EditCart = () => {
 
 
     useEffect(() => {
-        handleGetAllProductsTitles();        
+        handleGetAllProductsTitles();  
+        setLoading(true)
     }, []);
 
-    useEffect(() => {
-        if (cartData) {
-            setReinitalValues(cartData) 
-        }
-    }, [cartData]);
+
+    // This is for inital props <<<<=
+    const dataInfo = [
+        {field : 'id' , title : '#'},
+        {field : 'productName' , title : 'نام محصول'},
+        {field : 'price' , title : 'قیمت'},
+        {
+            field : null ,
+            title : 'گارانتی',
+            element : (rowData)=> rowData.gaurantee || '-'    
+        },
+        {
+            field : null ,
+            title : 'رنگ',
+            element : (rowData)=> rowData.color || '-'   
+        },
+        {field : 'count' , title : 'مقدار'},
+        {
+            field : null ,
+            title : 'عملیات',
+            element : (rowData)=> <i className='fas fa-times text-danger pointer' 
+            onClick={()=>handleDeleteProduct(rowData)}></i>   
+        },
+    ]
+    
+    const searchParams = {
+        title : 'جستجو' ,
+        placeholder : 'قسمتی از نام محصول را وارد کنید .' ,
+        searchField : 'productName'
+    }
+    // This is for inital props <<<<=
 
     return (
         <>
@@ -78,7 +142,8 @@ const Add_EditCart = () => {
             >
                 <Formik
                 initialValues={initialValues}
-                onSubmit={(values,submitProps)=>onSubmit(values,submitProps,handleGetCarts)}
+                onSubmit={(values,submitProps)=>onSubmit(values,submitProps,handleGetCarts,
+                setSelectedProducts , setSelectedProductsInfo , currentProducts)}
                 validationSchema={validationSchema}
                 validateOnMount
                 >
@@ -95,6 +160,7 @@ const Add_EditCart = () => {
                                          control='input'
                                          placeholder="فقط عدد بنویسید ."
                                          required={true}
+                                         disabled={selectedProducts.length > 0}
                                         />
 
 
@@ -135,44 +201,36 @@ const Add_EditCart = () => {
                                     </div>
                                 </Form>
 
-
-                                <div className="row justify-content-center">
-                                    <div className="col-12 col-md-6 col-lg-8">
-                                        <div className="input-group my-3 dir_ltr">
-                                            <span className="input-group-text justify-content-center w_15" >عدد</span>
-                                            <input type="number" className="form-control text-center w_15" placeholder=""  defaultValue="50" />
-                                            <span className="input-group-text text-end w_70 font_08 d-flex align-items-center text_truncate">
-                                                <i className="fas fa-times text-danger hoverable_text pointer mx-1 has_tooltip" title="حذف محصول از سبد" data-bs-placement="top"></i>
-                                                محصول شماره 1
-                                                ( 100هزار تومان)
-                                                ( گارانتی فلان)
-                                                <i className="fas fa-circle mx-1" style={{color:'#000'}}></i>
-                                            </span>
+                                
+                                <PaginatedTable data={selectedProductsInfo} dataInfo={dataInfo} 
+                                searchParams={searchParams} numOfPage={4} isLoading={isLoading}>
+                                </PaginatedTable>
+                                {selectedProductsInfo.length > 0 ? (
+                                    <>
+                                        <div className='col-12 alert alert-success d-flex justify-content-around
+                                        align-items-center fs-6 fw-bold w-100'
+                                        style={{height:50}}>
+                                            <span>مبلغ کل :</span>
+                                            {/* reduce : همه ی اعداد یک ارایه را باهم جمع میکند */}
+                                            <span>{numberWithCommas(selectedProductsInfo.map(p=>p.count*p.price).reduce
+                                            ((a,b)=>a+b))}</span>
                                         </div>
-                                    </div>
-                                    <div className="col-12 col-md-6 col-lg-8">
-                                        <div className="input-group my-3 dir_ltr">
-                                            <span className="input-group-text justify-content-center w_15" >عدد</span>
-                                            <input type="number" className="form-control text-center w_15" placeholder=""  defaultValue="5"/>
-                                            <span className="input-group-text text-end w_70 font_08 d-flex align-items-center text_truncate">
-                                                <i className="fas fa-times text-danger hoverable_text pointer mx-1 has_tooltip" title="حذف محصول از سبد" data-bs-placement="top"></i>
-                                                محصول ویژه و مورد خاص شماره 2
-                                                ( 100هزار تومان)
-                                                ( گارانتی فلان)
-                                                <i className="fas fa-circle mx-1" style={{color:'rgb(236, 16, 16)'}}></i>
-                                            </span>
+                                        
+                                        <hr className='my-4 '/>
+                                        <div className={`w-100 d-flex justify-content-around `} >
+                                            <button type="button" className="btn btn-danger modal-btn w-25"
+                                            onClick={()=>(navigate(-1))} data-bs-dismiss="modal">انصراف</button>
+                                            <button type='submit'
+                                            onClick={()=>handleConfirmAddCart(formik)}
+                                            className="btn btn-primary modal-btn w-25" 
+                                            disabled={formik.isSubmitting || (!formik.dirty || ( !formik.isValid))}>
+                                                {formik.isSubmitting ?
+                                                    <SpinnerLoad colorClass={'text-white'} inline={true} isSmall />
+                                                : 'ذخیره'}
+                                            </button>
                                         </div>
-                                    </div>
-                                    <div className="col-6">
-                                        <div className="input-group my-3 dir_ltr">
-                                            <span className="input-group-text justify-content-center w-75" >200,000 تومان</span>
-                                            <span className="input-group-text w-25 text-center"> جمع کل </span>
-                                        </div>
-                                    </div>
-                                    <div className="btn_box text-center col-12 col-md-6 col-lg-8 mt-4">
-                                        <button className="btn btn-primary ">ذخیره</button>
-                                    </div>
-                                </div>
+                                    </>
+                                ) : null }
                             </div>
                         )
                     }}
