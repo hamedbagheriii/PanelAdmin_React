@@ -7,17 +7,17 @@ const Actions = ({rowData , handleDeleteOrder}) => {
 
     return (
         <>  
-            {/* <ActionIcon 
-            action={()=>navigate('/Carts/add-cart' , {state : {cartDataId : rowData.id}})}
-            icon={'fas fa-edit text-warning'}
-            ptitle={'update_cart'}
-            title={"ویرایش و جزئیات سفارش"}
-            /> */}
             <ActionIcon 
             action={()=>handleDeleteOrder(rowData)}
             icon={'fas fa-times text-danger'}
-            ptitle={'delete_cart'}
+            ptitle={'delete_order'}
             title={"حذف سفارش"}
+            />
+            <ActionIcon 
+            action={()=>navigate('/Orders/add-order' , {state : {orderID : rowData.id}})}
+            icon={'fas fa-shopping-cart text-info'}
+            ptitle={'update_order'}
+            title={"ویرایش و جزئیات سفارش"}
             />
         </>
     );

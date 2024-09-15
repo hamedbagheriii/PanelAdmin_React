@@ -9,6 +9,7 @@ import { convertDate } from '../../../utils/convertDate';
 import Actions from './tableAddtions/Actions';
 import { useHasPermission } from '../../../hook/permissionHook';
 import AddBtnLink from '../../../UI/All/AddBtnLink';
+import { Outlet } from 'react-router-dom';
 
 const OrdersTable = () => {
     const [tableData , setTableData] = useState([]);
@@ -113,7 +114,10 @@ const OrdersTable = () => {
 
             {/* --- Modal add Order --- */}
             {hasPermission ? (
-                <AddBtnLink pach={'/Orders/add-order'} />
+                <>
+                    <AddBtnLink pach={'/Orders/add-order'} />
+                    <Outlet context={{handleGetOrders}}/>
+                </>
             ) : null}
 
         </PaginatedDataTable>
