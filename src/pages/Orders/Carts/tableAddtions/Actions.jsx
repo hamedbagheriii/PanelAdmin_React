@@ -8,7 +8,7 @@ const Actions = ({rowData , handleDeleteCarts}) => {
     return (
         <>  
             <ActionIcon 
-            action={()=>navigate('/Carts/add-cart' , {state : {cartData : rowData}})}
+            action={()=>navigate('/Carts/add-cart' , {state : {cartDataId : rowData.id}})}
             icon={'fas fa-edit text-warning'}
             ptitle={'update_cart'}
             title={"ویرایش و جزئیات سبد"}

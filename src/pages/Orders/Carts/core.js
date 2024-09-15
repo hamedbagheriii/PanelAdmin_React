@@ -10,22 +10,21 @@ export const initialValues = {
     count : 1 ,
 }
 
-export const onSubmit = async (values , submitProps , handleGetCarts , setSelectedProducts
-    , setSelectedProductsInfo , currentProducts)=>{
+export const onSubmit = async (values , submitProps , handleGetCarts 
+    , setSelectedProductsInfo , currentProduct)=>{
     // ارایه ارسالی به سرور پر میشود
-    setSelectedProducts(old=>[...old , values])
     submitProps.resetForm();
     submitProps.setFieldValue('user_id',values.user_id);
     // ارایه برای نشان دادن پر میشود
     setSelectedProductsInfo(old=>[...old , {
-        id : currentProducts.id+Math.ceil(Math.random()),
-        productName:currentProducts.title,
-        price:currentProducts.price,
-        gaurantee:values.guarantee_id > 0 ? currentProducts.gaurantees
-        .filter(g=>g.id == values.guarantee_id)[0].title : null,
-        color:values.color_id > 0 ? currentProducts.colors
-        .filter(c=>c.id == values.color_id)[0].title : null,
-        count : values.count
+        id : currentProduct.id+values.color_id || 0+Math.ceil(Math.random()),
+        product : currentProduct,
+        gaurantee:values.guarantee_id > 0 ? currentProduct.gaurantees
+        .filter(g=>g.id == values.guarantee_id)[0] : null,
+        color:values.color_id > 0 ? currentProduct.colors
+        .filter(c=>c.id == values.color_id)[0] : null,
+        count : values.count,
+        product_Search : currentProduct.title
     }])
 
     console.log(values);

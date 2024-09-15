@@ -1,16 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import ModalsContainer from '../../../components/ModalsContainer';
 import { useLocation, useNavigate, useOutletContext } from 'react-router-dom';
-import { ErrorMessage, Form, Formik } from 'formik';
+import { Form, Formik } from 'formik';
 import { initialValues, onSubmit, validationSchema } from './core';
 import { getAllProductsTitlesService, getOneProductService } from '../../../services/shop/product/product';
 import FormikControl from '../../../components/form/FormikControl';
-import SelectSearch from 'react-select-search';
-import PersonalError from '../../../components/form/personalComponenet/personalError';
 import PaginatedTable from '../../../components/tableComponent/PaginatedTable';
 import { numberWithCommas } from '../../../utils/numberWithCommas';
 import SpinnerLoad from '../../../UI/All/SpinnerLoad';
-import { createNewCartService } from '../../../services/orders/carts/cart';
+import { createNewCartService, editCartService, getOneCartService } from '../../../services/orders/carts/cart';
 import { Alert } from '../../../utils/alert';
 import { Confirm } from '../../../utils/confirm';
 import 'react-select-search/style.css';
@@ -21,14 +19,13 @@ const Add_EditCart = () => {
     const navigate = useNavigate();
     const { handleGetCarts } = useOutletContext();
     const location = useLocation();
-    const cartData = location.state?.cartData;
+    const cartDataId = location.state?.cartDataId;
     const [allProducts, setAllProducts] = useState([]); // همه محصولات
-    const [currentProducts, setCurrentProducts] = useState(null); // محصول انتخاب شده
+    const [currentProduct, setCurrentProduct] = useState(null); // محصول انتخاب شده
     const [colors, setColors] = useState([]);
     const [guarantees, setGuarantees] = useState([]);
-    const [selectedProducts, setSelectedProducts] = useState([]); // ارایه محصولات انتخاب شده
     const [selectedProductsInfo, setSelectedProductsInfo] = useState([]);
-    // const [reinitalValues , setReinitalValues] = useState(null);
+    const [reinitalValues , setReinitalValues] = useState(null);
 
     // this is for get All Product
     const handleGetAllProductsTitles = async () => {
@@ -50,7 +47,7 @@ const Add_EditCart = () => {
             const res = await getOneProductService(e);
             if (res.status == 200) {
                 const product = res.data.data;
-                setCurrentProducts(product);
+                setCurrentProduct(product);
                 // {name : g.title , value : g.id} : مقادیر دریافتی کامپوننت سبد خرید
                 setGuarantees(product.guarantees.map(g => { return { name: g.title, value: g.id }; }));
                 setColors(product.colors.map(c => { return { name: c.title, value: c.id }; }));
@@ -62,31 +59,82 @@ const Add_EditCart = () => {
 
     // this is for post data
     const handleConfirmAddCart = async (formik) => {
-        const res = await createNewCartService({
-            user_id: formik.values.user_id,
-            products: selectedProducts
-        });
-        if (res.status == 201) {
+        const sendAlert = (title)=>{
             Alert('عملیات با موفقیت انجام شد .',
-                `سبد خرید با موفقیت ایجاد شد .`,
-                'success');
+            `سبد خرید با موفقیت ${title} شد .`,
+            'success');
             handleGetCarts();
             navigate(-1);
+        }
+
+
+        let products = [];
+        for (const item of selectedProductsInfo) {
+            products.push({
+                product_id : item.product.id ,
+                color_id : item.color?.id || '',
+                guarantee_id : item.gaurantee?.id || '',
+                count : item.count ,
+            })
+        }
+
+        // ارسال دیتا
+        if (cartDataId) {
+            const res = await editCartService(cartDataId,{
+                user_id: formik.values.user_id,
+                products
+            });
+            if (res.status == 200) {
+                sendAlert('ویرایش')
+            }
+        }
+        else{
+            const res = await createNewCartService({
+                user_id: formik.values.user_id,
+                products
+            });
+            if (res.status == 201) {
+                sendAlert('ایجاد')
+            }
         }
     };
 
     // this is for delete selected Product
     const handleDeleteProduct = async (product) => {
-        if (await Confirm(`آیا از حذف محصول ${product.productName} اطمینان دارید ؟`)) {
-            // با استفاده از ایندکس حذف میکنیم چون ایدی ها برابر نیستند اما ایندکس ها برابر هستند .
-            const index = selectedProductsInfo.findIndex(p => p.id == product.id);
-            setSelectedProducts(old => old.splice(index, 1));
+        if (await Confirm(`آیا از حذف محصول ${product.product.title} اطمینان دارید ؟`)) {
             setSelectedProductsInfo(old => old.filter(o => o.id !== product.id));
             Alert('عملیات با موفقیت انجام شد .',
-                `محصول ${product.productName} با موفقیت حذف شد .`,
-                'success');
+                `محصول ${product.product.title} با موفقیت حذف شد .`,
+            'success');
         }
     };
+
+    const getCardToEditInfo = async ()=>{
+        try {
+            const res = await getOneCartService(cartDataId) 
+            if (res.status == 200) {
+                let products = [];
+                let cart =  res.data.data;
+                setReinitalValues({...initialValues , user_id : cart.user_id})
+                for (const item of cart.items) {
+                    products.push({
+                        id : item.id,
+                        product : item.product,
+                        gaurantee: item.gaurantee || null,
+                        color: item.color || null,
+                        count : item.count,
+                        product_Search : item.product.title
+                    })
+                }
+                setSelectedProductsInfo(products)
+            }
+        }
+        catch (error) {
+        }
+    }
+
+    
+
 
 
 
@@ -98,37 +146,54 @@ const Add_EditCart = () => {
     useEffect(() => {
         handleGetAllProductsTitles();
         setLoading(true);
+
+        // برای شرط ادیت
+        cartDataId && getCardToEditInfo();
     }, []);
 
 
     // This is for inital props <<<<=
     const dataInfo = [
         { field: 'id', title: '#' },
-        { field: 'productName', title: 'نام محصول' },
-        { field: 'price', title: 'قیمت' },
+        {
+            field: null,
+            title: 'نام محصول',
+            element: (rowData) => rowData.product.title || '-'
+        },
+        {
+            field: null,
+            title: 'قیمت',
+            element: (rowData) => rowData.product.price || '-'
+        },
         {
             field: null,
             title: 'گارانتی',
-            element: (rowData) => rowData.gaurantee || '-'
+            element: (rowData) => rowData.gaurantee?.title || '-'
         },
         {
             field: null,
             title: 'رنگ',
-            element: (rowData) => rowData.color || '-'
+            element: (rowData) => rowData.color?.title || '-'
         },
         { field: 'count', title: 'مقدار' },
         {
             field: null,
             title: 'عملیات',
-            element: (rowData) => <i className='fas fa-times text-danger pointer'
-                onClick={() => handleDeleteProduct(rowData)}></i>
+            element: (rowData) => {
+                return (
+                    <>
+                        <i className='fas mx-2 fa-times text-danger pointer'
+                        onClick={() => handleDeleteProduct(rowData)}></i>
+                    </>
+                )
+            }
         },
     ];
 
     const searchParams = {
         title: 'جستجو',
         placeholder: 'قسمتی از نام محصول را وارد کنید .',
-        searchField: 'productName'
+        searchField: 'product_Search'
     };
     // This is for inital props <<<<=
     return (
@@ -137,15 +202,16 @@ const Add_EditCart = () => {
                 id={'edit_add_cart_modal'}
                 fullscreen={true}
                 className='show d-block animate__animated animate__fadeInDown animate__fast'
-                title={cartData ? 'ویرایش سبد خرید' : 'افزودن سبد خرید'}
+                title={cartDataId ? 'ویرایش سبد خرید' : 'افزودن سبد خرید'}
                 closeFunction={() => navigate(-1)}
             >
                 <Formik
-                    initialValues={initialValues}
+                    initialValues={reinitalValues || initialValues}
                     onSubmit={(values, submitProps) => onSubmit(values, submitProps, handleGetCarts,
-                        setSelectedProducts, setSelectedProductsInfo, currentProducts)}
+                        setSelectedProductsInfo, currentProduct)}
                     validationSchema={validationSchema}
                     validateOnMount
+                    enableReinitialize
                 >
                     {(formik) => {
                         // console.log(formik.values);
@@ -160,7 +226,6 @@ const Add_EditCart = () => {
                                          control='input'
                                          placeholder="فقط عدد بنویسید ."
                                          required={true}
-                                         disabled={selectedProducts.length > 0} 
                                         />
 
                                         <FormikControl
@@ -222,7 +287,8 @@ const Add_EditCart = () => {
                                             style={{ height: 50 }}>
                                             <span>مبلغ کل :</span>
                                             {/* reduce : همه ی اعداد یک ارایه را باهم جمع میکند */}
-                                            <span className='text-center'>{numberWithCommas(selectedProductsInfo.map(p => p.count * p.price).reduce((a, b) => a + b))} تومان</span>
+                                            <span className='text-center'>{numberWithCommas(selectedProductsInfo.map(p => p.count * p.product.price)
+                                            .reduce((a, b) => a + b))} تومان</span>
                                         </div>
 
                                         <hr className='my-4 ' />
@@ -232,7 +298,7 @@ const Add_EditCart = () => {
                                             <button type='submit'
                                                 onClick={() => handleConfirmAddCart(formik)}
                                                 className="btn btn-primary modal-btn w-25"
-                                                disabled={formik.isSubmitting || (!formik.dirty || (!formik.isValid))}>
+                                                disabled={formik.isSubmitting}>
                                                 {formik.isSubmitting ?
                                                     <SpinnerLoad colorClass={'text-white'} inline={true} isSmall />
                                                     : 'ذخیره'}
