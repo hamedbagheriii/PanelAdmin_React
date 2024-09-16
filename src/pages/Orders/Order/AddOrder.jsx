@@ -206,8 +206,6 @@ const AddOrder = () => {
 
                                     <div className={`col-12 mb-2`}>
                                         <div className={`input-group mb-2 dir_ltr`}>
-                                            <span className="input-group-text input_required
-                                             text-danger w_1rem  text_wrap justify-content-center">اجباری</span>
                                             <Field name={'discount_id'} type='text'
                                             className='form-control' id={'discount'+`-id`}
                                             placeholder={"فقط حروف و عدد بنویسید ."}

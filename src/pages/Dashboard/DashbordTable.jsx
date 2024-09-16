@@ -62,7 +62,7 @@ const DashbordTable = () => {
         {
             field : null ,
             title : 'دسته',
-            element : (rowData)=> rowData.categories?.[0].title 
+            element : (rowData)=> rowData.categories?.[0].title || ''
         },
         {field : 'title' , title : 'عنوان'},
         {

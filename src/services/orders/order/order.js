@@ -24,3 +24,7 @@ export const editOrderService = (orderID,data)=>{
 export const getCardsDataOrder = ()=>{
     return httpService(`/admin/orders/orders_statistics`, 'get')
 };
+
+export const getChartsDataOrder = ()=>{
+    return httpService(`/admin/orders/this_year_orders`, 'get')
+};
