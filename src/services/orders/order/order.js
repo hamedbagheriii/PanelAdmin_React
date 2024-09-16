@@ -20,3 +20,7 @@ export const editOrderService = (orderID,data)=>{
     return httpService(`/admin/orders/${orderID}`, 'put' , data)
 };
 
+// =========----- order card dashbord -----========
+export const getCardsDataOrder = ()=>{
+    return httpService(`/admin/orders/orders_statistics`, 'get')
+};

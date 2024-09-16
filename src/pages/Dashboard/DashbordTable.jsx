@@ -5,6 +5,7 @@ import { Confirm } from '../../utils/confirm';
 import { Alert } from '../../utils/alert';
 import { getFerwerProductsService, toggleNotifcationService } from '../../services/shop/product/product';
 import ActionIcon from '../../UI/pages/actionIcon';
+import LoadingAlert from '../../UI/All/LoadingAlert';
 
 const DashbordTable = () => {
     const [data , setData] = useState([]);
@@ -52,7 +53,7 @@ const DashbordTable = () => {
 
 
 
-    
+
 
 
     // This is for inital props <<<<=
@@ -90,15 +91,21 @@ const DashbordTable = () => {
     return (
         <div className="row">
 
-            <div className="col-12 col-lg-6 " >
-                <p className="text-center mt-3 text-white fw-bold">محصولات رو به اتمام :</p>
-                
-                <PaginatedTable data={data} dataInfo={dataInfo} 
-                 searchParams={searchParams} numOfPage={4} isLoading={isLoading} />
-            </div>
-            <div className="col-12 d-flex align-items-center justify-content-center col-lg-6 mt-4 mt-lg-0 text-light text-white" >
-                <HandleLoadChart />
-            </div>
+            {!isLoading ? (
+                <>
+                    <div className="col-12 col-lg-6 " >
+                        <p className="text-center mt-3 text-white fw-bold">محصولات رو به اتمام :</p>
+
+                        <PaginatedTable data={data} dataInfo={dataInfo} 
+                         searchParams={searchParams} numOfPage={4} isLoading={isLoading} />
+                    </div>
+                    <div className="col-12 d-flex align-items-center justify-content-center col-lg-6 mt-4 mt-lg-0 text-light text-white" >
+                        <HandleLoadChart />
+                    </div>
+                </>
+            ) : (
+                <LoadingAlert />
+            )}
 
         </div>
     );

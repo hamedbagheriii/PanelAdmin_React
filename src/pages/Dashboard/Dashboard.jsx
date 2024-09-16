@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import Cards from './Cards';
 import DashbordTable from './DashbordTable';
-// import {handleLoadChart} from '../../assets/js/Chart.js'
 
 const Dashboard = () => {
 
