@@ -1,95 +1,83 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PaginatedTable from '../../components/tableComponent/PaginatedTable';
 import HandleLoadChart from '../../assets/js/Chart';
+import { Confirm } from '../../utils/confirm';
+import { Alert } from '../../utils/alert';
+import { getFerwerProductsService, toggleNotifcationService } from '../../services/shop/product/product';
+import ActionIcon from '../../UI/pages/actionIcon';
 
 const DashbordTable = () => {
-    const data = [
-        {
-            id : 1 ,
-            category : 'aaa' ,
-            title : 'bbb' ,
-            price : '1111' ,
-            stock : '5' ,
-            like_count : '2' ,
-            status : '1' ,
-        } ,
-        {
-            id : 2 ,
-            category : 'ccc' ,
-            title : 'jjj' ,
-            price : '2222' ,
-            stock : '2' ,
-            like_count : '2' ,
-            status : '1' ,
-        } ,
-        {
-            id : 3 ,
-            category : 'gg' ,
-            title : 'sss' ,
-            price : '3333' ,
-            stock : '7' ,
-            like_count : '2' ,
-            status : '1' ,
-        } ,
-        {
-            id : 4 ,
-            category : 'gg' ,
-            title : 'sss' ,
-            price : '3333' ,
-            stock : '7' ,
-            like_count : '2' ,
-            status : '1' ,
-        } ,
-        {
-            id : 5 ,
-            category : 'gg' ,
-            title : 'sss' ,
-            price : '3333' ,
-            stock : '7' ,
-            like_count : '2' ,
-            status : '1' ,
-        } ,
-        {
-            id : 6 ,
-            category : 'gg' ,
-            title : 'sss' ,
-            price : '3333' ,
-            stock : '7' ,
-            like_count : '2' ,
-            status : '1' ,
-        }
-    ]
+    const [data , setData] = useState([]);
+    const [isLoading , setLoading] = useState(true);
 
+    // This is for get fewer product
+    const handleGetFewerProduct = async ()=>{
+        try {
+            const res = await getFerwerProductsService();
+            if (res.status == 200) {
+                setData(res.data.data);
+            }
+        } catch (error) {
+            // set error in httpService
+        }
+        finally {
+            setTimeout(() => {
+                setLoading(false);
+            }, 500);
+        }
+    }
+
+    // This is for Ignore fewer product notification
+    const handleIgnoreNotif = async (rowData)=>{
+        if (await Confirm(`آیا از حذف پیام ${rowData.title}
+        اطمینان دارید ؟`)) {
+            try {
+                const res = await toggleNotifcationService(rowData.id);
+                if (res.status == 200) {
+                    Alert('عملیات با موفقیت انجام شد .',
+                    `پیام ${rowData.title} با موفقیت حذف شد .` , 'success');
+                    handleGetFewerProduct();
+                }
+            } catch (error) {
+                // set error in httpService
+            }
+        }
+    }
+
+    // This is for calling Get product function
+    useEffect(() => {
+        handleGetFewerProduct();
+        setLoading(true)
+    }, []);
+
+
+
+    
+
+
+    // This is for inital props <<<<=
     const dataInfo = [
         {field : 'id' , title : '#'},
-        {field : 'category' , title : 'دسته'},
-        {field : 'title' , title : 'عنوان'},
-        {field : 'stock' , title : 'موجودی'},
-        {field : 'price' , title : 'قیمت'},
-    ]
-
-    const additionFieldElement = (itemId)=>{
-        return(
-            <>
-                <td>
-                    <i className="fas fa-times text-danger mx-1 hoverable_text pointer has_tooltip"
-                    title="حذف"
-                    data-bs-toggle="tooltip"
-                    data-bs-placement="top">
-                    </i>
-                </td>
-            </>
-        )
-    }
-    
-    const additionField = [
         {
-            field : 'Operation' ,
-            title : 'عملیات' ,
-            element : (itemId)=> additionFieldElement(itemId)
-        } ,
-        
-        
+            field : null ,
+            title : 'دسته',
+            element : (rowData)=> rowData.categories?.[0].title 
+        },
+        {field : 'title' , title : 'عنوان'},
+        {
+            field : null ,
+            title : 'موجودی',
+            element : (rowData)=> <span className={`${rowData.stock > 3 ? 'text-warning' 
+            : 'text-danger'} fw-bold`}>{rowData.stock <= 0 ? '! اتمام یافت' : rowData.stock}</span> 
+        },
+        {field : 'price' , title : 'قیمت'},
+        {
+            field : null ,
+            title : 'عملیات',
+            element : (rowData)=> <ActionIcon icon={'fas fa-times text-danger pointer'}
+            action={()=>handleIgnoreNotif(rowData)} ptitle={'update_product_notification'}
+            title={'نادیده گرفتن'} />
+        },
     ]
 
     const searchParams = {
@@ -97,6 +85,7 @@ const DashbordTable = () => {
         placeholder : 'قسمتی از عنوان را وارد کنید .' ,
         searchField : 'title'
     }
+    // This is for inital props <<<<=
     
     return (
         <div className="row">
@@ -104,8 +93,8 @@ const DashbordTable = () => {
             <div className="col-12 col-lg-6 " >
                 <p className="text-center mt-3 text-white fw-bold">محصولات رو به اتمام :</p>
                 
-                <PaginatedTable data={data} dataInfo={dataInfo} additionField={additionField}
-                 searchParams={searchParams} numOfPage={4} />
+                <PaginatedTable data={data} dataInfo={dataInfo} 
+                 searchParams={searchParams} numOfPage={4} isLoading={isLoading} />
             </div>
             <div className="col-12 d-flex align-items-center justify-content-center col-lg-6 mt-4 mt-lg-0 text-light text-white" >
                 <HandleLoadChart />

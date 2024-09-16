@@ -61,11 +61,11 @@ const AddOrder = () => {
                     setPrice(null)
                     setShowData([])
                     setTimeout(() => {
-                        if(res.data.data?.is_ordered ){
+                        if(res.data.data?.is_ordered && showData.length <= 0 ){
                             Alert('خطا','این سبد در سفارش دیگری قرار دارد .'
                             ,'warning')
                         }
-                        else if(!showData.length > 0 ){
+                        else if(!showData.length > 0 && showData.length <= 0 ){
                             Alert('خطا','این سبد وجود ندارد ! یک سبد دیگر انتخاب کنید .'
                             ,'warning')
                         }
@@ -257,7 +257,6 @@ const AddOrder = () => {
                                      name='pay_at'
                                      label='تاریخ پرداخت'
                                      control='date'
-                                     required={true}
                                      formik={formik}
                                      yearsLimit={{from:10,to:10}}
                                      disabled={orderID ? true : false}

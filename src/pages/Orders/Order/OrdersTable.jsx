@@ -85,7 +85,8 @@ const OrdersTable = () => {
         {
             field : null ,
             title : 'تاریخ پرداخت',
-            element : (rowData)=> convertDate(rowData.pay_at)
+            element : (rowData)=> rowData.pay_at ? convertDate(rowData.pay_at)
+            : '! پرداخت نشده'
         },
         {
             field : null ,

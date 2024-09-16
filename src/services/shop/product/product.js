@@ -51,3 +51,11 @@ export const addMainProductImageService = (imageID)=>{
     return httpService(`/admin/products/gallery/set_main/${imageID}` , 'get');
 }
 
+// ---======== product fewer ========---
+export const getFerwerProductsService = ()=>{
+    return httpService(`/admin/products/fewer_products` , 'get');
+}
+
+export const toggleNotifcationService = (id)=>{
+    return httpService(`/admin/products/toggle_notification/${id}` , 'get');
+}

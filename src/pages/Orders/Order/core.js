@@ -33,7 +33,7 @@ export const onSubmit = async (values , submitProps , navigate , handleGetOrders
     try {
         const data = {...values ,
             phone : `0${values.phone}` ,
-            pay_at : converFormDataToMiladi(values.pay_at)
+            pay_at : values.pay_at ? converFormDataToMiladi(values.pay_at) : ''
         }
         const res = await createNewOrderService(data);
         if(res.status == 201){
@@ -50,7 +50,7 @@ export const validationSchema = Yup.object().shape({
         /^[\u0600-\u06FF\sa-zA-Z0-9@!%$?&]+$/,
         "فقط از حروف و اعداد استفاده شود ."
     ),
-    pay_at : Yup.string().required('لطفا مقداری انتخاب کنید .'),
+    pay_at : Yup.string(),
     email : Yup.string().required('لطفا مقداری بنویسید .').email('لطفا قالب فرمت ایمیل را رعایت کنید .'),
     pay_bank : Yup.string().required('لطفا مقداری بنویسید .').matches(
         /^[\u0600-\u06FF\sa-zA-Z0-9@!%$?&]+$/,
