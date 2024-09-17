@@ -6,10 +6,13 @@ import { Alert } from '../../utils/alert';
 import { getFerwerProductsService, toggleNotifcationService } from '../../services/shop/product/product';
 import ActionIcon from '../../UI/pages/actionIcon';
 import LoadingAlert from '../../UI/All/LoadingAlert';
+import { useHasPermission } from '../../hook/permissionHook';
 
 const DashbordTable = () => {
     const [data , setData] = useState([]);
     const [isLoading , setLoading] = useState(true);
+    const hasChartPermission = useHasPermission('read_order_year');
+
 
     // This is for get fewer product
     const handleGetFewerProduct = async ()=>{
@@ -100,7 +103,9 @@ const DashbordTable = () => {
                          searchParams={searchParams} numOfPage={4} isLoading={isLoading} />
                     </div>
                     <div className="col-12 d-flex align-items-center justify-content-center col-lg-6 mt-4 mt-lg-0 text-light text-white" >
-                        <HandleLoadChart />
+                        {hasChartPermission && 
+                            <HandleLoadChart />
+                        }
                     </div>
                 </>
             ) : (

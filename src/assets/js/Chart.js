@@ -3,6 +3,7 @@ import Chart, { Legend } from 'chart.js/auto';
 import {Line } from 'react-chartjs-2'
 import { getChartsDataOrder } from '../../services/orders/order/order';
 import jMoment from 'moment-jalaali';
+import LoadingAlert from '../../UI/All/LoadingAlert';
 
 const HandleLoadChart = ()=>{
     const labels = ['فروردین' , 'اردیبهشت', 'خرداد' , 'تیر' , 'مرداد' , 'شهریور' ,
@@ -49,7 +50,7 @@ const HandleLoadChart = ()=>{
         finally{
             setTimeout(() => {
                 setIsLoading(false)
-            }, 500);
+            }, 0);
         }
     }
 
@@ -166,7 +167,13 @@ const HandleLoadChart = ()=>{
 
     
     return(
-        <Line  data={config.data} width={200} style={{maxWidth:100+'%',maxHeight:400}}  options={config.options}  />
+        <>
+            {!isLoading ? (
+                <Line  data={config.data} width={200} style={{maxWidth:100+'%',maxHeight:400}}  options={config.options}  />
+            ) : (
+                <LoadingAlert />
+            )}
+        </>
     )
 }
 

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import ModalsContainer from '../../../components/ModalsContainer';
 import { useLocation, useNavigate, useOutletContext } from 'react-router-dom';
-import { Form, Formik } from 'formik';
+import { Field, Form, Formik } from 'formik';
 import { initialValues, onSubmit, validationSchema } from './core';
 import { getAllProductsTitlesService, getOneProductService } from '../../../services/shop/product/product';
 import FormikControl from '../../../components/form/FormikControl';
@@ -12,6 +12,7 @@ import { createNewCartService, editCartService, getOneCartService } from '../../
 import { Alert } from '../../../utils/alert';
 import { Confirm } from '../../../utils/confirm';
 import 'react-select-search/style.css';
+import { getAllDiscountService } from '../../../services/shop/discounts/discount';
 
 
 const Add_EditCart = () => {
@@ -26,6 +27,7 @@ const Add_EditCart = () => {
     const [guarantees, setGuarantees] = useState([]);
     const [selectedProductsInfo, setSelectedProductsInfo] = useState([]);
     const [reinitalValues , setReinitalValues] = useState(null);
+    const [discountPrice , setDiscountPrice] = useState(null);
 
     // this is for get All Product
     const handleGetAllProductsTitles = async () => {
@@ -109,6 +111,7 @@ const Add_EditCart = () => {
         }
     };
 
+    // this is for set data when edit cart
     const getCardToEditInfo = async ()=>{
         try {
             const res = await getOneCartService(cartDataId) 
@@ -133,7 +136,38 @@ const Add_EditCart = () => {
         }
     }
 
-    
+    const handleGetDiscount = async (target,price) =>{
+        try {
+            const res = await getAllDiscountService();            
+            if (res.status == 200) {
+                let discounts = res.data.data;
+                let discountTarget = discounts.filter(d=>d.code == target)[0];
+                let count = price - ((price/100)*discountTarget?.percent);
+                if (discountTarget?.for_all) {
+                    setDiscountPrice(count);
+                }
+                else if(discountTarget?.products){
+                    for (const item of discountTarget?.products) {
+                        for (const product of selectedProductsInfo) {
+                            if(item.id == product?.id) setDiscountPrice(count);
+                            else setDiscountPrice(old=>old)
+                        }
+                    }
+                }
+                else{
+                    setDiscountPrice(null)
+                }
+            }
+            else{
+                setDiscountPrice(null)
+            }
+        } 
+        catch (error) {
+        }
+    }
+
+
+
 
 
 
@@ -278,14 +312,43 @@ const Add_EditCart = () => {
                                     searchParams={searchParams} numOfPage={4} isLoading={isLoading}>
                                 </PaginatedTable>
                                 {selectedProductsInfo.length > 0 ? (
-                                    <>
-                                        <div className='col-12 alert alert-success d-flex justify-content-around
+                                    <div className='w-100 mt-2'>
+                                        <div className={`col-12 mb-3`}>
+                                            <div className={`input-group mb-2 dir_ltr`}>
+                                                <Field name={'cart_id'} type='text'
+                                                className='form-control' id={'cart_id'+`-id`}
+                                                placeholder={"فقط حروف و عدد بنویسید ."}
+                                                onChange={(e)=>{handleGetDiscount(e.target.value ,
+                                                selectedProductsInfo.map(p => p.count * p.product.price)
+                                                .reduce((a, b) => a + b))}} />
+                                                <span className="input-group-text w_7rem h-100 
+                                                text_wrap justify-content-center">{'کد تخفیف'}</span>
+                                            </div>
+                                        </div>
+                                        <div className='col-12 alert alert-success d-flex justify-content-center flex-column
                                         align-items-center fs-6 fw-bold w-100'
-                                            style={{ height: 50 }}>
-                                            <span>مبلغ کل :</span>
+                                            style={{ height: 60 }}>
                                             {/* reduce : همه ی اعداد یک ارایه را باهم جمع میکند */}
-                                            <span className='text-center'>{numberWithCommas(selectedProductsInfo.map(p => p.count * p.product.price)
-                                            .reduce((a, b) => a + b))} تومان</span>
+                                            {!discountPrice ? (
+                                                <div className='d-flex justify-content-around col-12'>
+                                                    <span>مبلغ کل :</span>
+                                                    {numberWithCommas(selectedProductsInfo.map(p => p.count * p.product.price)
+                                                    .reduce((a, b) => a + b))} تومان
+                                                </div>
+                                            ) : (
+                                                <div className='col-12 text-center d-flex justify-content-around'>
+                                                    <span className='h-100 d-flex align-items-center'>مبلغ کل با تخفیف :</span>
+                                                    <div>
+                                                        {numberWithCommas(discountPrice)} تومان
+                                                        <div style={{fontSize:12}}>
+                                                            <del className='text-right'>{
+                                                                numberWithCommas(selectedProductsInfo.map(p => p.count * p.product.price)
+                                                                .reduce((a, b) => a + b))
+                                                            }</del> تومان
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            )}
                                         </div>
 
                                         <hr className='my-4 ' />
@@ -301,7 +364,7 @@ const Add_EditCart = () => {
                                                     : 'ذخیره'}
                                             </button>
                                         </div>
-                                    </>
+                                    </div>
                                 ) : null}
                             </div>
                         );

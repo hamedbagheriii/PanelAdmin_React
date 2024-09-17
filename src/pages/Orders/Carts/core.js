@@ -12,10 +12,8 @@ export const initialValues = {
 
 export const onSubmit = async (values , submitProps , handleGetCarts 
     , setSelectedProductsInfo , currentProduct)=>{
-    // ارایه ارسالی به سرور پر میشود
     submitProps.resetForm();
     submitProps.setFieldValue('user_id',values.user_id);
-    // ارایه برای نشان دادن پر میشود
     setSelectedProductsInfo(old=>[...old , {
         id : currentProduct.id+values.color_id || 0+Math.ceil(Math.random()),
         product : currentProduct,
